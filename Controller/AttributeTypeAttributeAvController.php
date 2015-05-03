@@ -26,7 +26,7 @@ use Thelia\Model\LangQuery;
 /**
  * Class AttributeTypeAttributeAvController
  * @package AttributeType\Controller
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeTypeAttributeAvController extends AttributeTypeController
 {

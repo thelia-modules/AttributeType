@@ -1,6 +1,6 @@
 # Attribute Type
 
-Authors: Thelia <info@thelia.net>, Gilles Bourgeat <gilles.bourgeat@gmail.com>
+Authors: Thelia <info@thelia.net>, Gilles Bourgeat <gbourgeat@openstudio.fr>
 
 * This module allows you to add to your attributes the attributes types.
 * Example : Color, Image link to the textures ...

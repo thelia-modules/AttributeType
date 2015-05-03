@@ -15,7 +15,7 @@ namespace AttributeType\Event;
 /**
  * Class AttributeTypeEvents
  * @package AttributeType\Event
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeTypeEvents
 {

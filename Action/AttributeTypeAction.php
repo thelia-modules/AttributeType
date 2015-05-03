@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Class AttributeTypeAction
  * @package AttributeType\Action
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeTypeAction implements EventSubscriberInterface
 {

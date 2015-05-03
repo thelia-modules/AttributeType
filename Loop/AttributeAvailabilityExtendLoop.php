@@ -28,7 +28,7 @@ use Thelia\Model\AttributeAv;
 /**
  * Class AttributeAvailabilityExtendLoop
  * @package AttributeType\Loop
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeAvailabilityExtendLoop extends AttributeAvailability implements PropelSearchLoopInterface
 {

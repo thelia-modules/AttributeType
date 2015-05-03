@@ -18,7 +18,7 @@ use Symfony\Component\Validator\ExecutionContextInterface;
 /**
  * Class AttributeTypeUpdateForm
  * @package AttributeType\Form
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeTypeUpdateForm extends AttributeTypeCreateForm
 {

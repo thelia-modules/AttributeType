@@ -25,7 +25,7 @@ use AttributeType\AttributeType as AttributeTypeCore;
 /**
  * Class AttributeTypeAttributeController
  * @package AttributeType\Controller
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeTypeAttributeController extends AttributeTypeController
 {

@@ -33,7 +33,7 @@ use Thelia\Model\LangQuery;
 /**
  * Class AttributeEditHook
  * @package AttributeType\Hook
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeEditHook extends BaseHook
 {

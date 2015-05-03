@@ -29,7 +29,7 @@ use Thelia\Core\HttpFoundation\Response;
 /**
  * Class AttributeTypeController
  * @package AttributeType\Controller
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeTypeController extends BaseAdminController
 {

@@ -20,7 +20,7 @@ use Thelia\Core\Translation\Translator;
 /**
  * Class AttributeTypeType
  * @package AttributeType\Form\Type
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeTypeType extends AbstractType
 {

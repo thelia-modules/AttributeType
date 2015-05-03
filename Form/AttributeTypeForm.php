@@ -17,7 +17,7 @@ use Thelia\Form\BaseForm;
 /**
  * Class AttributeTypeForm
  * @package AttributeType\Form
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeTypeForm extends BaseForm
 {

@@ -19,7 +19,7 @@ use Thelia\Core\Event\ActionEvent;
 /**
  * Class AttributeTypeAvMetaEvent
  * @package AttributeType\Event
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeTypeAvMetaEvent extends ActionEvent
 {

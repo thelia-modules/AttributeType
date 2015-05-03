@@ -20,7 +20,7 @@ use Thelia\Model\Attribute;
 /**
  * Class AttributeTypeEvent
  * @package AttributeType\Event
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeTypeEvent extends ActionEvent
 {

@@ -20,7 +20,7 @@ use Thelia\Core\Translation\Translator;
 /**
  * Class AttributeTypeAvMetaUpdateForm
  * @package AttributeType\Form
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeTypeAvMetaUpdateForm extends AttributeTypeForm
 {

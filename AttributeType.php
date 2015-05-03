@@ -20,7 +20,7 @@ use Thelia\Install\Database;
 /**
  * Class AttributeType
  * @package AttributeType
- * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
  */
 class AttributeType extends BaseModule
 {
