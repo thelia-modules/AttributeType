@@ -26,6 +26,8 @@ class AttributeType extends BaseModule
 {
     const MODULE_DOMAIN = "attributetype";
 
+    const RESERVED_SLUG = 'id,attribute_id,id_translater,locale,title,chapo,description,postscriptum,position';
+
     /**
      * @param ConnectionInterface $con
      */

@@ -6,6 +6,7 @@ return array(
     "Attribute type not found" => "Le type de déclinaison n'a pas été trouvé",
     "The slug is not valid" => "Le slug n'est pas valide",
     "The attribute slug <%slug> already exists" => "Le slug <%slug> existe déjà",
+    "The attribute slug <%slug> is reserved" => "Le slug <%slug> est réservé",
     "Update attribute type" => "Mettre à jour le type de déclinaison",
     "Create attribute type" => "Créer un type de déclinaison",
     "Please wait ..." => "Veuillez patienter ...",
@@ -57,6 +58,6 @@ return array(
     "Enter title" => "Titre",
     "Enter pattern" => "Pattern",
     "Enter class" => "Classe CSS",
-    "Create a new attribute type" => "Créer un nouveau type d'attribut",
+    "Create a new attribute type" => "Créer un nouveau type de déclinaison",
     "Attribute av multilingual value" => "Valeurs par langue activées",
 );

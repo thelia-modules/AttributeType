@@ -56,7 +56,9 @@ class AttributeTypeCreateForm extends AttributeTypeForm
                     new Callback(array(
                         "methods" => array(
                             array($this,
-                                "checkType")
+                                "checkFormatType"),
+                            array($this,
+                                "checkExistType")
                         )
                     ))
                 )
@@ -157,7 +159,34 @@ class AttributeTypeCreateForm extends AttributeTypeForm
      * @param $value
      * @param ExecutionContextInterface $context
      */
-    public function checkType($value, ExecutionContextInterface $context)
+    public function checkFormatType($value, ExecutionContextInterface $context)
+    {
+        // test if good format
+        if (!preg_match('/[a-z][a-z_0-9]{3,39}/', $value)) {
+            $context->addViolation(Translator::getInstance()->trans(Translator::getInstance()->trans(
+                "The slug is not valid",
+                array(),
+                AttributeType::MODULE_DOMAIN
+            )));
+        }
+
+        // test if reserved
+        if (in_array($value, explode(',', AttributeType::RESERVED_SLUG))) {
+            $context->addViolation(Translator::getInstance()->trans(Translator::getInstance()->trans(
+                "The attribute slug <%slug> is reserved",
+                array(
+                    '%slug' => $value
+                ),
+                AttributeType::MODULE_DOMAIN
+            )));
+        }
+    }
+
+    /**
+     * @param $value
+     * @param ExecutionContextInterface $context
+     */
+    public function checkExistType($value, ExecutionContextInterface $context)
     {
         // test if exist
         if (AttributeTypeQuery::create()->findOneBySlug($value) !== null) {
@@ -166,14 +195,6 @@ class AttributeTypeCreateForm extends AttributeTypeForm
                 array(
                     '%slug' => $value
                 ),
-                AttributeType::MODULE_DOMAIN
-            )));
-        }
-
-        if (!preg_match('/[a-z][a-z_0-9]{3,39}/', $value)) {
-            $context->addViolation(Translator::getInstance()->trans(Translator::getInstance()->trans(
-                "The slug is not valid",
-                array(),
                 AttributeType::MODULE_DOMAIN
             )));
         }

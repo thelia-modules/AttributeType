@@ -53,7 +53,7 @@ class AttributeTypeUpdateForm extends AttributeTypeCreateForm
      * @param $value
      * @param ExecutionContextInterface $context
      */
-    public function checkType($value, ExecutionContextInterface $context)
+    public function checkExistType($value, ExecutionContextInterface $context)
     {
     }
 }
