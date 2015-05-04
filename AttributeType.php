@@ -100,14 +100,27 @@ class AttributeType extends BaseModule
             ),
             array(
                 "type" => TemplateDefinition::BACK_OFFICE,
-                "code" => "attribute-type.configuration-action",
+                "code" => "attribute-type.list-action",
                 "title" => array(
-                    "fr_FR" => "Module Attribute Type, configuration action",
-                    "en_US" => "Module Attribute Type, configuration action",
+                    "fr_FR" => "Module Attribute Type, liste des actiona",
+                    "en_US" => "Module Attribute Type, list action",
                 ),
                 "description" => array(
-                    "fr_FR" => "Action de la page de configuration du module",
-                    "en_US" => "Action of the module's configuration page",
+                    "fr_FR" => "Action de la liste des types de déclinaisons",
+                    "en_US" => "Action from the list of attributes types",
+                ),
+                "active" => true
+            ),
+            array(
+                "type" => TemplateDefinition::BACK_OFFICE,
+                "code" => "feature-type.list-action",
+                "title" => array(
+                    "fr_FR" => "Module Feature Type, list action",
+                    "en_US" => "Module Feature Type, list action",
+                ),
+                "description" => array(
+                    "fr_FR" => "Action de la liste des dates",
+                    "en_US" => "Action from the list of dates",
                 ),
                 "active" => true
             ),

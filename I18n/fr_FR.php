@@ -29,7 +29,7 @@ return array(
     "No attribute type for this attribute" => "Aucun type de déclinaison associé à cette déclinaison",
     "Select an attribute type" => "Selectionner un type de déclinaison",
     "Currently, none of the attributes types are available" => "",
-    "Currently, none of the attributes types are available" => "Actuellement, aucun type de déclinaison est disponibles",
+    "Currently, none of the attributes types are available" => "Actuellement, aucun type de déclinaison est disponible",
     "Dissociate attribute type" => "Dissocier du type de déclinaison",
     "Dissociate the attribute with the attribute type ?" => "Dissocier la déclinaison du type de déclinaison ?",
     "Must be single, and only numbers, letters, underscore" => "Peut être composé de chiffres, lettres et underscores",
