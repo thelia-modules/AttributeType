@@ -81,20 +81,27 @@
 
       $module.find('.js-form-edit').attr('action', $(this).data('action'));
 
-      $.ajax({
-        url: $(this).data('action'),
-        type: 'GET',
-        dataType: 'html',
-        success: function(html){
-          $module.find('.js-form-edit').html($(html).html());
-          $module.find('.js-modal-edit').modal('show');
-          $module.find('#atuf-has_attribute_av_value').trigger('change');
-          $module.find('#atuf-input_type').trigger('change');
-        },
-        error: function(error){
-          alert(error);
-        }
-      });
+      if (typeof this.token === 'undefined' || this.token === true) {
+        this.token = false;
+
+        $.ajax({
+          url: $(this).data('action'),
+          type: 'GET',
+          dataType: 'html',
+          target: this,
+          success: function(html){
+            $module.find('.js-form-edit').html($(html).html());
+            $module.find('.js-modal-edit').modal('show');
+            $module.find('#atuf-has_attribute_av_value').trigger('change');
+            $module.find('#atuf-input_type').trigger('change');
+            this.target.token = true;
+          },
+          error: function(error){
+            this.target.token = true;
+            alert(error);
+          }
+        });
+      }
     });
 
     // tab
@@ -144,20 +151,27 @@
     $module.on('click', '.js-action-copy', function(event){
       popoverHide();
 
-      $.ajax({
-        url: $(this).data('action'),
-        type: 'GET',
-        dataType: 'html',
-        success: function(html){
-          $module.find('.js-form-create').html($(html).html());
-          $module.find('.js-modal-create').modal('show');
-          $module.find('#atcf-has_attribute_av_value').trigger('change');
-          $module.find('#atcf-input_type').trigger('change');
-        },
-        error: function(error){
-          alert(error);
-        }
-      });
+      if (typeof this.token === 'undefined' || this.token === true) {
+        this.token = false;
+
+        $.ajax({
+          url: $(this).data('action'),
+          type: 'GET',
+          dataType: 'html',
+          target: this,
+          success: function (html) {
+            $module.find('.js-form-create').html($(html).html());
+            $module.find('.js-modal-create').modal('show');
+            $module.find('#atcf-has_attribute_av_value').trigger('change');
+            $module.find('#atcf-input_type').trigger('change');
+            this.target.token = true;
+          },
+          error: function (error) {
+            this.target.token = true;
+            alert(error);
+          }
+        });
+      }
     });
 
     /*****************************************/
