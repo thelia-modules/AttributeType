@@ -1,3 +1,4 @@
+
 # This is a fix for InnoDB in MySQL >= 4.1.x
 # It "suspends judgement" for fkey relationships until are tables are set.
 SET FOREIGN_KEY_CHECKS = 0;
@@ -15,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `attribute_type`
     `pattern` VARCHAR(255),
     `css_class` VARCHAR(50),
     `input_type` VARCHAR(25),
-    `max` INTEGER,
-    `min` INTEGER,
+    `max` FLOAT,
+    `min` FLOAT,
     `step` FLOAT,
     `created_at` DATETIME,
     `updated_at` DATETIME,

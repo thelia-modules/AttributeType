@@ -132,14 +132,14 @@ class AttributeTypeCreateForm extends AttributeTypeForm
                     'url'   => Translator::getInstance()->trans('Type url', array(), AttributeType::MODULE_DOMAIN)
                 )
             ))
-            ->add('min', 'integer', array(
+            ->add('min', 'text', array(
                 'required' => true,
                 'label' => Translator::getInstance()->trans('Input min', array(), AttributeType::MODULE_DOMAIN),
                 'label_attr' => array(
                     'for' => 'min'
                 )
             ))
-            ->add('max', 'integer', array(
+            ->add('max', 'text', array(
                 'required' => true,
                 'label' => Translator::getInstance()->trans('Input max', array(), AttributeType::MODULE_DOMAIN),
                 'label_attr' => array(

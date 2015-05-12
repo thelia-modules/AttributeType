@@ -105,13 +105,13 @@ abstract class AttributeType implements ActiveRecordInterface
 
     /**
      * The value for the max field.
-     * @var        int
+     * @var        double
      */
     protected $max;
 
     /**
      * The value for the min field.
-     * @var        int
+     * @var        double
      */
     protected $min;
 
@@ -531,7 +531,7 @@ abstract class AttributeType implements ActiveRecordInterface
     /**
      * Get the [max] column value.
      *
-     * @return   int
+     * @return   double
      */
     public function getMax()
     {
@@ -542,7 +542,7 @@ abstract class AttributeType implements ActiveRecordInterface
     /**
      * Get the [min] column value.
      *
-     * @return   int
+     * @return   double
      */
     public function getMin()
     {
@@ -751,13 +751,13 @@ abstract class AttributeType implements ActiveRecordInterface
     /**
      * Set the value of [max] column.
      *
-     * @param      int $v new value
+     * @param      double $v new value
      * @return   \AttributeType\Model\AttributeType The current object (for fluent API support)
      */
     public function setMax($v)
     {
         if ($v !== null) {
-            $v = (int) $v;
+            $v = (double) $v;
         }
 
         if ($this->max !== $v) {
@@ -772,13 +772,13 @@ abstract class AttributeType implements ActiveRecordInterface
     /**
      * Set the value of [min] column.
      *
-     * @param      int $v new value
+     * @param      double $v new value
      * @return   \AttributeType\Model\AttributeType The current object (for fluent API support)
      */
     public function setMin($v)
     {
         if ($v !== null) {
-            $v = (int) $v;
+            $v = (double) $v;
         }
 
         if ($this->min !== $v) {
@@ -920,10 +920,10 @@ abstract class AttributeType implements ActiveRecordInterface
             $this->input_type = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : AttributeTypeTableMap::translateFieldName('Max', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->max = (null !== $col) ? (int) $col : null;
+            $this->max = (null !== $col) ? (double) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : AttributeTypeTableMap::translateFieldName('Min', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->min = (null !== $col) ? (int) $col : null;
+            $this->min = (null !== $col) ? (double) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : AttributeTypeTableMap::translateFieldName('Step', TableMap::TYPE_PHPNAME, $indexType)];
             $this->step = (null !== $col) ? (double) $col : null;
@@ -1274,10 +1274,10 @@ abstract class AttributeType implements ActiveRecordInterface
                         $stmt->bindValue($identifier, $this->input_type, PDO::PARAM_STR);
                         break;
                     case 'MAX':
-                        $stmt->bindValue($identifier, $this->max, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->max, PDO::PARAM_STR);
                         break;
                     case 'MIN':
-                        $stmt->bindValue($identifier, $this->min, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->min, PDO::PARAM_STR);
                         break;
                     case 'STEP':
                         $stmt->bindValue($identifier, $this->step, PDO::PARAM_STR);

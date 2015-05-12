@@ -197,8 +197,8 @@ class AttributeTypeTableMap extends TableMap
         $this->addColumn('PATTERN', 'Pattern', 'VARCHAR', false, 255, null);
         $this->addColumn('CSS_CLASS', 'CssClass', 'VARCHAR', false, 50, null);
         $this->addColumn('INPUT_TYPE', 'InputType', 'VARCHAR', false, 25, null);
-        $this->addColumn('MAX', 'Max', 'INTEGER', false, null, null);
-        $this->addColumn('MIN', 'Min', 'INTEGER', false, null, null);
+        $this->addColumn('MAX', 'Max', 'FLOAT', false, null, null);
+        $this->addColumn('MIN', 'Min', 'FLOAT', false, null, null);
         $this->addColumn('STEP', 'Step', 'FLOAT', false, null, null);
         $this->addColumn('CREATED_AT', 'CreatedAt', 'TIMESTAMP', false, null, null);
         $this->addColumn('UPDATED_AT', 'UpdatedAt', 'TIMESTAMP', false, null, null);

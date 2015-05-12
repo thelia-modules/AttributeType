@@ -74,9 +74,9 @@
                                  {if $PATTERN}pattern="{$PATTERN}"{/if}
                                  class="{if $INPUT_TYPE != 'color' && $INPUT_TYPE != 'range'}form-control {/if}{$INPUT_CSS}"
                                   {if $INPUT_TYPE == 'number' || $INPUT_TYPE == 'range'}
-                                    {if $MIN}min="{$MIN}"{/if}
+                                    {if $MIN}min="{$MIN}"{else}min="0"{/if}
                                     {if $MAX}max="{$MAX}"{/if}
-                                    {if $STEP}step="{$STEP}"{/if}
+                                    {if $STEP}step="{$STEP}"{else}step="0.000001"{/if}
                                   {/if}
                                  name="attribute_type_av_meta-update[attribute_av][{$attribute_av_id}][lang][{$lang_id}][attribute_type][{$ID}]"
                                  value="{$data[$attribute_av_id]['lang'][$lang_id]['attribute_type'][$ID]}"

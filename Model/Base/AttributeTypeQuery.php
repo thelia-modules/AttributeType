@@ -70,8 +70,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAttributeType findOneByPattern(string $pattern) Return the first ChildAttributeType filtered by the pattern column
  * @method     ChildAttributeType findOneByCssClass(string $css_class) Return the first ChildAttributeType filtered by the css_class column
  * @method     ChildAttributeType findOneByInputType(string $input_type) Return the first ChildAttributeType filtered by the input_type column
- * @method     ChildAttributeType findOneByMax(int $max) Return the first ChildAttributeType filtered by the max column
- * @method     ChildAttributeType findOneByMin(int $min) Return the first ChildAttributeType filtered by the min column
+ * @method     ChildAttributeType findOneByMax(double $max) Return the first ChildAttributeType filtered by the max column
+ * @method     ChildAttributeType findOneByMin(double $min) Return the first ChildAttributeType filtered by the min column
  * @method     ChildAttributeType findOneByStep(double $step) Return the first ChildAttributeType filtered by the step column
  * @method     ChildAttributeType findOneByCreatedAt(string $created_at) Return the first ChildAttributeType filtered by the created_at column
  * @method     ChildAttributeType findOneByUpdatedAt(string $updated_at) Return the first ChildAttributeType filtered by the updated_at column
@@ -83,8 +83,8 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByPattern(string $pattern) Return ChildAttributeType objects filtered by the pattern column
  * @method     array findByCssClass(string $css_class) Return ChildAttributeType objects filtered by the css_class column
  * @method     array findByInputType(string $input_type) Return ChildAttributeType objects filtered by the input_type column
- * @method     array findByMax(int $max) Return ChildAttributeType objects filtered by the max column
- * @method     array findByMin(int $min) Return ChildAttributeType objects filtered by the min column
+ * @method     array findByMax(double $max) Return ChildAttributeType objects filtered by the max column
+ * @method     array findByMin(double $min) Return ChildAttributeType objects filtered by the min column
  * @method     array findByStep(double $step) Return ChildAttributeType objects filtered by the step column
  * @method     array findByCreatedAt(string $created_at) Return ChildAttributeType objects filtered by the created_at column
  * @method     array findByUpdatedAt(string $updated_at) Return ChildAttributeType objects filtered by the updated_at column

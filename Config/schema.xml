@@ -11,8 +11,8 @@
         <column name="pattern" size="255" type="VARCHAR" />
         <column name="css_class" size="50" type="VARCHAR" />
         <column name="input_type" size="25" type="VARCHAR" />
-        <column name="max" type="INTEGER" />
-        <column name="min" type="INTEGER" />
+        <column name="max" type="FLOAT" />
+        <column name="min" type="FLOAT" />
         <column name="step" type="FLOAT" />
         <column name="title" size="255" type="VARCHAR" />
         <column name="description" type="CLOB" />
