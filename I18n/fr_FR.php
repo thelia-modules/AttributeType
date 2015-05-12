@@ -32,7 +32,7 @@ return array(
     "Currently, none of the attributes types are available" => "Actuellement, aucun type de déclinaison est disponible",
     "Dissociate attribute type" => "Dissocier du type de déclinaison",
     "Dissociate the attribute with the attribute type ?" => "Dissocier la déclinaison du type de déclinaison ?",
-    "Must be single, and only numbers, letters, underscore" => "Peut être composé de chiffres, lettres et underscores",
+    "Must be single, and only numbers, lowercase letters, underscore" => "Peut être composé de chiffres, lettres minuscules et underscores",
     "Activate attribute av value" => "Activer les valeurs pour les déclinaisons",
     "The values will be unique for each language" => "Les valeurs sont uniques par langue",
     "Input type applied to the input field" => "Type de champ pour les valeurs",

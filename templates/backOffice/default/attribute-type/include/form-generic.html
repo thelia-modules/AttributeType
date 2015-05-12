@@ -11,8 +11,10 @@
   {form_field form=$form field='slug'}
   <div class="form-group {if $error}has-error{/if}">
     <label for="{$prefix}{$label_attr.for}">{$label}</label>
-    <input type="text" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}" required pattern="{literal}[a-z][a-z_0-9]{3,39}{/literal}" placeholder="{intl l="Enter slug" d="attributetype"}">
-    <span class="help-block">{intl l="Must be single, and only numbers, letters, underscore" d="attributetype"}</span>
+    <input type="text" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}" required pattern="{literal}[a-z][a-z_0-9]{3,39}{/literal}"
+           title="{intl l="Must be single, and only numbers, lowercase letters, underscore" d="attributetype"}"
+           placeholder="{intl l="Enter slug" d="attributetype"}">
+    <span class="help-block">{intl l="Must be single, and only numbers, lowercase letters, underscore" d="attributetype"}</span>
   </div>
   {/form_field}
 
