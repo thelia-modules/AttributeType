@@ -121,3 +121,50 @@ Extends the Thelia loop : [Attribute availability](http://doc.thelia.net/en/docu
     {/loop}
 ```
 
+## Model
+
+### AttributeType::getValue
+
+```php
+    /**
+     * Returns a value based on the slug, attribute_av_id and locale
+     *
+     * <code>
+     * $value  = AttributeType::getValue('color', 2);
+     * </code>
+     *
+     * @param string $slug
+     * @param int $attributeAvId
+     * @param string $locale
+     * @return string
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public static function getValue($slug, $attributeAvId, $locale = 'en_US')
+```
+
+### AttributeType::getValues
+
+```php
+    /**
+     * Returns a set of values
+     * If the value does not exist, it is replaced by null
+     *
+     * <code>
+     * $values = AttributeType::getValue(['color','texture'], [4,7]);
+     * </code>
+     *
+     * <sample>
+     *  array(
+     *  'color' => [4 => '#00000', 7 => '#FFF000'],
+     *  'texture' => [4 => null, 7 => 'lines.jpg']
+     * )
+     * </sample>
+     *
+     * @param array $slugs[]
+     * @param array $attributeAvIds[]
+     * @param string $locale
+     * @return string
+     * @throws \Propel\Runtime\Exception\PropelException
+     */
+    public static function getValues(array $slugs, array $attributeAvIds, $locale = 'en_US')
+```
