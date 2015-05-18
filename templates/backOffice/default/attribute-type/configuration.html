@@ -41,9 +41,8 @@
                 <colgroup>
                   <col />
                   <col />
-                  <col width="20%" />
-                  <col width="20%" />
-                  <col width="15%" />
+                  <col width="30%" />
+                  <col width="25%" />
                   <col width="35%" />
                 </colgroup>
                 <thead>
@@ -56,9 +55,6 @@
                   </th>
                   <th>
                     {intl l="Title"}
-                  </th>
-                  <th>
-                    {intl l="Description"}
                   </th>
                   <th>
                     {intl l="Used by" d="attributetype"}
@@ -78,10 +74,9 @@
                       {$SLUG}
                     </td>
                     <td>
-                      {$TITLE}
-                    </td>
-                    <td>
-                      {$DESCRIPTION}
+                      <strong>{$TITLE}</strong>
+                      <br/>
+                      {$DESCRIPTION nofilter}
                     </td>
                     <td>
                       {ifloop rel="attribute_attribute_type"}
