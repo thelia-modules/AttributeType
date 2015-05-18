@@ -70,9 +70,17 @@
                     <td>
                       <div class="input-group {if $error}has-error{/if}">
                         {form_field form=$form field='attribute_av' value_key=$ID}
+                          {if $INPUT_TYPE == "textarea"}
+                          <textarea
+                              class="{if $INPUT_TYPE != 'color' && $INPUT_TYPE != 'range'}form-control {/if}{$CSS_CLASS}"
+                              name="attribute_type_av_meta-update[attribute_av][{$attribute_av_id}][lang][{$lang_id}][attribute_type][{$ID}]"
+                              data-connector="{$SLUG}-{$attribute_av_id}"
+                              data-replicate={if !$IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE}true{else}false{/if}
+                          >{$data[$attribute_av_id]['lang'][$lang_id]['attribute_type'][$ID] nofilter}</textarea>
+                          {else}
                           <input type="{$INPUT_TYPE}"
                                  {if $PATTERN}pattern="{$PATTERN}"{/if}
-                                 class="{if $INPUT_TYPE != 'color' && $INPUT_TYPE != 'range'}form-control {/if}{$INPUT_CSS}"
+                                 class="{if $INPUT_TYPE != 'color' && $INPUT_TYPE != 'range'}form-control {/if}{$CSS_CLASS}"
                                   {if $INPUT_TYPE == 'number' || $INPUT_TYPE == 'range'}
                                     {if $MIN}min="{$MIN}"{else}min="0"{/if}
                                     {if $MAX}max="{$MAX}"{/if}
@@ -83,6 +91,7 @@
                                  data-connector="{$SLUG}-{$attribute_av_id}"
                                  data-replicate={if !$IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE}true{else}false{/if}
                                   />
+                          {/if}
                         {/form_field}
                       </div>
                     </td>

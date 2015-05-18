@@ -38,8 +38,7 @@
     });
 
     $module.on('change', '#atcf-has_attribute_av_value', function(){
-
-      var fields = $module.find('.js-modal-create')
+      var $fields = $module.find('.js-modal-create')
               .find(
               '#atcf-is_multilingual_attribute_av_value' +
               ',#atcf-input_type' +
@@ -51,24 +50,32 @@
               .parents('.col-md-6');
 
       if (this.checked) {
-        fields.removeClass('hide');
+        $fields.removeClass('hide');
         $module.find('#atcf-input_type').trigger('change');
       } else {
-        fields.addClass('hide');
+        $fields.addClass('hide');
       }
     });
 
     $module.on('change', '#atcf-input_type', function(){
       var val = $(this).val();
 
-      var fields = $module.find('.js-modal-create')
+      var $fields = $module.find('.js-modal-create')
               .find('#atcf-min, #atcf-max, #atcf-step')
               .parents('.col-md-6');
 
-      if (val == 'text' || val == 'color' || val == 'url') {
-        fields.addClass('hide');
+      var $pattern = $module.find('.js-modal-create #atcf-pattern').parents('.col-md-6');
+
+      if (val == 'text' || val == 'color' || val == 'url' || val == 'textarea') {
+        $fields.addClass('hide');
+        if (val == 'textarea') {
+          $pattern.addClass('hide');
+        } else {
+          $pattern.removeClass('hide');
+        }
       } else {
-        fields.removeClass('hide');
+        $fields.removeClass('hide');
+        $pattern.removeClass('hide');
       }
     });
 
@@ -80,7 +87,6 @@
       popoverHide();
 
       $module.find('.js-form-edit').attr('action', $(this).data('action'));
-
       if (typeof this.token === 'undefined' || this.token === true) {
         this.token = false;
 
@@ -112,7 +118,7 @@
     });
 
     $module.on('change', '#atuf-has_attribute_av_value', function(){
-      var fields = $module.find('.js-modal-edit')
+      var $fields = $module.find('.js-modal-edit')
               .find(
               '#atuf-is_multilingual_attribute_av_value' +
               ',#atuf-input_type' +
@@ -124,24 +130,32 @@
               .parents('.col-md-6');
 
       if (this.checked) {
-        fields.removeClass('hide');
+        $fields.removeClass('hide');
         $module.find('#atuf-input_type').trigger('change');
       } else {
-        fields.addClass('hide');
+        $fields.addClass('hide');
       }
     });
 
     $module.on('change', '#atuf-input_type', function(){
       var val = $(this).val();
 
-      var fields = $module.find('.js-modal-edit')
+      var $fields = $module.find('.js-modal-edit')
               .find('#atuf-min, #atuf-max, #atuf-step')
               .parents('.col-md-6');
 
-      if (val == 'text' || val == 'color' || val == 'url') {
-        fields.addClass('hide');
+      var $pattern = $module.find('.js-modal-edit #atuf-pattern').parents('.col-md-6');
+
+      if (val == 'text' || val == 'color' || val == 'url' || val == 'textarea') {
+        $fields.addClass('hide');
+        if (val == 'textarea') {
+          $pattern.addClass('hide');
+        } else {
+          $pattern.removeClass('hide');
+        }
       } else {
-        fields.removeClass('hide');
+        $fields.removeClass('hide');
+        $pattern.removeClass('hide');
       }
     });
     /*****************************************/

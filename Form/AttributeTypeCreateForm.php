@@ -126,6 +126,7 @@ class AttributeTypeCreateForm extends AttributeTypeForm
                 'empty_value' => 'text',
                 'choices'   => array(
                     'text'   => Translator::getInstance()->trans('Type text', array(), AttributeType::MODULE_DOMAIN),
+                    'textarea'   => Translator::getInstance()->trans('Type textarea', array(), AttributeType::MODULE_DOMAIN),
                     'color'   => Translator::getInstance()->trans('Type color', array(), AttributeType::MODULE_DOMAIN),
                     'number'   => Translator::getInstance()->trans('Type number', array(), AttributeType::MODULE_DOMAIN),
                     'range'   => Translator::getInstance()->trans('Type range', array(), AttributeType::MODULE_DOMAIN),

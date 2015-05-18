@@ -4,3 +4,7 @@
 - fix hook action list
 - add protection against multiple sending ajax
 - add helper methods in model AttributeType
+
+# 1.1
+
+- Add field type textarea

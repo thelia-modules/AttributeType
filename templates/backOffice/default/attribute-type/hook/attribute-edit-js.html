@@ -37,7 +37,7 @@
         });
 
         // replicate
-        $module.on('change', '.js-form-meta-update input', function(){
+        $module.on('change', '.js-form-meta-update input, .js-form-meta-update textarea', function(){
             if ($(this).data('replicate')) {
                 $module.find(".js-form-meta-update [data-connector='"+$(this).data('connector')+"']")
                         .not($(this)).val($(this).val());
