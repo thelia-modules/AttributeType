@@ -36,15 +36,16 @@ class AttributeTypeController extends BaseAdminController
     protected $objectName = 'Attribute type';
 
     /**
+     * @param array $params
      * @return Response
      */
-    public function viewAllAction()
+    public function viewAllAction($params = array())
     {
         if (null !== $response = $this->checkAuth(array(AdminResources::MODULE), 'AttributeType', AccessManager::VIEW)) {
             return $response;
         }
 
-        return $this->render("attribute-type/configuration");
+        return $this->render("attribute-type/configuration", $params);
     }
 
     /**
@@ -90,14 +91,16 @@ class AttributeTypeController extends BaseAdminController
             'step' => $attributeType->getStep(),
             'title' => $title,
             'description' => $description
-        ))->setError(true);
+        ));
 
         $this->getParserContext()->addForm($form);
 
         if ($this->getRequest()->isXmlHttpRequest()) {
             return $this->render("attribute-type/include/form-update");
         } else {
-            return self::viewAllAction();
+            return self::viewAllAction(array(
+                'attribute_type_id' => $id
+            ));
         }
     }
 
@@ -164,7 +167,9 @@ class AttributeTypeController extends BaseAdminController
                 $form
             );
 
-            return self::viewAllAction();
+            return self::viewAllAction(array(
+                'attribute_type_id' => $id
+            ));
         }
     }
 
