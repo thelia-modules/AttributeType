@@ -68,7 +68,7 @@
 
       if (val == 'text' || val == 'color' || val == 'url' || val == 'textarea') {
         $fields.addClass('hide');
-        if (val == 'textarea') {
+        if (val == 'textarea' || !$module.find('#atcf-has_attribute_av_value').is(':checked')) {
           $pattern.addClass('hide');
         } else {
           $pattern.removeClass('hide');
@@ -148,7 +148,7 @@
 
       if (val == 'text' || val == 'color' || val == 'url' || val == 'textarea') {
         $fields.addClass('hide');
-        if (val == 'textarea') {
+        if (val == 'textarea' || !$module.find('#atuf-has_attribute_av_value').is(':checked')) {
           $pattern.addClass('hide');
         } else {
           $pattern.removeClass('hide');
