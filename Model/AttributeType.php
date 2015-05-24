@@ -112,6 +112,50 @@ class AttributeType extends BaseAttributeType
     }
 
     /**
+     * Returns a set of first values
+     * If the value does not exist, it is replaced by null
+     *
+     * <code>
+     * $values = AttributeType::getFirstValues(['color','texture', 'other'], [4,7]);
+     * </code>
+     *
+     * <sample>
+     *  array(
+     *  'color' => '#00000',
+     *  'texture' => 'lines.jpg',
+     *  'other' => null
+     * )
+     * </sample>
+     *
+     * @param array $slugs
+     * @param array $attributeAvIds
+     * @param string $locale
+     * @return array
+     */
+    public static function getFirstValues(array $slugs, array $attributeAvIds, $locale = 'en_US')
+    {
+        $results = self::getValues($slugs, $attributeAvIds, $locale);
+
+        $return = array();
+
+        foreach ($slugs as $slug) {
+            if (!isset($return[$slug])) {
+                $return[$slug] = null;
+            }
+
+            foreach ($results[$slug] as $value) {
+                if ($return[$slug] === null) {
+                    $return[$slug] = $value;
+                    continue;
+                }
+                break;
+            }
+        }
+
+        return $return;
+    }
+
+    /**
      * @param Criteria $query
      */
     protected static function addJoinAttributeAttributeType(Criteria & $query)
