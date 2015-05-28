@@ -38,10 +38,18 @@
         });
 
         // replicate
-        $module.on('change', '.js-form-meta-update input, .js-form-meta-update textarea', function(){
+        $module.on('change', '.js-form-meta-update input, .js-form-meta-update textarea, .js-form-meta-update select', function(){
             if ($(this).data('replicate')) {
-                $module.find(".js-form-meta-update [data-connector='"+$(this).data('connector')+"']")
-                        .not($(this)).val($(this).val());
+                var val = $(this).val(), elems = $module.find(".js-form-meta-update [data-connector='"+$(this).data('connector')+"']").not($(this));
+                if(this.nodeName === 'SELECT') {
+                    elems.each(function(){
+                        $(this).find('option').filter(function(){
+                            return $(this).val() == val;
+                        }).prop('selected', true);
+                    });
+                } else {
+                    elems.val(val);
+                }
             }
         });
 

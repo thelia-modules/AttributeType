@@ -14,6 +14,7 @@ return array(
     'The attribute slug <%slug> already exists' => 'Le slug <%slug> existe déjà',
     'The attribute slug <%slug> is reserved' => 'Le slug <%slug> est réservé',
     'The slug is not valid' => 'Le slug n\'est pas valide',
+    'Type boolean' => 'Type boolean',
     'Type color' => 'Type couleur',
     'Type number' => 'Type nombre',
     'Type range' => 'Type plage',

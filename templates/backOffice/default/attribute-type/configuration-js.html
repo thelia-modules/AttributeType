@@ -48,9 +48,9 @@
 
       var $pattern = $module.find('.js-modal-create #atcf-pattern').parents('.col-md-6');
 
-      if (val == 'text' || val == 'color' || val == 'url' || val == 'textarea') {
+      if (val == 'text' || val == 'color' || val == 'url' || val == 'textarea' || val == "boolean") {
         $fields.addClass('hide');
-        if (val == 'textarea' || !$module.find('#atcf-has_attribute_av_value').is(':checked')) {
+        if (val == 'textarea' || val == 'boolean' || !$module.find('#atcf-has_attribute_av_value').is(':checked')) {
           $pattern.addClass('hide');
         } else {
           $pattern.removeClass('hide');
@@ -130,9 +130,9 @@
 
       var $pattern = $module.find('.js-modal-edit #atuf-pattern').parents('.col-md-6');
 
-      if (val == 'text' || val == 'color' || val == 'url' || val == 'textarea') {
+      if (val == 'text' || val == 'color' || val == 'url' || val == 'textarea' || val == "boolean") {
         $fields.addClass('hide');
-        if (val == 'textarea' || !$module.find('#atuf-has_attribute_av_value').is(':checked')) {
+        if (val == 'textarea' || val == 'boolean' || !$module.find('#atuf-has_attribute_av_value').is(':checked')) {
           $pattern.addClass('hide');
         } else {
           $pattern.removeClass('hide');
