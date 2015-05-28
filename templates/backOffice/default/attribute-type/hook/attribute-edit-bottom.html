@@ -1,7 +1,7 @@
 <div class="row" id="module-attribute-type">
     <div class="col-md-12 general-block-decorator">
         <div class="title title-without-tabs">
-            {intl l="Attribute type" d="attributetype"}
+            {intl l="Attribute type" d="attributetype.bo.default"}
         </div>
         <div class="form-container">
             <div class="row">
@@ -14,10 +14,10 @@
                                     {intl l="ID"}
                                 </th>
                                 <th>
-                                    ({intl l="Slug" d="attributetype"}) - {intl l="Title" d="attributetype"}
+                                    ({intl l="Slug" d="attributetype.bo.default"}) - {intl l="Title" d="attributetype.bo.default"}
                                 </th>
                                 <th>
-                                    {intl l="Action" d="attributetype"}
+                                    {intl l="Action" d="attributetype.bo.default"}
                                 </th>
                             </tr>
                             </thead>
@@ -37,7 +37,7 @@
                                     <td>
                                         <button class="btn btn-danger btn-sm js-action-dissociate" data-action="{url path="/admin/attribute-type/{$ID}/dissociate/{$attribute_id}"}">
                                             <span class="glyphicon glyphicon-log-out"></span>
-                                            {intl l="Dissociate action" d="attributetype"}
+                                            {intl l="Dissociate action" d="attributetype.bo.default"}
                                         </button>
                                     </td>
                                 </tr>
@@ -46,7 +46,7 @@
                                 <tr>
                                     <td colspan="10">
                                         <div class="alert alert-info">
-                                            {intl l="No attribute type for this attribute" d="attributetype"}
+                                            {intl l="No attribute type for this attribute" d="attributetype.bo.default"}
                                         </div>
                                     </td>
                                 </tr>
@@ -65,7 +65,7 @@
 
                                 <div class="input-group">
                                     <select class="form-control">
-                                        <option value="">{intl l="Select an attribute type" d="attributetype"}</option>
+                                        <option value="">{intl l="Select an attribute type" d="attributetype.bo.default"}</option>
                                         {loop type="attribute_type" name="attribute_type_select" exclude_id=$exclude_id|implode:','}
                                             <option value="{url path="/admin/attribute-type/{$ID}/associate/{$attribute_id}"}">({$SLUG}) - {$TITLE}</option>
                                         {/loop}
@@ -74,7 +74,7 @@
                                     <span class="input-group-btn">
                                         <button type="submit" class="btn btn-primary">
                                             <span class="glyphicon glyphicon-log-in">   </span>
-                                            {intl l="Associate action" d="attributetype"}
+                                            {intl l="Associate action" d="attributetype.bo.default"}
                                         </button>
                                     </span>
                                 </div>
@@ -83,12 +83,12 @@
                         {/ifloop}
                         {elseloop rel="attribute_type_select"}
                             <div class="alert alert-info">
-                                {intl l="Currently, none of the attributes types are available" d="attributetype"}
+                                {intl l="Currently, none of the attributes types are available" d="attributetype.bo.default"}
                             </div>
                         {/elseloop}
                         <span class="help-block">
                             <a href="{url path="/admin/attribute-type"}">
-                                {intl l="Create a new attribute type" d="attributetype"}
+                                {intl l="Create a new attribute type" d="attributetype.bo.default"}
                             </a>
                         </span>
                     </div>
@@ -116,22 +116,22 @@
                     <div class="modal-content">
                         <div class="modal-header bg-primary">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <strong class="modal-title text-uppercase">{intl l="Dissociate attribute type" d="attributetype"}</strong>
+                            <strong class="modal-title text-uppercase">{intl l="Dissociate attribute type" d="attributetype.bo.default"}</strong>
                         </div>
                         <div class="modal-body">
                             {if $form_error}
                                 <div class="alert alert-danger">{$form_error_message}</div>
                             {/if}
-                            {intl l="Dissociate the attribute with the attribute type ?" d="attributetype"}
+                            {intl l="Dissociate the attribute with the attribute type ?" d="attributetype.bo.default"}
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 <span class="glyphicon glyphicon-remove"></span>
-                                {intl l="Close action" d="attributetype"}
+                                {intl l="Close action" d="attributetype.bo.default"}
                             </button>
                             <button type="submit" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-ok"></span>
-                                {intl l="Dissociate action" d="attributetype"}
+                                {intl l="Dissociate action" d="attributetype.bo.default"}
                             </button>
                         </div>
                     </div>

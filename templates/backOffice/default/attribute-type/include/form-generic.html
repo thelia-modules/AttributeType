@@ -12,9 +12,9 @@
   <div class="form-group {if $error}has-error{/if}">
     <label for="{$prefix}{$label_attr.for}">{$label}</label>
     <input type="text" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}" required pattern="{literal}[a-z][a-z_0-9]{3,39}{/literal}"
-           title="{intl l="Must be single, and only numbers, lowercase letters, underscore" d="attributetype"}"
-           placeholder="{intl l="Enter slug" d="attributetype"}">
-    <span class="help-block">{intl l="Must be single, and only numbers, lowercase letters, underscore" d="attributetype"}</span>
+           title="{intl l="Must be single, and only numbers, lowercase letters, underscore" d="attributetype.bo.default"}"
+           placeholder="{intl l="Enter slug" d="attributetype.bo.default"}">
+    <span class="help-block">{intl l="Must be single, and only numbers, lowercase letters, underscore" d="attributetype.bo.default"}</span>
   </div>
   {/form_field}
 
@@ -36,7 +36,7 @@
           {form_field form=$form field='title' value_key=$ID}
           <div class="form-group {if $error}has-error{/if}">
             <label for="{$prefix}{$ID}-{$label_attr.for}">({$TITLE}) {intl l="Title"}</label>
-            <input id="{$prefix}{$ID}-{$label_attr.for}" type="text" class="form-control" name="{$name}" value="{$value}" maxlength="255" placeholder="{intl l="Enter title" d="attributetype"}">
+            <input id="{$prefix}{$ID}-{$label_attr.for}" type="text" class="form-control" name="{$name}" value="{$value}" maxlength="255" placeholder="{intl l="Enter title" d="attributetype.bo.default"}">
           </div>
           {/form_field}
 
@@ -61,7 +61,7 @@
           <label>
             <input type="checkbox" id="{$prefix}{$label_attr.for}" name="{$name}" value="1" {if $value == 1}checked{/if}/> {$label}
           </label>
-          <span class="help-block">{intl l="Activate attribute av value" d="attributetype"}</span>
+          <span class="help-block">{intl l="Activate attribute av value" d="attributetype.bo.default"}</span>
         </div>
       {/form_field}
     </div>
@@ -72,7 +72,7 @@
           <label>
             <input type="checkbox" id="{$prefix}{$label_attr.for}" name="{$name}" value="1" {if $value == 1}checked{/if}/> {$label}
           </label>
-          <span class="help-block">{intl l="The values will be unique for each language" d="attributetype"}</span>
+          <span class="help-block">{intl l="The values will be unique for each language" d="attributetype.bo.default"}</span>
         </div>
       {/form_field}
     </div>
@@ -88,7 +88,7 @@
               <option value="{$choice->value}" {if $value == $choice->value}selected{/if}>{$choice->label}</option>
             {/foreach}
           </select>
-          <span class="help-block">{intl l="Input type applied to the input field" d="attributetype"}</span>
+          <span class="help-block">{intl l="Input type applied to the input field" d="attributetype.bo.default"}</span>
         </div>
       {/form_field}
     </div>
@@ -97,8 +97,8 @@
       {form_field form=$form field='pattern'}
       <div class="form-group {if $error}has-error{/if}">
         <label for="{$prefix}{$label_attr.for}">{$label}</label>
-        <input type="text" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}" maxlength="255" placeholder="{intl l="Enter pattern" d="attributetype"}">
-        <span class="help-block">{intl l="Pattern applied to the input field" d="attributetype"}</span>
+        <input type="text" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}" maxlength="255" placeholder="{intl l="Enter pattern" d="attributetype.bo.default"}">
+        <span class="help-block">{intl l="Pattern applied to the input field" d="attributetype.bo.default"}</span>
       </div>
       {/form_field}
     </div>
@@ -106,8 +106,8 @@
       {form_field form=$form field='css_class'}
       <div class="form-group {if $error}has-error{/if}">
         <label for="{$prefix}{$label_attr.for}">{$label}</label>
-        <input type="text" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}" pattern="{literal}[a-z][a-z\-0-9]+{/literal}" maxlength="50" placeholder="{intl l="Enter class" d="attributetype"}">
-        <span class="help-block">{intl l="Css class applied to the input field" d="attributetype"}</span>
+        <input type="text" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}" pattern="{literal}[a-z][a-z\-0-9]+{/literal}" maxlength="50" placeholder="{intl l="Enter class" d="attributetype.bo.default"}">
+        <span class="help-block">{intl l="Css class applied to the input field" d="attributetype.bo.default"}</span>
       </div>
       {/form_field}
     </div>
@@ -117,7 +117,7 @@
         <div class="form-group {if $error}has-error{/if}">
           <label for="{$prefix}{$label_attr.for}">{$label}</label>
           <input type="number" step="0.000001" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}">
-          <span class="help-block">{intl l="Minimum value applied to the input field" d="attributetype"}</span>
+          <span class="help-block">{intl l="Minimum value applied to the input field" d="attributetype.bo.default"}</span>
         </div>
       {/form_field}
     </div>
@@ -126,7 +126,7 @@
         <div class="form-group {if $error}has-error{/if}">
           <label for="{$prefix}{$label_attr.for}">{$label}</label>
           <input type="number" step="0.000001" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}">
-          <span class="help-block">{intl l="Maximum value applied to the input field" d="attributetype"}</span>
+          <span class="help-block">{intl l="Maximum value applied to the input field" d="attributetype.bo.default"}</span>
         </div>
       {/form_field}
     </div>
@@ -135,7 +135,7 @@
         <div class="form-group {if $error}has-error{/if}">
           <label for="{$prefix}{$label_attr.for}">{$label}</label>
           <input type="number" step="0.000001" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}">
-          <span class="help-block">{intl l="Step applied to the input field" d="attributetype"}</span>
+          <span class="help-block">{intl l="Step applied to the input field" d="attributetype.bo.default"}</span>
         </div>
       {/form_field}
     </div>
