@@ -39,7 +39,8 @@ class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
     protected function getArgDefinitions()
     {
         return parent::getArgDefinitions()->addArguments(array(
-            Argument::createIntListTypeArgument("attribute_type_id")
+            Argument::createIntListTypeArgument("attribute_type_id"),
+            Argument::createAnyTypeArgument("attribute_type_slug")
         ));
     }
 
@@ -51,6 +52,45 @@ class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
     public function buildModelCriteria()
     {
         $query = parent::buildModelCriteria();
+
+        if (null !== $attributeTypeSlug = $this->getAttributeTypeSlug()) {
+            $attributeTypeSlug = array_map(function($value) {
+                return "'" . addslashes($value) . "'";
+            }, explode(',', $attributeTypeSlug));
+
+            $join = new Join();
+
+            $join->addExplicitCondition(
+                AttributeTableMap::TABLE_NAME,
+                'ID',
+                null,
+                AttributeAttributeTypeTableMap::TABLE_NAME,
+                'FEATURE_ID',
+                null
+            );
+
+            $join2 = new Join();
+
+            $join2->addExplicitCondition(
+                AttributeAttributeTypeTableMap::TABLE_NAME,
+                'FEATURE_TYPE_ID',
+                null,
+                AttributeTypeTableMap::TABLE_NAME,
+                'ID',
+                null
+            );
+
+            $join->setJoinType(Criteria::JOIN);
+            $join2->setJoinType(Criteria::JOIN);
+
+            $query
+                ->addJoinObject($join, 'attribute_attribute_type_join')
+                ->addJoinObject($join2, 'attribute_type_join')
+                ->addJoinCondition(
+                    'attribute_type_join',
+                    '`attribute_type`.`slug` IN ('.implode(',', $attributeTypeSlug).')'
+                );
+        }
 
         if (null !== $attributeTypeId = $this->getAttributeTypeId()) {
             $join = new Join();
