@@ -81,6 +81,7 @@ Extends the Thelia loop : [Attribute](http://doc.thelia.net/en/documentation/loo
 |Argument |Description |
 |---      |--- |
 |**attribute_type_id**   | A single or a list of attributes type ids. |
+|**attribute_type_slug**   | A single or a list of features type slugs. |
 
 #### Other output arguments
 

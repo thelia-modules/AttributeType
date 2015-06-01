@@ -13,3 +13,4 @@
 - add static method getFirstValues in model AttributeType
 - Add field type boolean
 - Add input args (attribute_type_id, attribute_type_slug) for loop attribute_availability_extend_attribute_type
+- Add input arg attribute_type_slug for loop attribute_extend_attribute_type
