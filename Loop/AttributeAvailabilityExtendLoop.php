@@ -21,9 +21,11 @@ use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\Join;
 use Thelia\Core\Template\Element\LoopResult;
 use Thelia\Core\Template\Element\LoopResultRow;
+use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Element\PropelSearchLoopInterface;
 use Thelia\Core\Template\Loop\AttributeAvailability;
 use Thelia\Model\AttributeAv;
+use Thelia\Model\Map\AttributeAvTableMap;
 
 /**
  * Class AttributeAvailabilityExtendLoop
@@ -32,6 +34,93 @@ use Thelia\Model\AttributeAv;
  */
 class AttributeAvailabilityExtendLoop extends AttributeAvailability implements PropelSearchLoopInterface
 {
+    /**
+     * @return \Thelia\Core\Template\Loop\Argument\ArgumentCollection
+     */
+    protected function getArgDefinitions()
+    {
+        return parent::getArgDefinitions()->addArguments(array(
+            Argument::createIntListTypeArgument("attribute_type_id"),
+            Argument::createAnyTypeArgument("attribute_type_slug")
+        ));
+    }
+
+    /**
+     * this method returns a Propel ModelCriteria
+     *
+     * @return \Propel\Runtime\ActiveQuery\ModelCriteria
+     */
+    public function buildModelCriteria()
+    {
+        $query = parent::buildModelCriteria();
+
+        if (null !== $attributeTypeSlug = $this->getAttributeTypeSlug()) {
+            $attributeTypeSlug = array_map(function($value) {
+                return "'" . addslashes($value) . "'";
+            }, explode(',', $attributeTypeSlug));
+
+            $join = new Join();
+
+            $join->addExplicitCondition(
+                AttributeAvTableMap::TABLE_NAME,
+                'FEATURE_ID',
+                null,
+                AttributeAttributeTypeTableMap::TABLE_NAME,
+                'FEATURE_ID',
+                null
+            );
+
+            $join2 = new Join();
+
+            $join2->addExplicitCondition(
+                AttributeAttributeTypeTableMap::TABLE_NAME,
+                'FEATURE_TYPE_ID',
+                null,
+                AttributeTypeTableMap::TABLE_NAME,
+                'ID',
+                null
+            );
+
+            $join->setJoinType(Criteria::JOIN);
+            $join2->setJoinType(Criteria::JOIN);
+
+            $query
+                ->addJoinObject($join, 'attribute_attribute_type_join')
+                ->addJoinObject($join2, 'attribute_type_join')
+                ->addJoinCondition(
+                    'attribute_type_join',
+                    '`attribute_type`.`slug` IN ('.implode(',', $attributeTypeSlug).')'
+                );
+        }
+
+        if (null !== $attributeTypeId = $this->getAttributeTypeId()) {
+            $join = new Join();
+
+            $join->addExplicitCondition(
+                AttributeAvTableMap::TABLE_NAME,
+                'FEATURE_ID',
+                null,
+                AttributeAttributeTypeTableMap::TABLE_NAME,
+                'FEATURE_ID',
+                null
+            );
+
+            $join->setJoinType(Criteria::JOIN);
+
+            $query
+                ->addJoinObject($join, 'attribute_type_join')
+                ->addJoinCondition(
+                    'attribute_type_join',
+                    '`attribute_attribute_type`.`attribute_type_id` IN (?)',
+                    implode(',', $attributeTypeId),
+                    null,
+                    \PDO::PARAM_INT
+                );
+        }
+
+        return $query;
+    }
+
     /**
      * @param LoopResult $loopResult
      * @return array|mixed|\Propel\Runtime\Collection\ObjectCollection

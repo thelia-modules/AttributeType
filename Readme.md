@@ -91,7 +91,7 @@ Extends the Thelia loop : [Attribute](http://doc.thelia.net/en/documentation/loo
 #### Example
 ```smarty
     {loop name="attribute_extend_attribute_type" type="attribute_extend_attribute_type-payment" attribute_type_id="1,2,3"}
-        {$TITLE} </br>
+        {$TITLE} <br/>
 
         {if $COLOR}
             The attribute has type color
@@ -107,6 +107,11 @@ Extends the Thelia loop : [Attribute](http://doc.thelia.net/en/documentation/loo
 
 Extends the Thelia loop : [Attribute availability](http://doc.thelia.net/en/documentation/loop/attribute_availability.html)
 
+|Argument |Description |
+|---      |--- |
+|**attribute_type_id**   | A single or a list of features type ids. |
+|**attribute_type_slug**   | A single or a list of features type slugs. |
+
 #### Other output arguments
 
 * The attributes types associated.
@@ -116,8 +121,13 @@ Extends the Thelia loop : [Attribute availability](http://doc.thelia.net/en/docu
 #### Example
 ```smarty
     title : color : my attribute type
-    {loop name="attribute_availability_extend_attribute_type" type="attribute_availability_extend_attribute_type" attribute_id="1"}
-        {$TITLE} : {$COLOR} : {$MY_ATTRIBUTE_TYPE} </br>
+    {loop name="attribute_availability_extend_attribute_type" type="attribute_availability_extend_attribute_type" attribute="1"}
+        {$TITLE} : {$COLOR} : {$MY_ATTRIBUTE_TYPE} <br/>
+    {/loop}
+
+    title : color : my attribute type
+    {loop name="attribute_availability_extend_attribute_type" type="attribute_availability_extend_attribute_type" attribute_type_slug="color"}
+        {$TITLE} : {$COLOR} : {$MY_ATTRIBUTE_TYPE} <br/>
     {/loop}
 ```
 
