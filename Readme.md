@@ -10,7 +10,7 @@ Authors: Thelia <info@thelia.net>, Gilles Bourgeat <gbourgeat@openstudio.fr>
 
 ## Compatibility
 
-Thelia > 2.1
+Thelia >= 2.1
 
 ## Installation
 
@@ -24,7 +24,7 @@ Thelia > 2.1
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/attribute-type-module:~1.0.1
+composer require thelia/attribute-type-module:~1.1.1
 ```
 
 ## Usage

@@ -127,14 +127,10 @@ class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
     private function getAttributesType(LoopResult $loopResult)
     {
         $attributeIds = array();
-        $locale = null;
 
         /** @var AttributeModel $attribute */
         foreach ($loopResult->getResultDataCollection() as $attribute) {
             $attributeIds[] = $attribute->getId();
-            if ($locale === null) {
-                $locale = $attribute->getLocale();
-            }
         }
 
         $join = new Join();

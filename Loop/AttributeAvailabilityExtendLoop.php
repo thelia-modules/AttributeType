@@ -128,14 +128,10 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability implements P
     private function getAttributesMeta(LoopResult $loopResult)
     {
         $attributeAvIds = array();
-        $locale = null;
 
         /** @var AttributeAV $attributeAv */
         foreach ($loopResult->getResultDataCollection() as $attributeAv) {
             $attributeAvIds[] = $attributeAv->getId();
-            if ($locale === null) {
-                $locale = $attributeAv->getLocale();
-            }
         }
 
         $joinAttributeAttributeType = new Join();
@@ -165,7 +161,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability implements P
         $joinAttributeType->setJoinType(Criteria::INNER_JOIN);
 
         $query = AttributeTypeAvMetaQuery::create()
-            ->filterByLocale($locale)
+            ->filterByLocale($this->locale)
             ->filterByAttributeAvId($attributeAvIds, Criteria::IN)
             ->addJoinObject($joinAttributeAttributeType)
             ->addJoinObject($joinAttributeType);
