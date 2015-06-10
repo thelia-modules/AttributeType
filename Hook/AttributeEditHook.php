@@ -53,10 +53,12 @@ class AttributeEditHook extends BaseHook
      */
     public function onAttributeEditBottom(HookRenderEvent $event)
     {
+        $data = self::hydrateForm($event->getArgument('attribute_id'));
+
         $form = new AttributeTypeAvMetaUpdateForm(
             $this->getRequest(),
             'form',
-            self::hydrateForm($event->getArgument('attribute_id')),
+            $data,
             array(),
             $this->container
         );
@@ -66,7 +68,8 @@ class AttributeEditHook extends BaseHook
         $event->add($this->render(
             'attribute-type/hook/attribute-edit-bottom.html',
             array(
-                'attribute_id' => $event->getArgument('attribute_id')
+                'attribute_id' => $event->getArgument('attribute_id'),
+                'form_meta_data' => $data
             )
         ));
     }
