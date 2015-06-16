@@ -91,7 +91,7 @@ Extends the Thelia loop : [Attribute](http://doc.thelia.net/en/documentation/loo
 
 #### Example
 ```smarty
-    {loop name="attribute_extend_attribute_type" type="attribute_extend_attribute_type-payment" attribute_type_id="1,2,3"}
+    {loop name="attribute_extend_attribute_type" type="attribute_extend_attribute_type" attribute_type_id="1,2,3"}
         {$TITLE} <br/>
 
         {if $COLOR}

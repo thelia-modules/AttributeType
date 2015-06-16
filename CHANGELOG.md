@@ -20,3 +20,4 @@
 - Fix returns values depending on the language
 - Fix display edit meta data for attribute availability has not i18n en_US
 - Fix slug length to 50 characters
+- Add large table in attribute edit, for attribute associated with more than 2 attribute types
