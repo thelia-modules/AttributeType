@@ -25,6 +25,10 @@
             <unique-column name="slug" />
         </unique>
 
+        <behavior name="validate">
+            <parameter name="slugRule" value="{column: slug, validator: Regex, options: {pattern: &quot;/[a-z][a-z_0-9]{3,50}/&quot;}}" />
+        </behavior>
+
         <behavior name="timestampable" />
     </table>
 

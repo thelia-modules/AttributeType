@@ -59,7 +59,7 @@ composer require thelia/attribute-type-module:~1.1.1
 
 |Variable       |Description |
 |---            |--- |
-|$ID            | The attribute type id |
+|ID            | The attribute type id |
 |SLUG      | The attribute type slug |
 |TITLE    | The attribute type title |
 |DESCRIPTION    | The attribute type description |

@@ -223,6 +223,7 @@ class AttributeTypeTableMap extends TableMap
     {
         return array(
             'i18n' => array('i18n_table' => '%TABLE%_i18n', 'i18n_phpname' => '%PHPNAME%I18n', 'i18n_columns' => 'title, description', 'locale_column' => 'locale', 'locale_length' => '5', 'default_locale' => '', 'locale_alias' => '', ),
+            'validate' => array('slugRule' => array ('column' => 'slug','validator' => 'Regex','options' => array ('pattern' => '/[a-z][a-z_0-9]{3,50}/',),), ),
             'timestampable' => array('create_column' => 'created_at', 'update_column' => 'updated_at', ),
         );
     } // getBehaviors()

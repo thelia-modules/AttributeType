@@ -164,7 +164,7 @@ class AttributeTypeCreateForm extends AttributeTypeForm
     public function checkFormatType($value, ExecutionContextInterface $context)
     {
         // test if good format
-        if (!preg_match('/[a-z][a-z_0-9]{3,39}/', $value)) {
+        if (!preg_match('/[a-z][a-z_0-9]{3,50}/', $value)) {
             $context->addViolation(Translator::getInstance()->trans(Translator::getInstance()->trans(
                 "The slug is not valid",
                 array(),
