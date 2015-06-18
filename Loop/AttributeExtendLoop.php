@@ -65,7 +65,7 @@ class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
                 'ID',
                 null,
                 AttributeAttributeTypeTableMap::TABLE_NAME,
-                'FEATURE_ID',
+                'ATTRIBUTE_ID',
                 null
             );
 
@@ -73,7 +73,7 @@ class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
 
             $join2->addExplicitCondition(
                 AttributeAttributeTypeTableMap::TABLE_NAME,
-                'FEATURE_TYPE_ID',
+                'ATTRIBUTE_TYPE_ID',
                 null,
                 AttributeTypeTableMap::TABLE_NAME,
                 'ID',
