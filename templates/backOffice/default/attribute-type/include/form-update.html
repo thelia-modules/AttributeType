@@ -1,6 +1,11 @@
 {$prefix = 'atuf-'}
 
 {form name="attribute_type.update"}
+
+{form_field form=$form field='id'}
+    {$attribute_type_id = $value}
+{/form_field}
+
 <form method="POST" class="js-form-edit" action="{url path="/admin/attribute-type/$attribute_type_id"}">
     {form_hidden_fields form=$form}
 
@@ -10,7 +15,6 @@
 
     {form_field form=$form field='id'}
         <input type="hidden" name="{$name}" value="{$value}" required />
-        {$attribute_type_id = $value}
     {/form_field}
 
     <div class="modal fade js-modal-edit {if $form_error || $attribute_type_id}open{/if}" tabindex="-1" role="dialog" aria-hidden="true">
