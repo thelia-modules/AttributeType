@@ -56,12 +56,12 @@
               </tr>
               </thead>
               <tbody>
-              {$AttributeAvTitle=[]}
+              {$attributeAvTitle=[]}
               {loop type="attribute_availability" name="attribute_availability" attribute=$attribute_id lang=$lang_id}
-              {$AttributeAvTitle[$ID] = $TITLE}
+              {$attributeAvTitle[$ID] = $TITLE}
               {/loop}
 
-              {foreach from=$form_meta_data.feature_av key=attribute_av_id item=foo}
+              {foreach from=$form_meta_data.attribute_av key=attribute_av_id item=foo}
                 <tr>
                   <td>
                     {$attribute_av_id}
