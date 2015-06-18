@@ -113,10 +113,10 @@ class AttributeType extends BaseModule
             ),
             array(
                 "type" => TemplateDefinition::BACK_OFFICE,
-                "code" => "feature-type.list-action",
+                "code" => "attribute-type.list-action",
                 "title" => array(
-                    "fr_FR" => "Module Feature Type, list action",
-                    "en_US" => "Module Feature Type, list action",
+                    "fr_FR" => "Module Attribute Type, list action",
+                    "en_US" => "Module Attribute Type, list action",
                 ),
                 "description" => array(
                     "fr_FR" => "Action de la liste des dates",
