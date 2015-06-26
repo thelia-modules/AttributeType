@@ -18,6 +18,7 @@ use AttributeType\Model\Map\AttributeTypeAvMetaTableMap;
 use AttributeType\Model\Map\AttributeTypeTableMap;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\Join;
+use Thelia\Model\AttributeAvQuery;
 use Thelia\Model\Map\AttributeAvTableMap;
 
 /**
@@ -85,18 +86,8 @@ class AttributeType extends BaseAttributeType
         self::addJoinAttributeType($query);
         self::addJoinAttributeAv($query);
 
-        $in = implode(
-            ',',
-            array_map(
-                function($v) {
-                    return "'" . $v . "'";
-                },
-                $slugs
-            )
-        );
-
         $query
-            ->addJoinCondition('attribute_type', "`attribute_type`.`SLUG` IN (" . $in . ")")
+            ->addJoinCondition('attribute_type', "`attribute_type`.`SLUG` IN (" . self::formatStringsForIn($slugs) . ")")
             ->addJoinCondition('attribute_av', "`attribute_av`.`ID` = `attribute_type_av_meta`.`ATTRIBUTE_AV_ID`")
             ->withColumn('`attribute_type`.`SLUG`', 'SLUG')
             ->withColumn('`attribute_av`.`ID`', 'ATTRIBUTE_AV_ID');
@@ -116,7 +107,7 @@ class AttributeType extends BaseAttributeType
      * If the value does not exist, it is replaced by null
      *
      * <code>
-     * $values = AttributeType::getFirstValues(['color','texture', 'other'], [4,7]);
+     * $values = AttributeType::getFirstValues(['color','texture','other'], [4,7]);
      * </code>
      *
      * <sample>
@@ -156,6 +147,142 @@ class AttributeType extends BaseAttributeType
     }
 
     /**
+     * Find AttributeAv by slugs, attributeIds, values, locales
+     *
+     * <code>
+     * $attributeAv = AttributeType::getAttributeAv('color', '1', '#00000');
+     * </code>
+     *
+     * @param null|string|array $slugs
+     * @param null|string|array $attributeIds
+     * @param null|string|array $values meta values
+     * @param null|string|array $locale
+     *
+     * @return \Thelia\Model\AttributeAv
+     */
+    public static function getAttributeAv($slugs = null, $attributeIds = null, $values = null, $locale = 'en_US')
+    {
+        return self::queryAttributeAvs($slugs, $attributeIds, $values, $locale)->findOne();
+    }
+
+    /**
+     * Find AttributeAvs by slug, attributeId, value, locale
+     *
+     * <code>
+     * $attributeAvs = AttributeType::getAttributeAvs('color', '1', '#00000');
+     * </code>
+     *
+     * @param null|string|array $slugs
+     * @param null|string|array $attributeIds
+     * @param null|string|array $values meta values
+     * @param null|string|array $locale
+     *
+     * @return \Thelia\Model\AttributeAv
+     */
+    public static function getAttributeAvs($slugs = null, $attributeIds = null, $values = null, $locale = 'en_US')
+    {
+        return self::queryAttributeAvs($slugs, $attributeIds, $values, $locale)->find();
+    }
+
+    /**
+     * @param null|string|array $slugs
+     * @param null|string|array $attributeIds
+     * @param null|string|array $values meta values
+     * @param null|string|array $locales
+     *
+     * @return AttributeAvQuery
+     */
+    protected static function queryAttributeAvs($slugs = null, $attributeIds = null, $values = null, $locales = null)
+    {
+        if (!is_array($slugs) && $slugs !== null) {
+            $slugs = array($slugs);
+        }
+
+        if (!is_array($attributeIds) && $attributeIds !== null) {
+            $attributeIds = array($attributeIds);
+        }
+
+        if (!is_array($values) && $values !== null) {
+            $values = array($values);
+        }
+
+        if (!is_array($locales) && $locales !== null) {
+            $locales = array($locales);
+        }
+
+        $query = AttributeAvQuery::create();
+
+        if ($attributeIds !== null) {
+            $query->filterByAttributeId($attributeIds, Criteria::IN);
+        }
+
+        self::addJoinAttributeTypeAvMeta($query);
+        self::addJoinAttributeAttributeType($query);
+        self::addJoinAttributeType($query);
+
+        if ($locales !== null) {
+            $query->addJoinCondition(
+                'attribute_type_av_meta',
+                "`attribute_type_av_meta`.`LOCALE` IN (" . self::formatStringsForIn($locales) . ")"
+            );
+        }
+
+        if ($values !== null) {
+            $query->addJoinCondition(
+                'attribute_type_av_meta',
+                "`attribute_type_av_meta`.`VALUE` IN (" . self::formatStringsForIn($values) . ")"
+            );
+        }
+
+        if ($slugs !== null) {
+            $query->addJoinCondition(
+                'attribute_type',
+                "`attribute_type`.`SLUG` IN (" . self::formatStringsForIn($slugs) . ")"
+            );
+        }
+
+        return $query;
+    }
+
+    /**
+     * @param array $strings
+     * @return string
+     */
+    protected static function formatStringsForIn(array $strings)
+    {
+        return implode(
+            ',',
+            array_map(
+                function($v) {
+                    return "'" . $v . "'";
+                },
+                $strings
+            )
+        );
+    }
+
+    /**
+     * @param Criteria $query
+     */
+    protected static function addJoinAttributeTypeAvMeta(Criteria & $query)
+    {
+        $join = new Join();
+
+        $join->addExplicitCondition(
+            AttributeAvTableMap::TABLE_NAME,
+            'ID',
+            null,
+            AttributeTypeAvMetaTableMap::TABLE_NAME,
+            'ATTRIBUTE_AV_ID',
+            null
+        );
+
+        $join->setJoinType(Criteria::INNER_JOIN);
+
+        $query->addJoinObject($join, 'attribute_type_av_meta');
+    }
+
+    /**
      * @param Criteria $query
      */
     protected static function addJoinAttributeAttributeType(Criteria & $query)
@@ -173,7 +300,7 @@ class AttributeType extends BaseAttributeType
 
         $join->setJoinType(Criteria::INNER_JOIN);
 
-        $query->addJoinObject($join, 'attribute_type_av_meta');
+        $query->addJoinObject($join, 'attribute_attribute_type');
     }
 
     /**

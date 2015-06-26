@@ -1,3 +1,7 @@
+# 1.2
+
+- Add static methods getAttributeAv and getAttributeAvs in model AttributeType
+
 # 1.1.1
 
 - Fix returns values depending on the language

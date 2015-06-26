@@ -206,3 +206,43 @@ Extends the Thelia loop : [Attribute availability](http://doc.thelia.net/en/docu
      */
     public static function getFirstValues(array $slugs, array $attributeAvIds, $locale = 'en_US')
 ```
+
+### AttributeType::getAttributeAv
+
+```php
+    /**
+     * Find AttributeAv by slugs, attributeIds, values, locales
+     *
+     * <code>
+     * $attributeAv = AttributeType::getAttributeAv('color', '1', '#00000');
+     * </code>
+     *
+     * @param null|string|array $slugs
+     * @param null|string|array $attributeIds
+     * @param null|string|array $values meta values
+     * @param null|string|array $locale
+     *
+     * @return \Thelia\Model\AttributeAv
+     */
+    public static function getAttributeAv($slugs = null, $attributeIds = null, $values = null, $locale = 'en_US')
+```
+
+### AttributeType::getAttributeAvs
+
+```php
+    /**
+     * Find AttributeAvs by slug, attributeId, value, locale
+     *
+     * <code>
+     * $attributeAvs = AttributeType::getAttributeAvs('color', '1', '#00000');
+     * </code>
+     *
+     * @param null|string|array $slugs
+     * @param null|string|array $attributeIds
+     * @param null|string|array $values meta values
+     * @param null|string|array $locale
+     *
+     * @return \Thelia\Model\AttributeAv
+     */
+    public static function getAttributeAvs($slugs = null, $attributeIds = null, $values = null, $locale = 'en_US')
+```
