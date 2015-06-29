@@ -29,7 +29,7 @@ return array(
     'Input type applied to the input field' => 'Type de champ pour les valeurs',
     'Maximum value applied to the input field' => 'Valeur maximum appliquée sur le champ',
     'Minimum value applied to the input field' => 'Valeur minimum appliquée sur le champ',
-    'Must be single, and only numbers, lowercase letters, underscore' => 'Peut être composé de chiffres, lettres minuscules et underscores',
+    'Must be single, and only numbers, lowercase letters, underscore. Maximum length 50 characters.' => 'Peut être composé de chiffres, lettres minuscules et underscores. Longueur maximum 50 caractères.',
     'No' => 'Aucun',
     'No attribute type for this attribute' => 'Aucun type de déclinaison associé à cette déclinaison',
     'No attribute type in database' => 'Aucune déclinaison dans la base de données',

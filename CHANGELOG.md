@@ -1,6 +1,7 @@
 # 1.2
 
 - Add static methods getAttributeAv and getAttributeAvs in model AttributeType
+- Fix the slug length to 50 characters in the template
 
 # 1.1.1
 

@@ -11,10 +11,10 @@
   {form_field form=$form field='slug'}
   <div class="form-group {if $error}has-error{/if}">
     <label for="{$prefix}{$label_attr.for}">{$label}</label>
-    <input type="text" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}" required pattern="{literal}[a-z][a-z_0-9]{3,39}{/literal}"
+    <input type="text" id="{$prefix}{$label_attr.for}" class="form-control" name="{$name}" value="{$value}" required pattern="{literal}[a-z][a-z_0-9]{3,50}{/literal}"
            title="{intl l="Must be single, and only numbers, lowercase letters, underscore" d="attributetype.bo.default"}"
            placeholder="{intl l="Enter slug" d="attributetype.bo.default"}">
-    <span class="help-block">{intl l="Must be single, and only numbers, lowercase letters, underscore" d="attributetype.bo.default"}</span>
+    <span class="help-block">{intl l="Must be single, and only numbers, lowercase letters, underscore. Maximum length 50 characters." d="attributetype.bo.default"}</span>
   </div>
   {/form_field}
 
