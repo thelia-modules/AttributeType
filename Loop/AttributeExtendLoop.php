@@ -14,6 +14,7 @@ namespace AttributeType\Loop;
 
 use AttributeType\Model\AttributeAttributeType;
 use AttributeType\Model\AttributeAttributeTypeQuery;
+use AttributeType\Model\AttributeType;
 use AttributeType\Model\Map\AttributeAttributeTypeTableMap;
 use AttributeType\Model\Map\AttributeTypeTableMap;
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -175,7 +176,7 @@ class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
 
         $slugs = array();
 
-        /** @var $attributeTypes $attributeType */
+        /** @var AttributeType $attributeType */
         foreach ($attributeTypes as $attributeType) {
             $slugs[$attributeType->getVirtualColumn('SLUG')] = true;
         }

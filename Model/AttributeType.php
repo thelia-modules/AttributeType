@@ -61,8 +61,8 @@ class AttributeType extends BaseAttributeType
      * )
      * </sample>
      *
-     * @param array $slugs[]
-     * @param array $attributeAvIds[]
+     * @param string[] $slugs
+     * @param int[] $attributeAvIds
      * @param string $locale
      * @return string
      * @throws \Propel\Runtime\Exception\PropelException
@@ -118,8 +118,8 @@ class AttributeType extends BaseAttributeType
      * )
      * </sample>
      *
-     * @param array $slugs
-     * @param array $attributeAvIds
+     * @param string[] $slugs
+     * @param int[] $attributeAvIds
      * @param string $locale
      * @return array
      */

@@ -8,6 +8,10 @@ Authors: Thelia <info@thelia.net>, Gilles Bourgeat <gbourgeat@openstudio.fr>
 * An attribute type can have values or not.
 * Values can be unique by language.
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/thelia-modules/AttributeType/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/thelia-modules/AttributeType/?branch=master)
+[![License](https://poser.pugx.org/thelia/attribute-type-module/license)](https://packagist.org/packages/thelia/attribute-type-module)
+[![Latest Stable Version](https://poser.pugx.org/thelia/attribute-type-module/v/stable)](https://packagist.org/packages/thelia/attribute-type-module)
+
 ## Compatibility
 
 Thelia >= 2.1
@@ -171,8 +175,8 @@ Extends the Thelia loop : [Attribute availability](http://doc.thelia.net/en/docu
      * )
      * </sample>
      *
-     * @param array $slugs[]
-     * @param array $attributeAvIds[]
+     * @param string[] $slugs
+     * @param int[] $attributeAvIds
      * @param string $locale
      * @return string
      * @throws \Propel\Runtime\Exception\PropelException
@@ -199,8 +203,8 @@ Extends the Thelia loop : [Attribute availability](http://doc.thelia.net/en/docu
      * )
      * </sample>
      *
-     * @param array $slugs
-     * @param array $attributeAvIds
+     * @param string[] $slugs
+     * @param int[] $attributeAvIds
      * @param string $locale
      * @return array
      */
