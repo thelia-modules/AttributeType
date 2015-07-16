@@ -28,7 +28,8 @@
                     data-html="true"
                     data-content="{intl l="To ask for help" d="attributetype.bo.default"}
                     </br> <a target='_blank' href='https://github.com/thelia-modules/AttributeType/issues'>Github</a>
-                    , <a target='_blank' href='http://thelia.net/forum/'>Thelia forum</a>
+                    , <a target='_blank' href='http://thelia.net/forum'>Thelia forum</a>
+                    , <a target='_blank' href='{intl l="http://thelia-school.com/create-types-of-features-and-attributes.html" d="attributetype.bo.default"}'>{intl l="Tutorial" d="attributetype.bo.default"}</a>
                     "
                     >
               <span class="glyphicon glyphicon-info-sign"></span>
@@ -142,7 +143,7 @@
               <input type="hidden" name="{$name}" value="{url path='/admin/attribute-type'}" />
             {/form_field}
 
-            <div class="modal fade js-modal-delete {if $form_error}open{/if}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal fade js-modal-delete {if $form_error}modal-force-show{/if}" tabindex="-1" role="dialog" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header bg-primary">

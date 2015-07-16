@@ -9,7 +9,7 @@
         <input type="hidden" name="{$name}" value="{url path='/admin/attribute-type'}" />
     {/form_field}
 
-    <div class="modal fade js-modal-create {if $form_error}open{/if}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade js-modal-create {if $form_error}modal-force-show{/if}" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-primary">

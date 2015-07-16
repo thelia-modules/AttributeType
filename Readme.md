@@ -28,7 +28,7 @@ Thelia >= 2.1
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/attribute-type-module:~1.1.1
+composer require thelia/attribute-type-module:~1.2.*
 ```
 
 ## Usage
