@@ -165,22 +165,22 @@ class AttributeTypeCreateForm extends AttributeTypeForm
     {
         // test if good format
         if (!preg_match('/[a-z][a-z_0-9]{3,50}/', $value)) {
-            $context->addViolation(Translator::getInstance()->trans(Translator::getInstance()->trans(
+            $context->addViolation(Translator::getInstance()->trans(
                 "The slug is not valid",
                 array(),
                 AttributeType::MODULE_DOMAIN
-            )));
+            ));
         }
 
         // test if reserved
         if (in_array($value, explode(',', AttributeType::RESERVED_SLUG))) {
-            $context->addViolation(Translator::getInstance()->trans(Translator::getInstance()->trans(
+            $context->addViolation(Translator::getInstance()->trans(
                 "The attribute slug <%slug> is reserved",
                 array(
                     '%slug' => $value
                 ),
                 AttributeType::MODULE_DOMAIN
-            )));
+            ));
         }
     }
 
@@ -192,13 +192,13 @@ class AttributeTypeCreateForm extends AttributeTypeForm
     {
         // test if exist
         if (AttributeTypeQuery::create()->findOneBySlug($value) !== null) {
-            $context->addViolation(Translator::getInstance()->trans(Translator::getInstance()->trans(
+            $context->addViolation(Translator::getInstance()->trans(
                 "The attribute slug <%slug> already exists",
                 array(
                     '%slug' => $value
                 ),
                 AttributeType::MODULE_DOMAIN
-            )));
+            ));
         }
     }
 }

@@ -189,7 +189,7 @@ class AttributeTypeController extends BaseAdminController
             $this->validateForm($form, 'POST');
 
             if (null === $attributeType = AttributeTypeQuery::create()->findPk($id)) {
-                new \Exception(Translator::getInstance()->trans(
+                throw new \Exception(Translator::getInstance()->trans(
                     "Attribute type not found",
                     array(),
                     AttributeTypeCore::MODULE_DOMAIN
