@@ -2,10 +2,6 @@
 /*************************************************************************************/
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
@@ -25,7 +21,7 @@ use AttributeType\AttributeType as AttributeTypeCore;
 /**
  * Class AttributeTypeAttributeController
  * @package AttributeType\Controller
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
 class AttributeTypeAttributeController extends AttributeTypeController
 {
@@ -36,7 +32,7 @@ class AttributeTypeAttributeController extends AttributeTypeController
      */
     public function associateAction($attribute_type_id, $attribute_id)
     {
-        if (null !== $response = $this->checkAuth(array(AdminResources::MODULE), 'AttributeType', AccessManager::UPDATE)) {
+        if (null !== $response = $this->checkAuth(array(AdminResources::ATTRIBUTE), null, AccessManager::UPDATE)) {
             return $response;
         }
 
@@ -47,7 +43,7 @@ class AttributeTypeAttributeController extends AttributeTypeController
 
             $this->dispatch(
                 AttributeTypeEvents::ATTRIBUTE_TYPE_ASSOCIATE,
-                self::getEventAssociation($attribute_type_id, $attribute_id)
+                $this->getEventAssociation($attribute_type_id, $attribute_id)
             );
 
             return $this->generateSuccessRedirect($form);
@@ -58,7 +54,7 @@ class AttributeTypeAttributeController extends AttributeTypeController
                 $form
             );
 
-            return self::viewAttribute($attribute_id);
+            return $this->viewAttribute($attribute_id);
         }
     }
 
@@ -69,7 +65,7 @@ class AttributeTypeAttributeController extends AttributeTypeController
      */
     public function dissociateAction($attribute_type_id, $attribute_id)
     {
-        if (null !== $response = $this->checkAuth(array(AdminResources::MODULE), 'AttributeType', AccessManager::UPDATE)) {
+        if (null !== $response = $this->checkAuth(array(AdminResources::ATTRIBUTE), null, AccessManager::UPDATE)) {
             return $response;
         }
 
@@ -80,7 +76,7 @@ class AttributeTypeAttributeController extends AttributeTypeController
 
             $this->dispatch(
                 AttributeTypeEvents::ATTRIBUTE_TYPE_DISSOCIATE,
-                self::getEventAssociation($attribute_type_id, $attribute_id)
+                $this->getEventAssociation($attribute_type_id, $attribute_id)
             );
 
             return $this->generateSuccessRedirect($form);
@@ -91,7 +87,7 @@ class AttributeTypeAttributeController extends AttributeTypeController
                 $form
             );
 
-            return self::viewAttribute($attribute_id);
+            return $this->viewAttribute($attribute_id);
         }
     }
 
@@ -101,7 +97,7 @@ class AttributeTypeAttributeController extends AttributeTypeController
      * @return AttributeTypeEvent
      * @throws \Exception
      */
-    private function getEventAssociation($attribute_type_id, $attribute_id)
+    protected function getEventAssociation($attribute_type_id, $attribute_id)
     {
         if (null === $attribute = AttributeQuery::create()->findPk($attribute_id)) {
             throw new \Exception(Translator::getInstance()->trans(

@@ -2,10 +2,6 @@
 /*************************************************************************************/
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
@@ -33,12 +29,12 @@ use Thelia\Model\LangQuery;
 /**
  * Class AttributeEditHook
  * @package AttributeType\Hook
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
 class AttributeEditHook extends BaseHook
 {
     /** @var ContainerInterface */
-    private $container = null;
+    protected $container = null;
 
     /**
      * @param ContainerInterface $container
@@ -53,7 +49,7 @@ class AttributeEditHook extends BaseHook
      */
     public function onAttributeEditBottom(HookRenderEvent $event)
     {
-        $data = self::hydrateForm($event->getArgument('attribute_id'));
+        $data = $this->hydrateForm($event->getArgument('attribute_id'));
 
         $form = new AttributeTypeAvMetaUpdateForm(
             $this->getRequest(),
@@ -82,7 +78,7 @@ class AttributeEditHook extends BaseHook
         // Fix for Thelia 2.1, because the hook "attribute-edit.bottom" does not exist
         if (version_compare(Thelia::THELIA_VERSION, '2.2', '<')) {
             $event->add('<script type="text/template" id="attribute-type-fix-t21">');
-            self::onAttributeEditBottom($event);
+            $this->onAttributeEditBottom($event);
             $event->add('</script>');
         }
 
@@ -98,7 +94,7 @@ class AttributeEditHook extends BaseHook
      * @param AttributeAv $attributeAv
      * @return array|mixed|\Propel\Runtime\Collection\ObjectCollection
      */
-    private function getAttributeTypeAvMetas(AttributeAv $attributeAv)
+    protected function getAttributeTypeAvMetas(AttributeAv $attributeAv)
     {
         $join = new Join();
 
@@ -124,7 +120,7 @@ class AttributeEditHook extends BaseHook
      * @param int $attributeId
      * @return array
      */
-    private function hydrateForm($attributeId)
+    protected function hydrateForm($attributeId)
     {
         $data = array('attribute_av' => array());
 
@@ -136,7 +132,7 @@ class AttributeEditHook extends BaseHook
 
         /** @var AttributeAv $attributeAv */
         foreach ($attributeAvs as $attributeAv) {
-            $attributeAvMetas = self::getAttributeTypeAvMetas($attributeAv);
+            $attributeAvMetas = $this->getAttributeTypeAvMetas($attributeAv);
 
             $data['attribute_av'][$attributeAv->getId()] = array(
                 'lang' => array()

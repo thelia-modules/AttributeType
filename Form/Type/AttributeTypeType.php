@@ -2,10 +2,6 @@
 /*************************************************************************************/
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
@@ -20,7 +16,7 @@ use Thelia\Core\Translation\Translator;
 /**
  * Class AttributeTypeType
  * @package AttributeType\Form\Type
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
 class AttributeTypeType extends AbstractType
 {

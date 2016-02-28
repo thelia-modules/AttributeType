@@ -3,7 +3,7 @@
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
 /*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
+/*      email : gilles.bourgeat@gmail.com                                                       */
 /*      web : http://www.thelia.net                                                  */
 /*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
@@ -20,7 +20,7 @@ use Thelia\Install\Database;
 /**
  * Class AttributeType
  * @package AttributeType
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
 class AttributeType extends BaseModule
 {
@@ -33,10 +33,10 @@ class AttributeType extends BaseModule
      */
     public function postActivation(ConnectionInterface $con = null)
     {
-        if (!self::getConfigValue('is_initialized', false)) {
+        if (!$this->getConfigValue('is_initialized', false)) {
             $database = new Database($con);
             $database->insertSql(null, [__DIR__ . "/Config/thelia.sql", __DIR__ . "/Config/insert.sql"]);
-            self::setConfigValue('is_initialized', true);
+            $this->setConfigValue('is_initialized', true);
         }
     }
 

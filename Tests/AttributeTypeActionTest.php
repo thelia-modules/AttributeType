@@ -2,10 +2,6 @@
 /*************************************************************************************/
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
@@ -30,7 +26,7 @@ use AttributeType\Model\AttributeTypeQuery;
 /**
  * Class AttributeTypeActionTest
  * @package AttributeType\Tests
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
 class AttributeTypeActionTest extends TestCaseWithURLToolSetup
 {
@@ -78,16 +74,16 @@ class AttributeTypeActionTest extends TestCaseWithURLToolSetup
         // if last test is wrong
         AttributeTypeQuery::create()->filterBySlug($this->slugTest)->delete();
 
-        self::createAction();
-        self::updateAction();
-        self::associateAction();
-        self::createMetaAction();
-        self::updateMetaAction();
-        self::dissociateAction();
-        self::deleteAction();
+        $this->createAction();
+        $this->updateAction();
+        $this->associateAction();
+        $this->createMetaAction();
+        $this->updateMetaAction();
+        $this->dissociateAction();
+        $this->deleteAction();
     }
 
-    private function createAction()
+    protected function createAction()
     {
         $event = new AttributeTypeEvent($this->attributeType);
 
@@ -98,7 +94,7 @@ class AttributeTypeActionTest extends TestCaseWithURLToolSetup
         $this->assertNotEquals(null, $attributeType->getId());
     }
 
-    private function updateAction()
+    protected function updateAction()
     {
         $this->attributeType->setInputType('number');
 
@@ -113,7 +109,7 @@ class AttributeTypeActionTest extends TestCaseWithURLToolSetup
         $this->assertEquals('number', $attributeTypeGetSuccessTest->getInputType());
     }
 
-    private function associateAction()
+    protected function associateAction()
     {
         $this->action->associate(
             (new AttributeTypeEvent($this->attributeType))->setAttribute($this->attribute)
@@ -127,7 +123,7 @@ class AttributeTypeActionTest extends TestCaseWithURLToolSetup
         $this->assertNotEquals(null, $attributeAttributeType);
     }
 
-    private function createMetaAction()
+    protected function createMetaAction()
     {
         /** @var AttributeAv $attributeAv */
         $attributeAv = $this->attribute->getAttributeAvs()->getFirst();
@@ -149,7 +145,7 @@ class AttributeTypeActionTest extends TestCaseWithURLToolSetup
         $this->assertNotEquals(null, $attributeTypeAvMeta->getId());
     }
 
-    private function updateMetaAction()
+    protected function updateMetaAction()
     {
         /** @var AttributeAv $attributeAv */
         $attributeAv = $this->attribute->getAttributeAvs()->getFirst();
@@ -178,7 +174,7 @@ class AttributeTypeActionTest extends TestCaseWithURLToolSetup
         $this->assertEquals('test', $attributeTypeAvMetaTest->getValue());
     }
 
-    private function dissociateAction()
+    protected function dissociateAction()
     {
         $this->action->dissociate(
             (new AttributeTypeEvent($this->attributeType))->setAttribute($this->attribute)
@@ -192,7 +188,7 @@ class AttributeTypeActionTest extends TestCaseWithURLToolSetup
         $this->assertEquals(null, $attributeAttributeType);
     }
 
-    private function deleteAction()
+    protected function deleteAction()
     {
         $this->action->delete(
             new AttributeTypeEvent($this->attributeType)

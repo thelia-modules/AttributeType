@@ -2,10 +2,6 @@
 /*************************************************************************************/
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
@@ -26,15 +22,15 @@ use Thelia\Model\LangQuery;
 /**
  * Class AttributeTypeAttributeAvController
  * @package AttributeType\Controller
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
 class AttributeTypeAttributeAvController extends AttributeTypeController
 {
     /** @var Lang[] */
-    private $langs = array();
+    protected $langs = array();
 
     /** @var AttributeAttributeType[] */
-    private $attributeAttributeTypes = array();
+    protected $attributeAttributeTypes = array();
 
     /**
      * @param int $attribute_id
@@ -42,7 +38,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
      */
     public function updateMetaAction($attribute_id)
     {
-        if (null !== $response = $this->checkAuth(array(AdminResources::MODULE), 'AttributeType', AccessManager::UPDATE)) {
+        if (null !== $response = $this->checkAuth(array(AdminResources::ATTRIBUTE), null, AccessManager::UPDATE)) {
             return $response;
         }
 
@@ -56,8 +52,8 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
             foreach ($attributeAvs as $attributeAvId => $attributeAv) {
                 foreach ($attributeAv['lang'] as $langId => $lang) {
                     foreach ($lang['attribute_type'] as $attributeTypeId => $value) {
-                        self::dispatchEvent(
-                            self::getAttributeAttributeType($attributeTypeId, $attribute_id),
+                        $this->dispatchEvent(
+                            $this->getAttributeAttributeType($attributeTypeId, $attribute_id),
                             $attributeAvId,
                             $langId,
                             $value
@@ -74,7 +70,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
                 $form
             );
 
-            return self::viewAttribute($attribute_id);
+            return $this->viewAttribute($attribute_id);
         }
     }
 
@@ -85,14 +81,14 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
      * @param string $value
      * @throws \Exception
      */
-    public function dispatchEvent(AttributeAttributeType $attributeAttributeType, $attributeAvId, $langId, $value)
+    protected function dispatchEvent(AttributeAttributeType $attributeAttributeType, $attributeAvId, $langId, $value)
     {
         $eventName = AttributeTypeEvents::ATTRIBUTE_TYPE_AV_META_UPDATE;
 
         $attributeAvMeta = AttributeTypeAvMetaQuery::create()
             ->filterByAttributeAvId($attributeAvId)
             ->filterByAttributeAttributeTypeId($attributeAttributeType->getId())
-            ->filterByLocale(self::getLocale($langId))
+            ->filterByLocale($this->getLocale($langId))
             ->findOne();
 
         // create if not exist
@@ -102,7 +98,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
             $attributeAvMeta = (new AttributeTypeAvMeta())
                 ->setAttributeAvId($attributeAvId)
                 ->setAttributeAttributeTypeId($attributeAttributeType->getId())
-                ->setLocale(self::getLocale($langId));
+                ->setLocale($this->getLocale($langId));
         }
 
         $attributeAvMeta->setValue($value);
@@ -119,7 +115,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
      * @return AttributeAttributeType
      * @throws \Exception
      */
-    private function getAttributeAttributeType($attributeTypeId, $attributeId)
+    protected function getAttributeAttributeType($attributeTypeId, $attributeId)
     {
         if (!isset($this->attributeAttributeTypes[$attributeTypeId])) {
             $this->attributeAttributeTypes[$attributeTypeId] = AttributeAttributeTypeQuery::create()
@@ -140,7 +136,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
      * @return string
      * @throws \Exception
      */
-    private function getLocale($langId)
+    protected function getLocale($langId)
     {
         if (!isset($this->langs[$langId])) {
             $this->langs[$langId] = LangQuery::create()->findPk($langId);

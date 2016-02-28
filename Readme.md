@@ -1,6 +1,6 @@
 # Attribute Type
 
-Authors: Thelia <info@thelia.net>, Gilles Bourgeat <gbourgeat@openstudio.fr>
+Authors: Thelia <info@thelia.net>, Gilles Bourgeat <gilles.bourgeat@gmail.com>
 
 * This module allows you to add to your attributes the attributes types.
 * Example : Color, Image link to the textures ...
@@ -28,7 +28,7 @@ Thelia >= 2.1
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/attribute-type-module:~1.2
+composer require thelia/attribute-type-module:~1.2.0
 ```
 
 ## Usage

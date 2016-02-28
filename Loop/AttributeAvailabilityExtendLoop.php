@@ -2,10 +2,6 @@
 /*************************************************************************************/
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
@@ -30,7 +26,10 @@ use Thelia\Model\Map\AttributeAvTableMap;
 /**
  * Class AttributeAvailabilityExtendLoop
  * @package AttributeType\Loop
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ *
+ * @method string getAttributeTypeId()
+ * @method int[] getAttributeTypeSlug()
  */
 class AttributeAvailabilityExtendLoop extends AttributeAvailability implements PropelSearchLoopInterface
 {
@@ -125,7 +124,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability implements P
      * @param LoopResult $loopResult
      * @return array|mixed|\Propel\Runtime\Collection\ObjectCollection
      */
-    private function getAttributesMeta(LoopResult $loopResult)
+    protected function getAttributesMeta(LoopResult $loopResult)
     {
         $attributeAvIds = array();
 
@@ -175,7 +174,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability implements P
      * @param string $slug
      * @return string
      */
-    private function formatSlug($slug)
+    protected function formatSlug($slug)
     {
         return strtoupper(str_replace('-', '_', $slug));
     }
@@ -187,7 +186,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability implements P
      */
     public function parseResults(LoopResult $loopResult)
     {
-        $attributesMeta = self::getAttributesMeta($loopResult);
+        $attributesMeta = $this->getAttributesMeta($loopResult);
 
         $slugs = array();
 
@@ -214,7 +213,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability implements P
             // init slug variable
             foreach ($slugs as $slug => $bool) {
                 $loopResultRow->set(
-                    self::formatSlug(
+                    $this->formatSlug(
                         $slug
                     ),
                     null
@@ -225,7 +224,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability implements P
             foreach ($attributesMeta as $attributeMeta) {
                 if ($attributeMeta->getAttributeAvId() === $attributeAv->getId()) {
                     $loopResultRow->set(
-                        self::formatSlug(
+                        $this->formatSlug(
                             $attributeMeta->getVirtualColumn('SLUG')
                         ),
                         $attributeMeta->getValue()

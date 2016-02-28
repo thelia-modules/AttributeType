@@ -1,3 +1,12 @@
+# 1.2.2
+
+- Fix check auth
+- Fix methods and variables visibility
+
+# 1.2.1
+
+- -Fix double translation and Exception
+
 # 1.2
 
 - Add static methods getAttributeAv and getAttributeAvs in model AttributeType

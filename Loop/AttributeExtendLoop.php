@@ -2,10 +2,6 @@
 /*************************************************************************************/
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
@@ -30,7 +26,10 @@ use Thelia\Model\Map\AttributeTableMap;
 /**
  * Class AttributeExtendLoop
  * @package AttributeType\Loop
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ *
+ * @method string getAttributeTypeId()
+ * @method int[] getAttributeTypeSlug()
  */
 class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
 {
@@ -125,7 +124,7 @@ class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
      * @param LoopResult $loopResult
      * @return array|mixed|\Propel\Runtime\Collection\ObjectCollection
      */
-    private function getAttributesType(LoopResult $loopResult)
+    protected function getAttributesType(LoopResult $loopResult)
     {
         $attributeIds = array();
 
@@ -160,7 +159,7 @@ class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
      * @param string $slug
      * @return string
      */
-    private function formatSlug($slug)
+    protected function formatSlug($slug)
     {
         return strtoupper(str_replace('-', '_', $slug));
     }
@@ -172,7 +171,7 @@ class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
      */
     public function parseResults(LoopResult $loopResult)
     {
-        $attributeTypes = self::getAttributesType($loopResult);
+        $attributeTypes = $this->getAttributesType($loopResult);
 
         $slugs = array();
 
@@ -197,7 +196,7 @@ class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
             // init slug variable
             foreach ($slugs as $slug => $bool) {
                 $loopResultRow->set(
-                    self::formatSlug(
+                    $this->formatSlug(
                         $slug
                     ),
                     null
@@ -208,7 +207,7 @@ class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
             foreach ($attributeTypes as $attributeType) {
                 if ($attributeType->getAttributeId() === $attribute->getId()) {
                     $loopResultRow->set(
-                        self::formatSlug(
+                        $this->formatSlug(
                             $attributeType->getVirtualColumn('SLUG')
                         ),
                         true

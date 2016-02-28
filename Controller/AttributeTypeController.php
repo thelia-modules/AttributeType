@@ -2,10 +2,6 @@
 /*************************************************************************************/
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
@@ -29,7 +25,7 @@ use Thelia\Core\HttpFoundation\Response;
 /**
  * Class AttributeTypeController
  * @package AttributeType\Controller
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
 class AttributeTypeController extends BaseAdminController
 {
@@ -41,7 +37,7 @@ class AttributeTypeController extends BaseAdminController
      */
     public function viewAllAction($params = array())
     {
-        if (null !== $response = $this->checkAuth(array(AdminResources::MODULE), 'AttributeType', AccessManager::VIEW)) {
+        if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::VIEW)) {
             return $response;
         }
 
@@ -55,7 +51,7 @@ class AttributeTypeController extends BaseAdminController
      */
     public function viewAction($id)
     {
-        if (null !== $response = $this->checkAuth(array(AdminResources::MODULE), 'AttributeType', AccessManager::VIEW)) {
+        if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::VIEW)) {
             return $response;
         }
 
@@ -98,7 +94,7 @@ class AttributeTypeController extends BaseAdminController
         if ($this->getRequest()->isXmlHttpRequest()) {
             return $this->render("attribute-type/include/form-update");
         } else {
-            return self::viewAllAction(array(
+            return $this->viewAllAction(array(
                 'attribute_type_id' => $id
             ));
         }
@@ -109,7 +105,7 @@ class AttributeTypeController extends BaseAdminController
      */
     public function createAction()
     {
-        if (null !== $response = $this->checkAuth(array(AdminResources::MODULE), 'AttributeType', AccessManager::CREATE)) {
+        if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::CREATE)) {
             return $response;
         }
 
@@ -118,7 +114,7 @@ class AttributeTypeController extends BaseAdminController
         try {
             $this->dispatch(
                 AttributeTypeEvents::ATTRIBUTE_TYPE_CREATE,
-                new AttributeTypeEvent(self::hydrateAttributeTypeByForm(
+                new AttributeTypeEvent($this->hydrateAttributeTypeByForm(
                     $this->validateForm($form, 'POST')
                 ))
             );
@@ -131,7 +127,7 @@ class AttributeTypeController extends BaseAdminController
                 $form
             );
 
-            return self::viewAllAction();
+            return $this->viewAllAction();
         }
     }
 
@@ -141,7 +137,7 @@ class AttributeTypeController extends BaseAdminController
      */
     public function updateAction($id)
     {
-        if (null !== $response = $this->checkAuth(array(AdminResources::MODULE), 'AttributeType', AccessManager::UPDATE)) {
+        if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::UPDATE)) {
             return $response;
         }
 
@@ -151,7 +147,7 @@ class AttributeTypeController extends BaseAdminController
             $this->dispatch(
                 AttributeTypeEvents::ATTRIBUTE_TYPE_UPDATE,
                 new AttributeTypeEvent(
-                    self::hydrateAttributeTypeByForm(
+                    $this->hydrateAttributeTypeByForm(
                         $this->validateForm($form, 'POST'),
                         $id
                     )
@@ -167,7 +163,7 @@ class AttributeTypeController extends BaseAdminController
                 $form
             );
 
-            return self::viewAllAction(array(
+            return $this->viewAllAction(array(
                 'attribute_type_id' => $id
             ));
         }
@@ -179,7 +175,7 @@ class AttributeTypeController extends BaseAdminController
      */
     public function deleteAction($id)
     {
-        if (null !== $response = $this->checkAuth(array(AdminResources::MODULE), 'AttributeType', AccessManager::DELETE)) {
+        if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::DELETE)) {
             return $response;
         }
 
@@ -210,7 +206,7 @@ class AttributeTypeController extends BaseAdminController
                 $form
             );
 
-            return self::viewAllAction();
+            return $this->viewAllAction();
         }
     }
 
@@ -221,7 +217,7 @@ class AttributeTypeController extends BaseAdminController
      */
     public function copyAction($id)
     {
-        if (null !== $response = $this->checkAuth(array(AdminResources::MODULE), 'AttributeType', AccessManager::CREATE)) {
+        if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::CREATE)) {
             return $response;
         }
 
@@ -273,7 +269,7 @@ class AttributeTypeController extends BaseAdminController
      * @return AttributeType
      * @throws \Exception
      */
-    private function hydrateAttributeTypeByForm($form, $id = null)
+    protected function hydrateAttributeTypeByForm($form, $id = null)
     {
         $data = $form->getData();
 

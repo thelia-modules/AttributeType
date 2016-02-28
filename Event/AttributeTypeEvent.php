@@ -2,10 +2,6 @@
 /*************************************************************************************/
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
@@ -20,18 +16,18 @@ use Thelia\Model\Attribute;
 /**
  * Class AttributeTypeEvent
  * @package AttributeType\Event
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
 class AttributeTypeEvent extends ActionEvent
 {
     /** @var ConnectionInterface|null */
-    private $connectionInterface = null;
+    protected $connectionInterface = null;
 
     /** @var AttributeType */
-    private $attributeType = null;
+    protected $attributeType = null;
 
     /** @var Attribute|null */
-    private $attribute = null;
+    protected $attribute = null;
 
     /**
      * @param AttributeType $attributeType

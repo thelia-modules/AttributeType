@@ -2,10 +2,6 @@
 /*************************************************************************************/
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
@@ -19,15 +15,15 @@ use Thelia\Core\Event\ActionEvent;
 /**
  * Class AttributeTypeAvMetaEvent
  * @package AttributeType\Event
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
 class AttributeTypeAvMetaEvent extends ActionEvent
 {
     /** @var ConnectionInterface|null */
-    private $connectionInterface = null;
+    protected $connectionInterface = null;
 
     /** @var AttributeTypeAvMeta */
-    private $attributeAvMeta = null;
+    protected $attributeAvMeta = null;
 
     /**
      * @param AttributeTypeAvMeta $attributeAvMeta

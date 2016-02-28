@@ -2,10 +2,6 @@
 /*************************************************************************************/
 /*      This file is part of the module AttributeType                                */
 /*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
 /*      For the full copyright and license information, please view the LICENSE.txt  */
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
@@ -28,7 +24,13 @@ use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 /**
  * Class AttributeTypeLoop
  * @package AttributeType\Loop
- * @author Gilles Bourgeat <gbourgeat@openstudio.fr>
+ * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
+ *
+ * @method int[] getId()
+ * @method int[] getExcludeId()
+ * @method string getSlug()
+ * @method int[] getAttributeId()
+ * @method string[] getOrder()
  */
 class AttributeTypeLoop extends BaseI18nLoop implements PropelSearchLoopInterface
 {
