@@ -195,7 +195,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability implements P
             $slugs[$attributeMeta->getVirtualColumn('SLUG')] = true;
         }
 
-        /** @var AttributeAV $attributeAv */
+        /** @var AttributeAv $attributeAv */
         foreach ($loopResult->getResultDataCollection() as $attributeAv) {
             $loopResultRow = new LoopResultRow($attributeAv);
             $loopResultRow

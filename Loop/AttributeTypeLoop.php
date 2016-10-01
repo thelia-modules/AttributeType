@@ -171,14 +171,12 @@ class AttributeTypeLoop extends BaseI18nLoop implements PropelSearchLoopInterfac
                 ->set("IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE", $entry->getIsMultilingualAttributeAvValue())
                 ->set("HAS_ATTRIBUTE_AV_VALUE", $entry->getHasAttributeAvValue())
             ;
-            $this->addMoreResults($row, $entry);
+
+            $this->addOutputFields($row, $entry);
+
             $loopResult->addRow($row);
         }
 
         return $loopResult;
-    }
-
-    protected function addMoreResults(LoopResultRow $row, $entryObject)
-    {
     }
 }
