@@ -1,3 +1,7 @@
+# 1.2.3
+
+- Resolve #8 Add method addOutputFields
+
 # 1.2.2
 
 - Fix check auth
