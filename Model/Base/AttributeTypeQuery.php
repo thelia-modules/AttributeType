@@ -32,6 +32,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAttributeTypeQuery orderByMax($order = Criteria::ASC) Order by the max column
  * @method     ChildAttributeTypeQuery orderByMin($order = Criteria::ASC) Order by the min column
  * @method     ChildAttributeTypeQuery orderByStep($order = Criteria::ASC) Order by the step column
+ * @method     ChildAttributeTypeQuery orderByImageMaxWidth($order = Criteria::ASC) Order by the image_max_width column
+ * @method     ChildAttributeTypeQuery orderByImageMaxHeight($order = Criteria::ASC) Order by the image_max_height column
+ * @method     ChildAttributeTypeQuery orderByImageRatio($order = Criteria::ASC) Order by the image_ratio column
  * @method     ChildAttributeTypeQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method     ChildAttributeTypeQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
@@ -45,6 +48,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAttributeTypeQuery groupByMax() Group by the max column
  * @method     ChildAttributeTypeQuery groupByMin() Group by the min column
  * @method     ChildAttributeTypeQuery groupByStep() Group by the step column
+ * @method     ChildAttributeTypeQuery groupByImageMaxWidth() Group by the image_max_width column
+ * @method     ChildAttributeTypeQuery groupByImageMaxHeight() Group by the image_max_height column
+ * @method     ChildAttributeTypeQuery groupByImageRatio() Group by the image_ratio column
  * @method     ChildAttributeTypeQuery groupByCreatedAt() Group by the created_at column
  * @method     ChildAttributeTypeQuery groupByUpdatedAt() Group by the updated_at column
  *
@@ -73,6 +79,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildAttributeType findOneByMax(double $max) Return the first ChildAttributeType filtered by the max column
  * @method     ChildAttributeType findOneByMin(double $min) Return the first ChildAttributeType filtered by the min column
  * @method     ChildAttributeType findOneByStep(double $step) Return the first ChildAttributeType filtered by the step column
+ * @method     ChildAttributeType findOneByImageMaxWidth(double $image_max_width) Return the first ChildAttributeType filtered by the image_max_width column
+ * @method     ChildAttributeType findOneByImageMaxHeight(double $image_max_height) Return the first ChildAttributeType filtered by the image_max_height column
+ * @method     ChildAttributeType findOneByImageRatio(double $image_ratio) Return the first ChildAttributeType filtered by the image_ratio column
  * @method     ChildAttributeType findOneByCreatedAt(string $created_at) Return the first ChildAttributeType filtered by the created_at column
  * @method     ChildAttributeType findOneByUpdatedAt(string $updated_at) Return the first ChildAttributeType filtered by the updated_at column
  *
@@ -86,6 +95,9 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByMax(double $max) Return ChildAttributeType objects filtered by the max column
  * @method     array findByMin(double $min) Return ChildAttributeType objects filtered by the min column
  * @method     array findByStep(double $step) Return ChildAttributeType objects filtered by the step column
+ * @method     array findByImageMaxWidth(double $image_max_width) Return ChildAttributeType objects filtered by the image_max_width column
+ * @method     array findByImageMaxHeight(double $image_max_height) Return ChildAttributeType objects filtered by the image_max_height column
+ * @method     array findByImageRatio(double $image_ratio) Return ChildAttributeType objects filtered by the image_ratio column
  * @method     array findByCreatedAt(string $created_at) Return ChildAttributeType objects filtered by the created_at column
  * @method     array findByUpdatedAt(string $updated_at) Return ChildAttributeType objects filtered by the updated_at column
  *
@@ -176,7 +188,7 @@ abstract class AttributeTypeQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, SLUG, HAS_ATTRIBUTE_AV_VALUE, IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE, PATTERN, CSS_CLASS, INPUT_TYPE, MAX, MIN, STEP, CREATED_AT, UPDATED_AT FROM attribute_type WHERE ID = :p0';
+        $sql = 'SELECT ID, SLUG, HAS_ATTRIBUTE_AV_VALUE, IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE, PATTERN, CSS_CLASS, INPUT_TYPE, MAX, MIN, STEP, IMAGE_MAX_WIDTH, IMAGE_MAX_HEIGHT, IMAGE_RATIO, CREATED_AT, UPDATED_AT FROM attribute_type WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -625,6 +637,129 @@ abstract class AttributeTypeQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(AttributeTypeTableMap::STEP, $step, $comparison);
+    }
+
+    /**
+     * Filter the query on the image_max_width column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByImageMaxWidth(1234); // WHERE image_max_width = 1234
+     * $query->filterByImageMaxWidth(array(12, 34)); // WHERE image_max_width IN (12, 34)
+     * $query->filterByImageMaxWidth(array('min' => 12)); // WHERE image_max_width > 12
+     * </code>
+     *
+     * @param     mixed $imageMaxWidth The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildAttributeTypeQuery The current query, for fluid interface
+     */
+    public function filterByImageMaxWidth($imageMaxWidth = null, $comparison = null)
+    {
+        if (is_array($imageMaxWidth)) {
+            $useMinMax = false;
+            if (isset($imageMaxWidth['min'])) {
+                $this->addUsingAlias(AttributeTypeTableMap::IMAGE_MAX_WIDTH, $imageMaxWidth['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($imageMaxWidth['max'])) {
+                $this->addUsingAlias(AttributeTypeTableMap::IMAGE_MAX_WIDTH, $imageMaxWidth['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AttributeTypeTableMap::IMAGE_MAX_WIDTH, $imageMaxWidth, $comparison);
+    }
+
+    /**
+     * Filter the query on the image_max_height column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByImageMaxHeight(1234); // WHERE image_max_height = 1234
+     * $query->filterByImageMaxHeight(array(12, 34)); // WHERE image_max_height IN (12, 34)
+     * $query->filterByImageMaxHeight(array('min' => 12)); // WHERE image_max_height > 12
+     * </code>
+     *
+     * @param     mixed $imageMaxHeight The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildAttributeTypeQuery The current query, for fluid interface
+     */
+    public function filterByImageMaxHeight($imageMaxHeight = null, $comparison = null)
+    {
+        if (is_array($imageMaxHeight)) {
+            $useMinMax = false;
+            if (isset($imageMaxHeight['min'])) {
+                $this->addUsingAlias(AttributeTypeTableMap::IMAGE_MAX_HEIGHT, $imageMaxHeight['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($imageMaxHeight['max'])) {
+                $this->addUsingAlias(AttributeTypeTableMap::IMAGE_MAX_HEIGHT, $imageMaxHeight['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AttributeTypeTableMap::IMAGE_MAX_HEIGHT, $imageMaxHeight, $comparison);
+    }
+
+    /**
+     * Filter the query on the image_ratio column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByImageRatio(1234); // WHERE image_ratio = 1234
+     * $query->filterByImageRatio(array(12, 34)); // WHERE image_ratio IN (12, 34)
+     * $query->filterByImageRatio(array('min' => 12)); // WHERE image_ratio > 12
+     * </code>
+     *
+     * @param     mixed $imageRatio The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildAttributeTypeQuery The current query, for fluid interface
+     */
+    public function filterByImageRatio($imageRatio = null, $comparison = null)
+    {
+        if (is_array($imageRatio)) {
+            $useMinMax = false;
+            if (isset($imageRatio['min'])) {
+                $this->addUsingAlias(AttributeTypeTableMap::IMAGE_RATIO, $imageRatio['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($imageRatio['max'])) {
+                $this->addUsingAlias(AttributeTypeTableMap::IMAGE_RATIO, $imageRatio['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(AttributeTypeTableMap::IMAGE_RATIO, $imageRatio, $comparison);
     }
 
     /**

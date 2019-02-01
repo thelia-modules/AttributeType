@@ -14,6 +14,9 @@
         <column name="max" type="FLOAT" />
         <column name="min" type="FLOAT" />
         <column name="step" type="FLOAT" />
+        <column name="image_max_width" type="FLOAT" />
+        <column name="image_max_height" type="FLOAT" />
+        <column name="image_ratio" type="FLOAT" />
         <column name="title" size="255" type="VARCHAR" />
         <column name="description" type="CLOB" />
 

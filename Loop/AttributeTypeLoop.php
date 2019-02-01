@@ -168,6 +168,9 @@ class AttributeTypeLoop extends BaseI18nLoop implements PropelSearchLoopInterfac
                 ->set("MIN", $entry->getMin())
                 ->set("MAX", $entry->getMax())
                 ->set("STEP", $entry->getStep())
+                ->set("IMAGE_MAX_WIDTH", $entry->getImageMaxWidth())
+                ->set("IMAGE_MAX_HEIGHT", $entry->getImageMaxHeight())
+                ->set("IMAGE_RATIO", $entry->getImageRatio())
                 ->set("IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE", $entry->getIsMultilingualAttributeAvValue())
                 ->set("HAS_ATTRIBUTE_AV_VALUE", $entry->getHasAttributeAvValue())
             ;

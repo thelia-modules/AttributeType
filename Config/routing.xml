@@ -55,4 +55,13 @@
         <requirement key="attribute_id">\d+</requirement>
     </route>
 
+    <route id="attribute_type_meta_delete" path="/admin/attribute-type-av-meta/{attribute_id}/{attribute_type_id}/{attribute_av_id}/{lang_id}/{method}" methods="POST">
+        <default key="_controller">AttributeType\Controller\AttributeTypeAttributeAvController::deleteMetaAction</default>
+        <requirement key="attribute_id">\d+</requirement>
+        <requirement key="attribute_type_id">\d+</requirement>
+        <requirement key="attribute_av_id">\d+</requirement>
+        <requirement key="lang_id">\d+</requirement>
+        <requirement key="method">_delete</requirement>
+    </route>
+
 </routes>

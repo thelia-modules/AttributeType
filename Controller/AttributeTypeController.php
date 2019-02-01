@@ -85,6 +85,9 @@ class AttributeTypeController extends BaseAdminController
             'min' => $attributeType->getMin(),
             'max' => $attributeType->getMax(),
             'step' => $attributeType->getStep(),
+            'image_max_width' => $attributeType->getImageMaxWidth(),
+            'image_max_height' => $attributeType->getImageMaxHeight(),
+            'image_ratio' => $attributeType->getImageRatio(),
             'title' => $title,
             'description' => $description
         ));
@@ -254,6 +257,9 @@ class AttributeTypeController extends BaseAdminController
             'min' => $attributeType->getMin(),
             'max' => $attributeType->getMax(),
             'step' => $attributeType->getStep(),
+            'image_max_width' => $attributeType->getImageMaxWidth(),
+            'image_max_height' => $attributeType->getImageMaxHeight(),
+            'image_ratio' => $attributeType->getImageRatio(),
             'title' => $title,
             'description' => $description
         ));
@@ -294,7 +300,10 @@ class AttributeTypeController extends BaseAdminController
             ->setInputType($data['input_type'])
             ->setMin($data['min'])
             ->setMax($data['max'])
-            ->setStep($data['step']);
+            ->setStep($data['step'])
+            ->setImageMaxWidth($data['image_max_width'])
+            ->setImageMaxHeight($data['image_max_height'])
+            ->setImageRatio($data['image_ratio']);
 
         foreach ($data['title'] as $langId => $title) {
             $attributeType
