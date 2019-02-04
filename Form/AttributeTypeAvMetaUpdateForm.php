@@ -10,7 +10,11 @@ namespace AttributeType\Form;
 
 use AttributeType\AttributeType;
 use AttributeType\Form\Type\I18nType;
+use AttributeType\Model\AttributeTypeQuery;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Thelia\Core\Translation\Translator;
 
 /**
@@ -43,6 +47,13 @@ class AttributeTypeAvMetaUpdateForm extends AttributeTypeForm
                 'collection',
                 array(
                     'type' => new I18nType(),
+                    'constraints' => array(
+                        new Callback(array(
+                            "methods" => array(
+                                array($this,
+                                    "checkImageSize"),
+                        ))
+                    )),
                     'allow_add'    => true,
                     'allow_delete' => true,
                     'label_attr' => array(
@@ -64,5 +75,56 @@ class AttributeTypeAvMetaUpdateForm extends AttributeTypeForm
                     )
                 )
             );
+    }
+
+    /**
+     * @param $value
+     * @param ExecutionContextInterface $context
+     */
+    public function checkImageSize($value, ExecutionContextInterface $context)
+    {
+        foreach ($value as $attributeAvId => $attributeAv) {
+            foreach ($attributeAv['lang'] as $langId => $lang) {
+                foreach ($lang['attribute_type'] as $attributeTypeId => $value) {
+                    if (!$value instanceof UploadedFile) {
+                        continue;
+                    }
+                    $attributeType = AttributeTypeQuery::create()
+                        ->findOneById($attributeTypeId);
+                    $size = getimagesize($value);
+                    list($width, $height) = $size;
+                    if (null !== $attributeType->getImageMaxWidth() && $width > $attributeType->getImageMaxWidth()) {
+                        $context->addViolation(Translator::getInstance()->trans(Translator::getInstance()
+                            ->trans(
+                                "Your image is too large (maximum %width px)",
+                                [
+                                    '%width' => $attributeType->getImageMaxWidth(),
+                                ]
+                            ))
+                        );
+                    }
+                    if (null !== $attributeType->getImageMaxHeight() && $height > $attributeType->getImageMaxHeight()) {
+                        $context->addViolation(Translator::getInstance()->trans(Translator::getInstance()
+                            ->trans(
+                                "Your image is too tall (maximum %height px)",
+                                [
+                                    '%height' => $attributeType->getImageMaxHeight(),
+                                ]
+                            ))
+                        );
+                    }
+                    if (null !== $attributeType->getImageRatio() && ($width/$height) !== $attributeType->getImageRatio()) {
+                        $context->addViolation(Translator::getInstance()->trans(Translator::getInstance()
+                            ->trans(
+                                "Bad image ratio (%ratio required)",
+                                [
+                                    '%ratio' => $attributeType->getImageRatio(),
+                                ]
+                            ))
+                        );
+                    }
+                }
+            }
+        }
     }
 }

@@ -7,7 +7,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- attribute_type
 -- ---------------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `attribute_type`
+DROP TABLE IF EXISTS `attribute_type`;
+
+CREATE TABLE `attribute_type`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `slug` VARCHAR(50),
@@ -19,6 +21,9 @@ CREATE TABLE IF NOT EXISTS `attribute_type`
     `max` FLOAT,
     `min` FLOAT,
     `step` FLOAT,
+    `image_max_width` FLOAT,
+    `image_max_height` FLOAT,
+    `image_ratio` FLOAT,
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`),
@@ -29,7 +34,9 @@ CREATE TABLE IF NOT EXISTS `attribute_type`
 -- attribute_attribute_type
 -- ---------------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `attribute_attribute_type`
+DROP TABLE IF EXISTS `attribute_attribute_type`;
+
+CREATE TABLE `attribute_attribute_type`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `attribute_id` INTEGER NOT NULL,
@@ -53,7 +60,9 @@ CREATE TABLE IF NOT EXISTS `attribute_attribute_type`
 -- attribute_type_av_meta
 -- ---------------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `attribute_type_av_meta`
+DROP TABLE IF EXISTS `attribute_type_av_meta`;
+
+CREATE TABLE `attribute_type_av_meta`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `attribute_av_id` INTEGER NOT NULL,
@@ -79,7 +88,9 @@ CREATE TABLE IF NOT EXISTS `attribute_type_av_meta`
 -- attribute_type_i18n
 -- ---------------------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `attribute_type_i18n`
+DROP TABLE IF EXISTS `attribute_type_i18n`;
+
+CREATE TABLE `attribute_type_i18n`
 (
     `id` INTEGER NOT NULL,
     `locale` VARCHAR(5) DEFAULT 'en_US' NOT NULL,

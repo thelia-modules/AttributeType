@@ -130,6 +130,24 @@ abstract class AttributeType implements ActiveRecordInterface
     protected $step;
 
     /**
+     * The value for the image_max_width field.
+     * @var        double
+     */
+    protected $image_max_width;
+
+    /**
+     * The value for the image_max_height field.
+     * @var        double
+     */
+    protected $image_max_height;
+
+    /**
+     * The value for the image_ratio field.
+     * @var        double
+     */
+    protected $image_ratio;
+
+    /**
      * The value for the created_at field.
      * @var        string
      */
@@ -587,6 +605,39 @@ abstract class AttributeType implements ActiveRecordInterface
     }
 
     /**
+     * Get the [image_max_width] column value.
+     *
+     * @return   double
+     */
+    public function getImageMaxWidth()
+    {
+
+        return $this->image_max_width;
+    }
+
+    /**
+     * Get the [image_max_height] column value.
+     *
+     * @return   double
+     */
+    public function getImageMaxHeight()
+    {
+
+        return $this->image_max_height;
+    }
+
+    /**
+     * Get the [image_ratio] column value.
+     *
+     * @return   double
+     */
+    public function getImageRatio()
+    {
+
+        return $this->image_ratio;
+    }
+
+    /**
      * Get the [optionally formatted] temporal [created_at] column value.
      *
      *
@@ -837,6 +888,69 @@ abstract class AttributeType implements ActiveRecordInterface
     } // setStep()
 
     /**
+     * Set the value of [image_max_width] column.
+     *
+     * @param      double $v new value
+     * @return   \AttributeType\Model\AttributeType The current object (for fluent API support)
+     */
+    public function setImageMaxWidth($v)
+    {
+        if ($v !== null) {
+            $v = (double) $v;
+        }
+
+        if ($this->image_max_width !== $v) {
+            $this->image_max_width = $v;
+            $this->modifiedColumns[AttributeTypeTableMap::IMAGE_MAX_WIDTH] = true;
+        }
+
+
+        return $this;
+    } // setImageMaxWidth()
+
+    /**
+     * Set the value of [image_max_height] column.
+     *
+     * @param      double $v new value
+     * @return   \AttributeType\Model\AttributeType The current object (for fluent API support)
+     */
+    public function setImageMaxHeight($v)
+    {
+        if ($v !== null) {
+            $v = (double) $v;
+        }
+
+        if ($this->image_max_height !== $v) {
+            $this->image_max_height = $v;
+            $this->modifiedColumns[AttributeTypeTableMap::IMAGE_MAX_HEIGHT] = true;
+        }
+
+
+        return $this;
+    } // setImageMaxHeight()
+
+    /**
+     * Set the value of [image_ratio] column.
+     *
+     * @param      double $v new value
+     * @return   \AttributeType\Model\AttributeType The current object (for fluent API support)
+     */
+    public function setImageRatio($v)
+    {
+        if ($v !== null) {
+            $v = (double) $v;
+        }
+
+        if ($this->image_ratio !== $v) {
+            $this->image_ratio = $v;
+            $this->modifiedColumns[AttributeTypeTableMap::IMAGE_RATIO] = true;
+        }
+
+
+        return $this;
+    } // setImageRatio()
+
+    /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
      *
      * @param      mixed $v string, integer (timestamp), or \DateTime value.
@@ -953,13 +1067,22 @@ abstract class AttributeType implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : AttributeTypeTableMap::translateFieldName('Step', TableMap::TYPE_PHPNAME, $indexType)];
             $this->step = (null !== $col) ? (double) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : AttributeTypeTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : AttributeTypeTableMap::translateFieldName('ImageMaxWidth', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->image_max_width = (null !== $col) ? (double) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : AttributeTypeTableMap::translateFieldName('ImageMaxHeight', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->image_max_height = (null !== $col) ? (double) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : AttributeTypeTableMap::translateFieldName('ImageRatio', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->image_ratio = (null !== $col) ? (double) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : AttributeTypeTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : AttributeTypeTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : AttributeTypeTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -972,7 +1095,7 @@ abstract class AttributeType implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 12; // 12 = AttributeTypeTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 15; // 15 = AttributeTypeTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \AttributeType\Model\AttributeType object", 0, $e);
@@ -1260,6 +1383,15 @@ abstract class AttributeType implements ActiveRecordInterface
         if ($this->isColumnModified(AttributeTypeTableMap::STEP)) {
             $modifiedColumns[':p' . $index++]  = 'STEP';
         }
+        if ($this->isColumnModified(AttributeTypeTableMap::IMAGE_MAX_WIDTH)) {
+            $modifiedColumns[':p' . $index++]  = 'IMAGE_MAX_WIDTH';
+        }
+        if ($this->isColumnModified(AttributeTypeTableMap::IMAGE_MAX_HEIGHT)) {
+            $modifiedColumns[':p' . $index++]  = 'IMAGE_MAX_HEIGHT';
+        }
+        if ($this->isColumnModified(AttributeTypeTableMap::IMAGE_RATIO)) {
+            $modifiedColumns[':p' . $index++]  = 'IMAGE_RATIO';
+        }
         if ($this->isColumnModified(AttributeTypeTableMap::CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'CREATED_AT';
         }
@@ -1306,6 +1438,15 @@ abstract class AttributeType implements ActiveRecordInterface
                         break;
                     case 'STEP':
                         $stmt->bindValue($identifier, $this->step, PDO::PARAM_STR);
+                        break;
+                    case 'IMAGE_MAX_WIDTH':
+                        $stmt->bindValue($identifier, $this->image_max_width, PDO::PARAM_STR);
+                        break;
+                    case 'IMAGE_MAX_HEIGHT':
+                        $stmt->bindValue($identifier, $this->image_max_height, PDO::PARAM_STR);
+                        break;
+                    case 'IMAGE_RATIO':
+                        $stmt->bindValue($identifier, $this->image_ratio, PDO::PARAM_STR);
                         break;
                     case 'CREATED_AT':
                         $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
@@ -1406,9 +1547,18 @@ abstract class AttributeType implements ActiveRecordInterface
                 return $this->getStep();
                 break;
             case 10:
-                return $this->getCreatedAt();
+                return $this->getImageMaxWidth();
                 break;
             case 11:
+                return $this->getImageMaxHeight();
+                break;
+            case 12:
+                return $this->getImageRatio();
+                break;
+            case 13:
+                return $this->getCreatedAt();
+                break;
+            case 14:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -1450,8 +1600,11 @@ abstract class AttributeType implements ActiveRecordInterface
             $keys[7] => $this->getMax(),
             $keys[8] => $this->getMin(),
             $keys[9] => $this->getStep(),
-            $keys[10] => $this->getCreatedAt(),
-            $keys[11] => $this->getUpdatedAt(),
+            $keys[10] => $this->getImageMaxWidth(),
+            $keys[11] => $this->getImageMaxHeight(),
+            $keys[12] => $this->getImageRatio(),
+            $keys[13] => $this->getCreatedAt(),
+            $keys[14] => $this->getUpdatedAt(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1530,9 +1683,18 @@ abstract class AttributeType implements ActiveRecordInterface
                 $this->setStep($value);
                 break;
             case 10:
-                $this->setCreatedAt($value);
+                $this->setImageMaxWidth($value);
                 break;
             case 11:
+                $this->setImageMaxHeight($value);
+                break;
+            case 12:
+                $this->setImageRatio($value);
+                break;
+            case 13:
+                $this->setCreatedAt($value);
+                break;
+            case 14:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1569,8 +1731,11 @@ abstract class AttributeType implements ActiveRecordInterface
         if (array_key_exists($keys[7], $arr)) $this->setMax($arr[$keys[7]]);
         if (array_key_exists($keys[8], $arr)) $this->setMin($arr[$keys[8]]);
         if (array_key_exists($keys[9], $arr)) $this->setStep($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setCreatedAt($arr[$keys[10]]);
-        if (array_key_exists($keys[11], $arr)) $this->setUpdatedAt($arr[$keys[11]]);
+        if (array_key_exists($keys[10], $arr)) $this->setImageMaxWidth($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setImageMaxHeight($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setImageRatio($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setCreatedAt($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setUpdatedAt($arr[$keys[14]]);
     }
 
     /**
@@ -1592,6 +1757,9 @@ abstract class AttributeType implements ActiveRecordInterface
         if ($this->isColumnModified(AttributeTypeTableMap::MAX)) $criteria->add(AttributeTypeTableMap::MAX, $this->max);
         if ($this->isColumnModified(AttributeTypeTableMap::MIN)) $criteria->add(AttributeTypeTableMap::MIN, $this->min);
         if ($this->isColumnModified(AttributeTypeTableMap::STEP)) $criteria->add(AttributeTypeTableMap::STEP, $this->step);
+        if ($this->isColumnModified(AttributeTypeTableMap::IMAGE_MAX_WIDTH)) $criteria->add(AttributeTypeTableMap::IMAGE_MAX_WIDTH, $this->image_max_width);
+        if ($this->isColumnModified(AttributeTypeTableMap::IMAGE_MAX_HEIGHT)) $criteria->add(AttributeTypeTableMap::IMAGE_MAX_HEIGHT, $this->image_max_height);
+        if ($this->isColumnModified(AttributeTypeTableMap::IMAGE_RATIO)) $criteria->add(AttributeTypeTableMap::IMAGE_RATIO, $this->image_ratio);
         if ($this->isColumnModified(AttributeTypeTableMap::CREATED_AT)) $criteria->add(AttributeTypeTableMap::CREATED_AT, $this->created_at);
         if ($this->isColumnModified(AttributeTypeTableMap::UPDATED_AT)) $criteria->add(AttributeTypeTableMap::UPDATED_AT, $this->updated_at);
 
@@ -1666,6 +1834,9 @@ abstract class AttributeType implements ActiveRecordInterface
         $copyObj->setMax($this->getMax());
         $copyObj->setMin($this->getMin());
         $copyObj->setStep($this->getStep());
+        $copyObj->setImageMaxWidth($this->getImageMaxWidth());
+        $copyObj->setImageMaxHeight($this->getImageMaxHeight());
+        $copyObj->setImageRatio($this->getImageRatio());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
 
@@ -2218,6 +2389,9 @@ abstract class AttributeType implements ActiveRecordInterface
         $this->max = null;
         $this->min = null;
         $this->step = null;
+        $this->image_max_width = null;
+        $this->image_max_height = null;
+        $this->image_ratio = null;
         $this->created_at = null;
         $this->updated_at = null;
         $this->alreadyInSave = false;

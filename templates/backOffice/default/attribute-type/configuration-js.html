@@ -28,7 +28,10 @@
               ',#atcf-css_class' +
               ',#atcf-min' +
               ',#atcf-max' +
-              ',#atcf-step')
+              ',#atcf-step' +
+              ',#atcf-image_max_width' +
+              ',#atcf-image_max_height' +
+              ',#atcf-image_ratio')
               .parents('.col-md-6');
 
       if (this.checked) {
@@ -40,25 +43,36 @@
     });
 
     $module.on('change', '#atcf-input_type', function(){
-      var val = $(this).val();
+        var val = $(this).val();
 
-      var $fields = $module.find('.js-modal-create')
-              .find('#atcf-min, #atcf-max, #atcf-step')
-              .parents('.col-md-6');
-
-      var $pattern = $module.find('.js-modal-create #atcf-pattern').parents('.col-md-6');
-
-      if (val == 'text' || val == 'color' || val == 'url' || val == 'textarea' || val == "boolean") {
-        $fields.addClass('hide');
-        if (val == 'textarea' || val == 'boolean' || !$module.find('#atcf-has_attribute_av_value').is(':checked')) {
-          $pattern.addClass('hide');
-        } else {
-          $pattern.removeClass('hide');
+        if (!$module.find('#atcf-has_attribute_av_value').is(':checked')) {
+            return;
         }
-      } else {
-        $fields.removeClass('hide');
-        $pattern.removeClass('hide');
-      }
+
+        var $patternField = $module.find('.js-modal-create #atcf-pattern').parents('.col-md-6');
+        var $numericFields = $module.find('.js-modal-create')
+            .find('#atcf-min, #atcf-max, #atcf-step')
+            .parents('.col-md-6');
+        var $imageFields = $module.find('.js-modal-create')
+            .find('#atcf-image_max_width, #atcf-image_max_height, #atcf-image_ratio')
+            .parents('.col-md-6');
+        if (val == 'text' || val == 'color' || val == 'url') {
+            $numericFields.addClass('hide');
+            $imageFields.addClass('hide');
+            $patternField.removeClass('hide');
+        } else if (val == 'textarea' || val == 'boolean') {
+            $patternField.addClass('hide');
+            $numericFields.addClass('hide');
+            $imageFields.addClass('hide');
+        } else if(val == 'range' || val == 'number') {
+            $imageFields.addClass('hide');
+            $numericFields.removeClass('hide');
+            $patternField.removeClass('hide');
+        } else if(val == 'image') {
+            $numericFields.addClass('hide');
+            $imageFields.removeClass('hide');
+            $patternField.removeClass('hide');
+        }
     });
 
     /*****************************************/
@@ -110,7 +124,11 @@
               ',#atuf-css_class' +
               ',#atuf-min' +
               ',#atuf-max' +
-              ',#atuf-step')
+              ',#atuf-step' +
+              ',#atuf-image_max_width' +
+              ',#atuf-image_max_height' +
+              ',#atuf-image_ratio'
+              )
               .parents('.col-md-6');
 
       if (this.checked) {
@@ -122,25 +140,36 @@
     });
 
     $module.on('change', '#atuf-input_type', function(){
-      var val = $(this).val();
-
-      var $fields = $module.find('.js-modal-edit')
-              .find('#atuf-min, #atuf-max, #atuf-step')
-              .parents('.col-md-6');
-
-      var $pattern = $module.find('.js-modal-edit #atuf-pattern').parents('.col-md-6');
-
-      if (val == 'text' || val == 'color' || val == 'url' || val == 'textarea' || val == "boolean") {
-        $fields.addClass('hide');
-        if (val == 'textarea' || val == 'boolean' || !$module.find('#atuf-has_attribute_av_value').is(':checked')) {
-          $pattern.addClass('hide');
-        } else {
-          $pattern.removeClass('hide');
+        if (!$module.find('#atuf-has_attribute_av_value').is(':checked')) {
+            return;
         }
-      } else {
-        $fields.removeClass('hide');
-        $pattern.removeClass('hide');
-      }
+
+
+        var val = $(this).val();
+        var $patternField = $module.find('.js-modal-edit #atuf-pattern').parents('.col-md-6');
+        var $numericFields = $module.find('.js-modal-edit')
+            .find('#atuf-min, #atuf-max, #atuf-step')
+            .parents('.col-md-6');
+        var $imageFields = $module.find('.js-modal-edit')
+            .find('#atuf-image_max_width, #atuf-image_max_height, #atuf-image_ratio')
+            .parents('.col-md-6');
+        if (val == 'text' || val == 'color' || val == 'url') {
+            $numericFields.addClass('hide');
+            $imageFields.addClass('hide');
+            $patternField.removeClass('hide');
+        } else if (val == 'textarea' || val == 'boolean') {
+            $patternField.addClass('hide');
+            $numericFields.addClass('hide');
+            $imageFields.addClass('hide');
+        } else if(val == 'range' || val == 'number') {
+            $imageFields.addClass('hide');
+            $numericFields.removeClass('hide');
+            $patternField.removeClass('hide');
+        } else if(val == 'image') {
+            $numericFields.addClass('hide');
+            $imageFields.removeClass('hide');
+            $patternField.removeClass('hide');
+        }
     });
     /*****************************************/
     /************ Attribute copy *************/

@@ -1,7 +1,7 @@
 {$prefix = 'aamu-'}
 
 {form name="attribute_type_av_meta.update"}
-  <form action="{url path="/admin/attribute/{$attribute_id}/attribute-av/meta"}" method="post" class="js-form-meta-update">
+  <form action="{url path="/admin/attribute/{$attribute_id}/attribute-av/meta"}" method="post" class="js-form-meta-update" enctype="multipart/form-data">
     {form_hidden_fields form=$form}
 
     {form_field form=$form field='success_url'}
@@ -72,27 +72,58 @@
                   {loop type="attribute_type" name="attribute_type_input" attribute_id=$attribute_id lang=$lang_id}
                   {if $HAS_ATTRIBUTE_AV_VALUE}
                     <td>
-                      <div class="input-group {if $error}has-error{/if}">
                         {form_field form=$form field='attribute_av' value_key=$ID}
                           {if $INPUT_TYPE == "textarea"}
-                          <textarea
-                              class="form-control {$CSS_CLASS}"
-                              name="attribute_type_av_meta-update[attribute_av][{$attribute_av_id}][lang][{$lang_id}][attribute_type][{$ID}]"
-                              data-connector="{$SLUG}-{$attribute_av_id}"
-                              data-replicate={if !$IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE}true{else}false{/if}
-                          >{$data[$attribute_av_id]['lang'][$lang_id]['attribute_type'][$ID] nofilter}</textarea>
+                            <div class="input-group {if $error}has-error{/if}">
+                              <textarea
+                                  class="form-control {$CSS_CLASS}"
+                                  name="attribute_type_av_meta-update[attribute_av][{$attribute_av_id}][lang][{$lang_id}][attribute_type][{$ID}]"
+                                  data-connector="{$SLUG}-{$attribute_av_id}"
+                                  data-replicate={if !$IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE}true{else}false{/if}
+                              >{$data[$attribute_av_id]['lang'][$lang_id]['attribute_type'][$ID] nofilter}</textarea>
+                            </div>
                           {elseif $INPUT_TYPE == "boolean"}
-                            <select
-                                    class="form-control {$CSS_CLASS}"
-                                    name="attribute_type_av_meta-update[attribute_av][{$attribute_av_id}][lang][{$lang_id}][attribute_type][{$ID}]"
-                                    data-connector="{$SLUG}-{$attribute_av_id}"
-                                    data-replicate={if !$IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE}true{else}false{/if}
-                                    >
-                              <option value="0" {if !{$data[$attribute_av_id]['lang'][$lang_id]['attribute_type'][$ID]}}selected{/if}>{intl l="No"}</option>
-                              <option value="1" {if {$data[$attribute_av_id]['lang'][$lang_id]['attribute_type'][$ID]}}selected{/if}>{intl l="Yes"}</option>
-                            </select>
+                            <div class="input-group {if $error}has-error{/if}">
+                              <select
+                                      class="form-control {$CSS_CLASS}"
+                                      name="attribute_type_av_meta-update[attribute_av][{$attribute_av_id}][lang][{$lang_id}][attribute_type][{$ID}]"
+                                      data-connector="{$SLUG}-{$attribute_av_id}"
+                                      data-replicate={if !$IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE}true{else}false{/if}
+                                      >
+                                <option value="0" {if !{$data[$attribute_av_id]['lang'][$lang_id]['attribute_type'][$ID]}}selected{/if}>{intl l="No"}</option>
+                                <option value="1" {if {$data[$attribute_av_id]['lang'][$lang_id]['attribute_type'][$ID]}}selected{/if}>{intl l="Yes"}</option>
+                              </select>
+                            </div>
+                          {elseif $INPUT_TYPE == "image"}
+                            <div class="input-group {if $error}has-error{/if}">
+                              {$imageExist = !!$form_meta_data['attribute_av'][$attribute_av_id]['lang'][$lang_id]['attribute_type'][$ID]}
+                              <div>
+                                <label class="attribute_type_av_image_preview" for="{$SLUG}-{$attribute_av_id}-{$lang_id}-{$ID}">
+                                  {if !$imageExist}
+                                    <span id="{$SLUG}-{$attribute_av_id}-{$lang_id}-{$ID}_upload" class="btn btn-success btn-upload">
+                                                                    <span class="glyphicon glyphicon-upload"></span>
+                                                                </span>
+                                  {/if}
+                                  <img id="{$SLUG}-{$attribute_av_id}-{$lang_id}-{$ID}_preview" class="{if !$imageExist} hidden {/if}" src="{$data[$attribute_av_id]['lang'][$lang_id]['attribute_type'][$ID]}" alt="">
+                                </label>
+                                {if $imageExist}
+                                  <button id="{$SLUG}-{$attribute_av_id}-{$lang_id}-{$ID}_delete" class="btn btn-danger btn-sm js-attribute-meta-action-delete" data-action="{url path="/admin/attribute-type-av-meta/{$attribute_id}/{$ID}/{$attribute_av_id}/{$lang_id}/_delete"}">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                  </button>
+                                {/if}
+                              </div>
+                              <input
+                                      id="{$SLUG}-{$attribute_av_id}-{$lang_id}-{$ID}"
+                                      type="file"
+                                      class="form-control {$CSS_CLASS} hidden"
+                                      {if $PATTERN}pattern="{$PATTERN}"{/if}
+                                      name="attribute_type_av_meta-update[attribute_av][{$attribute_av_id}][lang][{$lang_id}][attribute_type][{$ID}]"
+                                      value="{$data[$attribute_av_id]['lang'][$lang_id]['attribute_type'][$ID]}"
+                              >
+                            </div>
                           {else}
-                          <input type="{$INPUT_TYPE}"
+                            <div class="input-group {if $error}has-error{/if}">
+                              <input type="{$INPUT_TYPE}"
                                  {if $PATTERN}pattern="{$PATTERN}"{/if}
                                  class="{if $INPUT_TYPE != 'color' && $INPUT_TYPE != 'range'}form-control {/if}{$CSS_CLASS}"
                                   {if $INPUT_TYPE == 'number' || $INPUT_TYPE == 'range'}
@@ -105,6 +136,7 @@
                                  data-connector="{$SLUG}-{$attribute_av_id}"
                                  data-replicate={if !$IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE}true{else}false{/if}
                                   />
+                            </div>
                           {/if}
                         {/form_field}
                       </div>
@@ -120,6 +152,7 @@
       </div>
     </div>
     <div class="text-center">
+      <p id="form-meta-update-info" class="alert alert-warning hidden">{intl l="The data of the form have been modified, do not forget to validate these modifications !!!" d="attributetype.bo.default"}</p>
       <button type="submit" class="btn btn-success">
         <span class="glyphicon glyphicon-floppy-disk"></span>
         {intl l="Update action" d="attributetype.bo.default"}
@@ -127,3 +160,57 @@
     </div>
   </form>
 {/form}
+
+
+<!-- Modal -->
+{form name="attribute_type.delete"}
+  <form method="POST" class="js-form-delete" action="">
+    {form_hidden_fields form=$form}
+
+    {form_field form=$form field='success_url'}
+      <input type="hidden" name="{$name}" value="{url path="/admin/configuration/attributes/update" attribute_id=$attribute_id}"/>
+    {/form_field}
+
+    <div class="modal fade js-modal-delete {if $form_error}modal-force-show{/if}" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-primary">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong class="modal-title text-uppercase">{intl l="Delete attribute type value meta" d="attributetype.bo.default"}</strong>
+          </div>
+          <div class="modal-body">
+            {if $form_error}
+              <div class="alert alert-danger">{$form_error_message}</div>
+            {/if}
+            {intl l="Are you sure you want to delete this attribute type value meta ?" d="attributetype.bo.default"}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              <span class="glyphicon glyphicon-remove"></span>
+              {intl l="Close action" d="attributetype.bo.default"}
+            </button>
+            <button type="submit" class="btn btn-danger" value="delete">
+              <span class="glyphicon glyphicon-ok"></span>
+              {intl l="Delete action" d="attributetype.bo.default"}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+{/form}
+
+<style>
+  .attribute_type_av_image_preview {
+    font-weight: 400;
+    margin-right: 10px;
+  }
+  .attribute_type_av_image_preview img{
+    max-height: 30px;
+    max-width: 100px;
+    cursor: pointer;
+  }
+  .attribute_type_av_image_preview:hover{
+    box-shadow: 0px 0px 10px 0px #f19834;
+  }
+</style>

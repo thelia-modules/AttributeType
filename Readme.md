@@ -28,7 +28,7 @@ Thelia >= 2.1
 Add it in your main thelia composer.json file
 
 ```
-composer require thelia/attribute-type-module:~1.2.0
+composer require thelia/attribute-type-module:~1.3.0
 ```
 
 ## Usage
@@ -73,6 +73,9 @@ composer require thelia/attribute-type-module:~1.2.0
 |MIN    | The attribute type minimum value |
 |MAX    | The attribute type maximum value |
 |STEP    | The attribute type step value |
+|IMAGE_MAX_WIDTH    | The max width for image (in px) |
+|IMAGE_MAX_HEIGHT    | The max height for image (in px) |
+|IMAGE_RATIO    | The image ratio required |
 |IS_MULTILINGUAL_ATTRIBUTE_AV_VALUE    | Indicates whether the values are unique for each language |
 |HAS_ATTRIBUTE_AV_VALUE    | Indicates whether the type attribute has values for each attribute av |
 

@@ -22,4 +22,5 @@ class AttributeTypeEvents
     const ATTRIBUTE_TYPE_DISSOCIATE = 'attribute.type.dissociate';
     const ATTRIBUTE_TYPE_AV_META_UPDATE = 'attribute.type.av.meta.update';
     const ATTRIBUTE_TYPE_AV_META_CREATE = 'attribute.type.av.meta.create';
+    const ATTRIBUTE_TYPE_AV_META_DELETE = 'attribute.type.av.meta.delete';
 }
