@@ -50,7 +50,7 @@ return array(
     'Slug' => 'Slug',
     'Step applied to the input field' => 'Etape appliquée sur le champ',
     'The data of the form have been modified, do not forget to validate these modifications !!!' => 'Les données du formulaire ont été modifiées, n\'oubliez pas de valider ces modifications !!!',
-    'The data of the form have been modified, if you continue without having validate your modifications all will be lost. Continue ?' => 'The data of the form have been modified, if you continue without having validate your modifications all will be lost. Continue ?\' => \'Les données du formulaire ont été modifiées, si vous continuez sans avoir valider vos modification tout sera perdu. Continuer ?',
+    'The data of the form have been modified, if you continue without having validate your modifications all will be lost. Continue ?' => 'Les données du formulaire ont été modifiées, si vous continuez sans avoir valider vos modification tout sera perdu. Continuer ?',
     'The values will be unique for each language' => 'Les valeurs sont uniques par langue',
     'Title' => 'Titre',
     'To ask for help' => 'Pour demander de l\'aide',
