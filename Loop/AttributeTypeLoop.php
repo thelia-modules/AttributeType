@@ -124,8 +124,6 @@ class AttributeTypeLoop extends BaseI18nLoop implements PropelSearchLoopInterfac
                     null,
                     \PDO::PARAM_INT
                 );
-
-            $query->addJoinObject($join);
         }
 
         foreach ($this->getOrder() as $order) {
