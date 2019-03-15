@@ -22,6 +22,13 @@ class AttributeTypeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $formOptions = ['required' => true];
+        
+        // Fix for symfony/form 2.8.49
+        if (isset($options['allow_file_upload'])) {
+            $formOptions['allow_file_upload'] = true;
+        }
+        
         $builder->add(
             'attribute_type',
             'collection',
@@ -29,9 +36,7 @@ class AttributeTypeType extends AbstractType
                 'type' => 'text',
                 'allow_add'    => true,
                 'allow_delete' => true,
-                'options' => array(
-                    'required' => true
-                )
+                'options' => $formOptions
             )
         );
     }
