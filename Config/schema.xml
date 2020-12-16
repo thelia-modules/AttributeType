@@ -59,7 +59,7 @@
         <column name="attribute_av_id" required="true" type="INTEGER" />
         <column name="attribute_attribute_type_id" required="true" type="INTEGER" />
         <column name="locale" size="5" required="true" type="VARCHAR" default="en_US" />
-        <column name="value" size="255" type="VARCHAR" />
+        <column name="value" type="CLOB" />
 
         <foreign-key foreignTable="attribute_av" name="fk_attribute_av_meta_attribute_av_id" onDelete="CASCADE">
             <reference foreign="id" local="attribute_av_id" />
