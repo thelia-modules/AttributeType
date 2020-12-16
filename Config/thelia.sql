@@ -43,7 +43,7 @@ CREATE TABLE `attribute_attribute_type`
     `attribute_type_id` INTEGER NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `attribute_attribute_type_unique` (`attribute_id`, `attribute_type_id`),
-    INDEX `FI_attribute_attribute_type_attribute_type_id` (`attribute_type_id`),
+    INDEX `fi_attribute_attribute_type_attribute_type_id` (`attribute_type_id`),
     CONSTRAINT `fk_attribute_attribute_type_attribute_id`
         FOREIGN KEY (`attribute_id`)
         REFERENCES `attribute` (`id`)
@@ -68,12 +68,12 @@ CREATE TABLE `attribute_type_av_meta`
     `attribute_av_id` INTEGER NOT NULL,
     `attribute_attribute_type_id` INTEGER NOT NULL,
     `locale` VARCHAR(5) DEFAULT 'en_US' NOT NULL,
-    `value` VARCHAR(255),
+    `value` LONGTEXT,
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `attribute_type_av_meta_unique` (`attribute_av_id`, `attribute_attribute_type_id`, `locale`),
-    INDEX `FI_attribute_av_meta_attribute_attribute_type_id` (`attribute_attribute_type_id`),
+    INDEX `fi_attribute_av_meta_attribute_attribute_type_id` (`attribute_attribute_type_id`),
     CONSTRAINT `fk_attribute_av_meta_attribute_av_id`
         FOREIGN KEY (`attribute_av_id`)
         REFERENCES `attribute_av` (`id`)
@@ -97,7 +97,7 @@ CREATE TABLE `attribute_type_i18n`
     `title` VARCHAR(255),
     `description` LONGTEXT,
     PRIMARY KEY (`id`,`locale`),
-    CONSTRAINT `attribute_type_i18n_FK_1`
+    CONSTRAINT `attribute_type_i18n_fk_3cf0df`
         FOREIGN KEY (`id`)
         REFERENCES `attribute_type` (`id`)
         ON DELETE CASCADE
