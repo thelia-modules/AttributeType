@@ -11,6 +11,8 @@ namespace AttributeType\Form;
 use AttributeType\AttributeType;
 use AttributeType\Form\Type\I18nType;
 use AttributeType\Model\AttributeTypeQuery;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -27,9 +29,9 @@ class AttributeTypeAvMetaUpdateForm extends AttributeTypeForm
     /**
      * @return string the name of you form. This name must be unique
      */
-    public function getName()
+    public static function getName()
     {
-        return 'attribute_type_av_meta-update';
+        return 'attribute_type_av_meta_update';
     }
 
     /**
@@ -44,15 +46,12 @@ class AttributeTypeAvMetaUpdateForm extends AttributeTypeForm
 
             $this->formBuilder->add(
                 'attribute_av',
-                'collection',
+                CollectionType::class,
                 array(
-                    'type' => new I18nType(),
+                    'entry_type' => I18nType::class,
                     'constraints' => array(
-                        new Callback(array(
-                            "methods" => array(
-                                array($this,
-                                    "checkImageSize"),
-                        ))
+                        new Callback(
+                            array($this, "checkImageSize"),
                     )),
                     'allow_add'    => true,
                     'allow_delete' => true,
@@ -60,7 +59,7 @@ class AttributeTypeAvMetaUpdateForm extends AttributeTypeForm
                         'for' => 'description'
                     ),
                     'label' => Translator::getInstance()->trans('Description', array(), AttributeType::MODULE_DOMAIN),
-                    'options' => array(
+                    'entry_options' => array(
                         'required' => true
                     )
                 )
@@ -68,7 +67,7 @@ class AttributeTypeAvMetaUpdateForm extends AttributeTypeForm
 
             $this->formBuilder->add(
                 'attribute_id',
-                'integer',
+                IntegerType::class,
                 array(
                     'constraints' => array(
                         new NotBlank()
@@ -85,13 +84,13 @@ class AttributeTypeAvMetaUpdateForm extends AttributeTypeForm
     {
         foreach ($value as $attributeAvId => $attributeAv) {
             foreach ($attributeAv['lang'] as $langId => $lang) {
-                foreach ($lang['attribute_type'] as $attributeTypeId => $value) {
-                    if (!$value instanceof UploadedFile) {
+                foreach ($lang['attribute_type'] as $attributeTypeId => $attributeValue) {
+                    if (!$attributeValue instanceof UploadedFile) {
                         continue;
                     }
                     $attributeType = AttributeTypeQuery::create()
                         ->findOneById($attributeTypeId);
-                    $size = getimagesize($value);
+                    $size = getimagesize($attributeValue);
                     list($width, $height) = $size;
                     if (null !== $attributeType->getImageMaxWidth() && $width > $attributeType->getImageMaxWidth()) {
                         $context->addViolation(Translator::getInstance()->trans(Translator::getInstance()

@@ -8,21 +8,30 @@
 
 namespace AttributeType\Controller;
 
+use AttributeType\Form\AttributeTypeCreateForm;
+use AttributeType\Form\AttributeTypeForm;
+use AttributeType\Form\AttributeTypeUpdateForm;
 use AttributeType\Model\AttributeTypeI18n;
 use AttributeType\Model\AttributeTypeQuery;
 use AttributeType\Event\AttributeTypeEvent;
 use AttributeType\Event\AttributeTypeEvents;
 use AttributeType\Model\AttributeType;
 use AttributeType\AttributeType as AttributeTypeCore;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
+use Thelia\Core\Template\ParserContext;
 use Thelia\Core\Translation\Translator;
 use Thelia\Model\LangQuery;
 use Thelia\Core\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @Route("/admin", name="attribute_type")
  * Class AttributeTypeController
  * @package AttributeType\Controller
  * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
@@ -34,6 +43,8 @@ class AttributeTypeController extends BaseAdminController
     /**
      * @param array $params
      * @return Response
+     * @Route("/module/AttributeType", name="_config", methods="GET")
+     * @Route("/attribute-type", name="_view_all", methods="GET")
      */
     public function viewAllAction($params = array())
     {
@@ -48,8 +59,9 @@ class AttributeTypeController extends BaseAdminController
      * @param int $id
      * @return Response
      * @throws \Exception
+     * @Route("/attribute-type/{id}", name="_view", methods="GET")
      */
-    public function viewAction($id)
+    public function viewAction($id, ParserContext $parserContext, RequestStack $requestStack)
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::VIEW)) {
             return $response;
@@ -74,7 +86,7 @@ class AttributeTypeController extends BaseAdminController
             }
         }
 
-        $form = $this->createForm('attribute_type.update', 'form', array(
+        $form = $this->createForm(AttributeTypeUpdateForm::getName(), FormType::class, array(
             'id' => $attributeType->getId(),
             'slug' => $attributeType->getSlug(),
             'pattern' => $attributeType->getPattern(),
@@ -92,9 +104,9 @@ class AttributeTypeController extends BaseAdminController
             'description' => $description
         ));
 
-        $this->getParserContext()->addForm($form);
+        $parserContext->addForm($form);
 
-        if ($this->getRequest()->isXmlHttpRequest()) {
+        if ($requestStack->getCurrentRequest()->isXmlHttpRequest()) {
             return $this->render("attribute-type/include/form-update");
         } else {
             return $this->viewAllAction(array(
@@ -104,28 +116,28 @@ class AttributeTypeController extends BaseAdminController
     }
 
     /**
-     * @return Response
+     * @Route("/attribute-type", name="_create", methods="POST")
      */
-    public function createAction()
+    public function createAction(EventDispatcherInterface $eventDispatcher)
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::CREATE)) {
             return $response;
         }
 
-        $form = $this->createForm('attribute_type.create');
+        $form = $this->createForm(AttributeTypeCreateForm::getName());
 
         try {
-            $this->dispatch(
-                AttributeTypeEvents::ATTRIBUTE_TYPE_CREATE,
+            $eventDispatcher->dispatch(
                 new AttributeTypeEvent($this->hydrateAttributeTypeByForm(
                     $this->validateForm($form, 'POST')
-                ))
+                )),
+                AttributeTypeEvents::ATTRIBUTE_TYPE_CREATE
             );
 
             return $this->generateSuccessRedirect($form);
         } catch (\Exception $e) {
             $this->setupFormErrorContext(
-                $this->getTranslator()->trans("%obj modification", array('%obj' => $this->objectName)),
+                Translator::getInstance()->trans("%obj modification", array('%obj' => $this->objectName)),
                 $e->getMessage(),
                 $form
             );
@@ -136,32 +148,32 @@ class AttributeTypeController extends BaseAdminController
 
     /**
      * @param int $id
-     * @return Response
+     * @Route("/attribute-type/{id}", name="_update", methods="POST")
      */
-    public function updateAction($id)
+    public function updateAction($id, EventDispatcherInterface $eventDispatcher)
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::UPDATE)) {
             return $response;
         }
 
-        $form = $this->createForm('attribute_type.update');
+        $form = $this->createForm(AttributeTypeUpdateForm::getName());
 
         try {
-            $this->dispatch(
-                AttributeTypeEvents::ATTRIBUTE_TYPE_UPDATE,
+            $eventDispatcher->dispatch(
                 new AttributeTypeEvent(
                     $this->hydrateAttributeTypeByForm(
                         $this->validateForm($form, 'POST'),
                         $id
                     )
-                )
+                ),
+                AttributeTypeEvents::ATTRIBUTE_TYPE_UPDATE,
             );
 
             return $this->generateSuccessRedirect($form);
 
         } catch (\Exception $e) {
             $this->setupFormErrorContext(
-                $this->getTranslator()->trans("%obj modification", array('%obj' => $this->objectName)),
+                Translator::getInstance()->trans("%obj modification", array('%obj' => $this->objectName)),
                 $e->getMessage(),
                 $form
             );
@@ -174,15 +186,15 @@ class AttributeTypeController extends BaseAdminController
 
     /**
      * @param int $id
-     * @return Response
+     * @Route("/attribute-type/{id}/{method}", name="_delete", methods="POST")
      */
-    public function deleteAction($id)
+    public function deleteAction($id, EventDispatcherInterface $eventDispatcher)
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::DELETE)) {
             return $response;
         }
 
-        $form = $this->createForm('attribute_type.delete');
+        $form = $this->createForm(AttributeTypeForm::getName());
 
         try {
             $this->validateForm($form, 'POST');
@@ -195,16 +207,16 @@ class AttributeTypeController extends BaseAdminController
                 ));
             }
 
-            $this->dispatch(
-                AttributeTypeEvents::ATTRIBUTE_TYPE_DELETE,
-                new AttributeTypeEvent($attributeType)
+            $eventDispatcher->dispatch(
+                new AttributeTypeEvent($attributeType),
+                AttributeTypeEvents::ATTRIBUTE_TYPE_DELETE
             );
 
             return $this->generateSuccessRedirect($form);
 
         } catch (\Exception $e) {
             $this->setupFormErrorContext(
-                $this->getTranslator()->trans("%obj modification", array('%obj' => $this->objectName)),
+                Translator::getInstance()->trans("%obj modification", array('%obj' => $this->objectName)),
                 $e->getMessage(),
                 $form
             );
@@ -217,8 +229,9 @@ class AttributeTypeController extends BaseAdminController
      * @param int $id
      * @return Response
      * @throws \Exception
+     * @Route("/attribute-type/{id}/{method}", name="_copy", methods="GET")
      */
-    public function copyAction($id)
+    public function copyAction($id, ParserContext $parserContext)
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::CREATE)) {
             return $response;
@@ -243,7 +256,7 @@ class AttributeTypeController extends BaseAdminController
             }
         }
 
-        $form = $this->createForm('attribute_type.create', 'form', array(
+        $form = $this->createForm(AttributeTypeCreateForm::getName(), 'form', array(
             'slug' => $attributeType->getSlug() . '_' . Translator::getInstance()->trans(
                 'copy',
                 array(),
@@ -264,7 +277,7 @@ class AttributeTypeController extends BaseAdminController
             'description' => $description
         ));
 
-        $this->getParserContext()->addForm($form);
+       $parserContext->addForm($form);
 
         return $this->render("attribute-type/include/form-create");
     }

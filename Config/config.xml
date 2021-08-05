@@ -11,12 +11,10 @@
     </loops>
 
     <forms>
-        <form name="attribute_type.associate" class="AttributeType\Form\AttributeTypeForm" />
-        <form name="attribute_type.dissociate" class="AttributeType\Form\AttributeTypeForm" />
-        <form name="attribute_type.delete" class="AttributeType\Form\AttributeTypeForm" />
-        <form name="attribute_type.create" class="AttributeType\Form\AttributeTypeCreateForm" />
-        <form name="attribute_type.update" class="AttributeType\Form\AttributeTypeUpdateForm" />
-        <form name="attribute_type_av_meta.update" class="AttributeType\Form\AttributeTypeAvMetaUpdateForm" />
+        <form name="attribute_type_associate" class="AttributeType\Form\AttributeTypeForm" />
+        <form name="attribute_type_create" class="AttributeType\Form\AttributeTypeCreateForm" />
+        <form name="attribute_type_update" class="AttributeType\Form\AttributeTypeUpdateForm" />
+        <form name="attribute_type_av_meta_update" class="AttributeType\Form\AttributeTypeAvMetaUpdateForm" />
     </forms>
 
     <hooks>
@@ -30,10 +28,10 @@
         </hook>
     </hooks>
 
-    <services>
+    <!--<services>
         <service id="attribute.type.action" class="AttributeType\Action\AttributeTypeAction" scope="request">
             <tag name="kernel.event_subscriber"/>
         </service>
-    </services>
+    </services>-->
 
 </config>

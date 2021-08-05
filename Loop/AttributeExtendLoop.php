@@ -31,7 +31,7 @@ use Thelia\Model\Map\AttributeTableMap;
  * @method string getAttributeTypeId()
  * @method int[] getAttributeTypeSlug()
  */
-class AttributeExtendLoop extends Attribute implements PropelSearchLoopInterface
+class AttributeExtendLoop extends Attribute
 {
     /**
      * @return \Thelia\Core\Template\Loop\Argument\ArgumentCollection

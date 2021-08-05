@@ -10,6 +10,8 @@ namespace AttributeType\Form\Type;
 
 use AttributeType\AttributeType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Thelia\Core\Translation\Translator;
 
@@ -31,17 +33,17 @@ class AttributeTypeType extends AbstractType
         
         $builder->add(
             'attribute_type',
-            'collection',
+            CollectionType::class,
             array(
-                'type' => 'text',
+                'entry_type' => TextType::class,
                 'allow_add'    => true,
                 'allow_delete' => true,
-                'options' => $formOptions
+                'entry_options' => $formOptions
             )
         );
     }
 
-    public function getName()
+    public static function getName()
     {
         return 'attribute_type';
     }
