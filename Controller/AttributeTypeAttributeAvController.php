@@ -12,20 +12,29 @@ use AttributeType\AttributeType;
 use AttributeType\Event\AttributeTypeEvents;
 use AttributeType\Event\AttributeTypeAvMetaEvent;
 use AttributeType\Form\AttributeTypeAvMetaUpdateForm;
+use AttributeType\Form\AttributeTypeForm;
+use AttributeType\Form\AttributeTypeUpdateForm;
 use AttributeType\Model\AttributeAttributeType;
 use AttributeType\Model\AttributeAttributeTypeQuery;
 use AttributeType\Model\AttributeTypeAvMeta;
 use AttributeType\Model\AttributeTypeAvMetaQuery;
 use AttributeType\Model\AttributeTypeQuery;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
+use Thelia\Core\Template\ParserContext;
+use Thelia\Core\Translation\Translator;
 use Thelia\Files\Exception\ProcessFileException;
 use Thelia\Model\Lang;
 use Thelia\Model\LangQuery;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @Route("/admin", name="attribute_type")
  * Class AttributeTypeAttributeAvController
  * @package AttributeType\Controller
  * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
@@ -41,14 +50,15 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
     /**
      * @param int $attribute_id
      * @return null|\Symfony\Component\HttpFoundation\Response|\Thelia\Core\HttpFoundation\Response
+     * @Route("/attribute/{attribute_id}/attribute-av/meta", name="_update_meta", methods="POST")
      */
-    public function updateMetaAction($attribute_id)
+    public function updateMetaAction($attribute_id, EventDispatcherInterface $eventDispatcher, ParserContext $parserContext, RequestStack $requestStack)
     {
         if (null !== $response = $this->checkAuth(array(AdminResources::ATTRIBUTE), null, AccessManager::UPDATE)) {
             return $response;
         }
 
-        $form = $this->createForm("attribute_type_av_meta.update");
+        $form = $this->createForm(AttributeTypeAvMetaUpdateForm::getName());
 
         try {
             $formUpdate = $this->validateForm($form);
@@ -56,10 +66,10 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
             $attributeAvs = $formUpdate->get('attribute_av')->getData();
 
             foreach ($attributeAvs as $attributeAvId => $attributeAv) {
-                foreach ($attributeAv['lang'] as $langId => $lang) {
+                foreach ($attributeAv['lang'] as $attrLangId => $lang) {
                     foreach ($lang['attribute_type'] as $attributeTypeId => $value) {
                         $values = [];
-                        $values[$langId] = $value;
+                        $values[$attrLangId] = $value;
                         $attributeType = AttributeTypeQuery::create()
                             ->findOneById($attributeTypeId);
 
@@ -69,15 +79,15 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
                             }
 
                             $uploadedFileName = $this->uploadFile($value);
-                            $values[$langId] = $uploadedFileName;
+                            $values[$attrLangId] = $uploadedFileName;
 
                             if (!$attributeType->getIsMultilingualAttributeAvValue()) {
                                 $activeLangs = LangQuery::create()
                                     ->filterByActive(1)
                                     ->find();
                                 /** @var Lang $lang */
-                                foreach ($activeLangs as $lang) {
-                                    $values[$lang->getId()] = $uploadedFileName;
+                                foreach ($activeLangs as $activeLang) {
+                                    $values[$activeLang->getId()] = $uploadedFileName;
                                 }
                             }
                         }
@@ -87,18 +97,19 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
                                  $this->getAttributeAttributeType($attributeTypeId, $attribute_id),
                                  $attributeAvId,
                                  $langId,
-                                 $langValue
+                                 $langValue,
+                                 $eventDispatcher
                              );
                          }
                     }
                 }
             }
 
-            $this->resetUpdateForm();
+            $this->resetUpdateForm($parserContext, $requestStack->getCurrentRequest());
             return $this->generateSuccessRedirect($form);
         } catch (\Exception $e) {
             $this->setupFormErrorContext(
-                $this->getTranslator()->trans("%obj modification", array('%obj' => $this->objectName)),
+                Translator::getInstance()->trans("%obj modification", array('%obj' => $this->objectName)),
                 $e->getMessage(),
                 $form,
                 $e
@@ -108,12 +119,15 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
         }
     }
 
+    /**
+     * @Route("/attribute-type-av-meta/{attribute_id}/{attribute_type_id}/{attribute_av_id}/{lang_id}/{method}", name="_delete_meta", methods="POST")
+     */
     public function deleteMetaAction($attribute_id, $attribute_type_id, $attribute_av_id, $lang_id)
     {
         if (null !== $response = $this->checkAuth(array(AdminResources::ATTRIBUTE), null, AccessManager::DELETE)) {
             return $response;
         }
-        $form = $this->createForm("attribute_type.delete");
+        $form = $this->createForm(AttributeTypeForm::getName());
         try {
             $this->validateForm($form);
             $attributeType = AttributeTypeQuery::create()
@@ -137,7 +151,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
             return $this->generateSuccessRedirect($form);
         } catch (\Exception $e) {
             $this->setupFormErrorContext(
-                $this->getTranslator()->trans("%obj modification", array('%obj' => $this->objectName)),
+                Translator::getInstance()->trans("%obj modification", array('%obj' => $this->objectName)),
                 $e->getMessage(),
                 $form,
                 $e
@@ -153,7 +167,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
      * @param string $value
      * @throws \Exception
      */
-    protected function dispatchEvent(AttributeAttributeType $attributeAttributeType, $attributeAvId, $langId, $value)
+    protected function dispatchEvent(AttributeAttributeType $attributeAttributeType, $attributeAvId, $langId, $value, EventDispatcherInterface $eventDispatcher)
     {
         $eventName = AttributeTypeEvents::ATTRIBUTE_TYPE_AV_META_UPDATE;
 
@@ -175,9 +189,9 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
 
         $attributeAvMeta->setValue($value);
 
-        $this->dispatch(
-            $eventName,
-            (new AttributeTypeAvMetaEvent($attributeAvMeta))
+        $eventDispatcher->dispatch(
+            (new AttributeTypeAvMetaEvent($attributeAvMeta)),
+            $eventName
         );
     }
 
@@ -228,7 +242,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
     protected function uploadFile(UploadedFile $file)
     {
         if ($file->getError() == UPLOAD_ERR_INI_SIZE) {
-            $message = $this->getTranslator()
+            $message = Translator::getInstance()
                 ->trans(
                     'File is too large, please retry with a file having a size less than %size%.',
                     array('%size%' => ini_get('upload_max_filesize')),
@@ -243,7 +257,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
         ];
         $mimeType = $file->getMimeType();
         if (!isset($validMimeTypes[$mimeType])) {
-            $message = $this->getTranslator()
+            $message = Translator::getInstance()
                 ->trans(
                     'Only files having the following mime type are allowed: %types%',
                     [ '%types%' => implode(', ', array_keys($validMimeTypes))]
@@ -253,7 +267,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
         $regex = "#^(.+)\.(".implode("|", $validMimeTypes[$mimeType]).")$#i";
         $realFileName = $file->getClientOriginalName();
         if (!preg_match($regex, $realFileName)) {
-            $message = $this->getTranslator()
+            $message = Translator::getInstance()
                 ->trans(
                     "There's a conflict between your file extension \"%ext\" and the mime type \"%mime\"",
                     [
@@ -280,10 +294,10 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
         return substr(md5(uniqid()), 0, 10);
     }
 
-    protected function resetUpdateForm() {
-        $this->getParserContext()->remove(AttributeTypeAvMetaUpdateForm::class.':form');
-        $theliaFormErrors = $this->getRequest()->getSession()->get('thelia.form-errors');
+    protected function resetUpdateForm(ParserContext $parserContext, Request $request) {
+        $parserContext->remove(AttributeTypeAvMetaUpdateForm::class.':form');
+        $theliaFormErrors = $request->getSession()->get('thelia.form-errors');
         unset($theliaFormErrors[AttributeTypeAvMetaUpdateForm::class.':form']);
-        $this->getRequest()->getSession()->set('thelia.form-errors', $theliaFormErrors);
+        $request->getSession()->set('thelia.form-errors', $theliaFormErrors);
     }
 }

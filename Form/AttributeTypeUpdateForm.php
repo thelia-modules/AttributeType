@@ -8,6 +8,7 @@
 
 namespace AttributeType\Form;
 
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -21,9 +22,9 @@ class AttributeTypeUpdateForm extends AttributeTypeCreateForm
     /**
      * @return string the name of you form. This name must be unique
      */
-    public function getName()
+    public static function getName()
     {
-        return 'attribute_type-update';
+        return 'attribute_type_update';
     }
 
     /**
@@ -37,7 +38,7 @@ class AttributeTypeUpdateForm extends AttributeTypeCreateForm
         parent::buildForm();
 
         $this->formBuilder
-            ->add('id', 'integer', array(
+            ->add('id', IntegerType::class, array(
                 'required' => true,
                 'constraints' => array(
                     new NotBlank()

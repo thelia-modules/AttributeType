@@ -31,7 +31,7 @@ use Thelia\Model\Map\AttributeAvTableMap;
  * @method string getAttributeTypeId()
  * @method int[] getAttributeTypeSlug()
  */
-class AttributeAvailabilityExtendLoop extends AttributeAvailability implements PropelSearchLoopInterface
+class AttributeAvailabilityExtendLoop extends AttributeAvailability
 {
     /**
      * @return \Thelia\Core\Template\Loop\Argument\ArgumentCollection

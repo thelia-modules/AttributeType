@@ -20,9 +20,9 @@ class AttributeTypeForm extends BaseForm
     /**
      * @return string the name of you form. This name must be unique
      */
-    public function getName()
+    public static function getName()
     {
-        return 'attribute_type';
+        return 'attribute_type_associate';
     }
 
     /**

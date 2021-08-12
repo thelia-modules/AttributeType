@@ -17,8 +17,14 @@ use AttributeType\Model\Map\AttributeAttributeTypeTableMap;
 use AttributeType\Model\Map\AttributeTypeAvMetaTableMap;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\Join;
+use Symfony\Component\Config\Definition\Builder\ValidationBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\FormFactoryBuilder;
+use Symfony\Component\Validator\ValidatorBuilder;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Thelia\Core\Event\Hook\HookRenderEvent;
+use Thelia\Core\Form\TheliaFormFactoryInterface;
 use Thelia\Core\Hook\BaseHook;
 use Thelia\Core\Template\ParserContext;
 use Thelia\Core\Thelia;
@@ -54,16 +60,12 @@ class AttributeEditHook extends BaseHook
 
         /** @var ParserContext $parserContext */
         $parserContext = $this->container->get('thelia.parser.context');
-        $form = $parserContext->getForm('attribute_type_av_meta.update', AttributeTypeAvMetaUpdateForm::class, 'form');
+        /** @var TheliaFormFactoryInterface $formFactory */
+        $formFactory = $this->container->get('thelia.form_factory');
+        $form = $parserContext->getForm(AttributeTypeAvMetaUpdateForm::getName(), AttributeTypeAvMetaUpdateForm::class, FormType::class);
 
         if (!$form) {
-            $form = new AttributeTypeAvMetaUpdateForm(
-                $this->getRequest(),
-                'form',
-                $data,
-                array(),
-                $this->container
-            );
+            $form = $formFactory->createForm(AttributeTypeAvMetaUpdateForm::getName(), FormType::class, $data, []);
         }
 
         $this->container->get('thelia.parser.context')->addForm($form);
@@ -156,7 +158,7 @@ class AttributeEditHook extends BaseHook
                     /** @var AttributeAttributeType $attributeType */
                     foreach ($attributeTypes as $attributeType) {
                         if ($attributeAvMeta->getLocale() === $lang->getLocale()
-                            && intval($attributeAvMeta->getVirtualColumn("ATTRIBUTE_TYPE_ID")) === $attributeType->getAttributeTypeId()
+                            && (int)($attributeAvMeta->getVirtualColumn("ATTRIBUTE_TYPE_ID")) === $attributeType->getAttributeTypeId()
                         ) {
                             $data['attribute_av'][$attributeAv->getId()]['lang'][$lang->getId()]['attribute_type'][$attributeType->getAttributeTypeId()] = $attributeAvMeta->getValue();
                         }

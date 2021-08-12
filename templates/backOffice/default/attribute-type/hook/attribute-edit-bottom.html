@@ -24,7 +24,7 @@
                             </thead>
                             <tbody>
                             {assign var="exclude_id" value=[]}
-                            {loop type="attribute_type" name="attribute_type" attribute_id=$attribute_id}
+                            {loop type="attribute_type" name="attribute_type" attribute_id=$attribute_id|default:null}
                             {$exclude_id[] = $ID}
                                 <tr>
                                     <td>
@@ -56,7 +56,7 @@
                         </table>
 
                         {ifloop rel='attribute_type_select'}
-                        {form name="attribute_type.associate"}
+                        {form name="attribute_type_associate"}
                             <form method="POST" class="js-form-associate" action="">
                                 {form_hidden_fields form=$form}
 
@@ -67,7 +67,7 @@
                                 <div class="input-group">
                                     <select class="form-control">
                                         <option value="">{intl l="Select an attribute type" d="attributetype.bo.default"}</option>
-                                        {loop type="attribute_type" name="attribute_type_select" exclude_id=$exclude_id|implode:','}
+                                        {loop type="attribute_type" name="attribute_type_select" exclude_id=','|implode:$exclude_id}
                                             <option value="{url path="/admin/attribute-type/{$ID}/associate/{$attribute_id}"}">({$SLUG}) - {$TITLE}</option>
                                         {/loop}
                                     </select>
@@ -94,7 +94,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-md-{if {count name="attribute_type" type="attribute_type" attribute_type=$attribute_type} > 2}12{else}7{/if}">
+                <div class="col-md-{if {count name="attribute_type" type="attribute_type" attribute_type=$attribute_type|default:null} > 2}12{else}7{/if}">
                     <div class="well well-sm">
                         {include file="attribute-type/include/form-meta.html"}
                     </div>
@@ -104,7 +104,7 @@
     </div>
 
     <!-- Modal -->
-    {form name="attribute_type.dissociate"}
+    {form name="attribute_type_associate"}
         <form method="POST" class="js-form-dissociate" action="">
             {form_hidden_fields form=$form}
 

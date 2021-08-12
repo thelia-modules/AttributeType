@@ -10,6 +10,7 @@ namespace AttributeType\Form\Type;
 
 use AttributeType\AttributeType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Thelia\Core\Translation\Translator;
 
@@ -24,19 +25,19 @@ class I18nType extends AbstractType
     {
         $builder->add(
             'lang',
-            'collection',
+            CollectionType::class,
             array(
-                'type' => new AttributeTypeType(),
+                'entry_type' => AttributeTypeType::class,
                 'allow_add'    => true,
                 'allow_delete' => true,
-                'options' => array(
+                'entry_options' => array(
                     'required' => true
                 )
             )
         );
     }
 
-    public function getName()
+    public static function getName()
     {
         return 'lang';
     }
