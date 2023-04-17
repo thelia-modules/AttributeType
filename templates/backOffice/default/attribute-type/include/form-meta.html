@@ -18,7 +18,7 @@
 
     <div role="tabpanel">
       <ul class="nav nav-tabs" role="tablist">
-        {loop type="lang" name="lang"}
+        {loop type="lang" name="lang" backend_context=1}
           <li role="presentation" {if $ID == $edit_language_id}class="active"{/if}>
             <a href="#attribute-type-{$LOCALE}" aria-controls="settings" role="tab" data-toggle="tab">
               <img src="{image file="assets/img/flags/$CODE.png"}" alt="{$TITLE}" />
@@ -29,7 +29,7 @@
 
       <div class="tab-content">
         <br/>
-        {loop type="lang" name="lang"}
+        {loop type="lang" name="lang" backend_context=1}
           {$lang_id = $ID}
           <div role="tabpanel" class="tab-pane {if $ID == $edit_language_id}active{/if}" id="attribute-type-{$LOCALE}">
             <table class="table table-striped">
