@@ -239,7 +239,8 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
         $validMimeTypes = [
             'image/jpeg' => ["jpg", "jpeg"],
             'image/png' => ["png"],
-            'image/gif' => ["gif"]
+            'image/gif' => ["gif"],
+            'image/svg+xml' => ["svg"]
         ];
         $mimeType = $file->getMimeType();
         if (!isset($validMimeTypes[$mimeType])) {
