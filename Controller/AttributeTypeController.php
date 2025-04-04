@@ -8,27 +8,31 @@
 
 namespace AttributeType\Controller;
 
+use AttributeType\AttributeType as AttributeTypeCore;
+use AttributeType\Event\AttributeTypeEvent;
+use AttributeType\Event\AttributeTypeEvents;
 use AttributeType\Form\AttributeTypeCreateForm;
 use AttributeType\Form\AttributeTypeForm;
 use AttributeType\Form\AttributeTypeUpdateForm;
+use AttributeType\Model\AttributeType;
 use AttributeType\Model\AttributeTypeI18n;
 use AttributeType\Model\AttributeTypeQuery;
-use AttributeType\Event\AttributeTypeEvent;
-use AttributeType\Event\AttributeTypeEvents;
-use AttributeType\Model\AttributeType;
-use AttributeType\AttributeType as AttributeTypeCore;
+use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Annotation\Route;
 use Thelia\Controller\Admin\BaseAdminController;
+use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\Security\AccessManager;
-use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Core\Template\ParserContext;
 use Thelia\Core\Translation\Translator;
+use Thelia\Model\AttributeAvI18n;
+use Thelia\Model\AttributeAvI18nQuery;
+use Thelia\Model\AttributeAvQuery;
 use Thelia\Model\LangQuery;
-use Thelia\Core\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Thelia\Tools\URL;
 
 /**
  * @Route("/admin", name="attribute_type")
@@ -258,10 +262,10 @@ class AttributeTypeController extends BaseAdminController
 
         $form = $this->createForm(AttributeTypeCreateForm::getName(), 'form', array(
             'slug' => $attributeType->getSlug() . '_' . Translator::getInstance()->trans(
-                'copy',
-                array(),
-                AttributeTypeCore::MODULE_DOMAIN
-            ),
+                    'copy',
+                    array(),
+                    AttributeTypeCore::MODULE_DOMAIN
+                ),
             'pattern' => $attributeType->getPattern(),
             'css_class' => $attributeType->getCssClass(),
             'has_attribute_av_value' => $attributeType->getHasAttributeAvValue(),
@@ -277,7 +281,7 @@ class AttributeTypeController extends BaseAdminController
             'description' => $description
         ));
 
-       $parserContext->addForm($form);
+        $parserContext->addForm($form);
 
         return $this->render("attribute-type/include/form-create");
     }
@@ -337,5 +341,63 @@ class AttributeTypeController extends BaseAdminController
         return $this->render("attribute-edit", array(
             'attribute_id' => $id
         ));
+    }
+
+    /**
+     * @throws PropelException
+     */
+    #[Route('/module/attribute-type/duplicate/attribute/{id}', name: 'attributetype_duplicate', methods: ['POST'])]
+    public function duplicateAttribute(int $id): mixed
+    {
+        if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::CREATE)) {
+            return $response;
+        }
+
+        try {
+            $attributes = AttributeAvQuery::create()
+                ->filterByAttributeId($id)
+                ->find()
+                ->getData();
+
+            $langs = LangQuery::create()
+                ->find()
+                ->getData();
+
+            $locales = array_filter(
+                array_map(static fn($lang) => $lang->getLocale(), $langs),
+                static fn($locale) => $locale !== 'fr_FR'
+            );
+
+            foreach ($attributes as $attribute) {
+                $title = AttributeAvI18nQuery::create()
+                    ->filterByLocale('fr_FR')
+                    ->filterById($attribute->getId())
+                    ->findOne()
+                    ?->getTitle();
+
+                foreach ($locales as $locale) {
+                    $existing = AttributeAvI18nQuery::create()
+                        ->filterByLocale($locale)
+                        ->filterById($attribute->getId())
+                        ->findOne();
+
+                    if ($existing === null || $existing->getTitle() === null || $existing->getTitle() === '') {
+                        $attributeAvI18n = $existing ?? new AttributeAvI18n();
+                        $attributeAvI18n
+                            ->setId($attribute->getId())
+                            ->setTitle($title)
+                            ->setLocale($locale)
+                            ->save();
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            $this->setupFormErrorContext(
+                Translator::getInstance()?->trans("%obj modification", array('%obj' => $this->objectName)),
+                $e->getMessage()
+            );
+        }
+
+        return $this->generateRedirect(URL::getInstance()?->absoluteUrl("/admin/configuration/attributes/update?attribute_id=" . $id));
     }
 }
