@@ -24,6 +24,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
 use Thelia\Controller\Admin\BaseAdminController;
+use Thelia\Core\HttpFoundation\Request;
 use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Template\ParserContext;
@@ -347,11 +348,13 @@ class AttributeTypeController extends BaseAdminController
      * @throws PropelException
      */
     #[Route('/module/attribute-type/duplicate/attribute/{id}', name: 'attributetype_duplicate', methods: ['POST'])]
-    public function duplicateAttribute(int $id): mixed
+    public function duplicateAttribute(int $id, Request $request): mixed
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::CREATE)) {
             return $response;
         }
+
+        $currentLang = $request->getSession()?->get("thelia.current.admin_lang")->getLocale();
 
         try {
             $attributes = AttributeAvQuery::create()
@@ -365,12 +368,12 @@ class AttributeTypeController extends BaseAdminController
 
             $locales = array_filter(
                 array_map(static fn($lang) => $lang->getLocale(), $langs),
-                static fn($locale) => $locale !== 'fr_FR'
+                static fn($locale) => $locale !== $currentLang
             );
 
             foreach ($attributes as $attribute) {
                 $title = AttributeAvI18nQuery::create()
-                    ->filterByLocale('fr_FR')
+                    ->filterByLocale($currentLang)
                     ->filterById($attribute->getId())
                     ->findOne()
                     ?->getTitle();
