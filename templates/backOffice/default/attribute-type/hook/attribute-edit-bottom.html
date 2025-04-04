@@ -99,13 +99,11 @@
                         <div class="alert alert-info">
                             {intl l="This feature duplicates the values of the French feature in other languages" d="featuretype.bo.default"}
                         </div>
-                        {form name="attribute_type_duplicate"}
                         <form action="{url path="/admin/module/attribute-type/duplicate/attribute/{$smarty.get.attribute_id}"}" method="post" enctype="multipart/form-data">
-                        <button type="submit" class="btn btn-success">
-                            {intl l="Duplicate declination values" d="attributetype.bo.default"}
-                        </button>
+                            <button type="submit" class="btn btn-success">
+                                {intl l="Duplicate declination values" d="attributetype.bo.default"}
+                            </button>
                         </form>
-                        {/form}
                     </div>
                 </div>
             </div>
