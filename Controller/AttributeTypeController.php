@@ -354,7 +354,7 @@ class AttributeTypeController extends BaseAdminController
             return $response;
         }
 
-        $currentLang = $request->getSession()?->get("thelia.current.admin_lang")->getLocale();
+        $currentLang = $request->getSession()?->get("thelia.admin.edition.lang")->getLocale();
 
         try {
             $attributes = AttributeAvQuery::create()
@@ -363,6 +363,7 @@ class AttributeTypeController extends BaseAdminController
                 ->getData();
 
             $langs = LangQuery::create()
+                ->filterByActive(1)
                 ->find()
                 ->getData();
 
