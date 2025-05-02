@@ -99,11 +99,9 @@
                         <div class="alert alert-info">
                             {intl l="This feature duplicates attribute values in other languages" d="featuretype.bo.default"}
                         </div>
-                        <form action="{url path="/admin/module/attribute-type/duplicate/attribute/{$smarty.get.attribute_id}"}" method="post" enctype="multipart/form-data">
-                            <button type="submit" class="btn btn-success">
-                                {intl l="Duplicate declination values" d="attributetype.bo.default"}
-                            </button>
-                        </form>
+                        <a type="submit" class="btn btn-success" href="#duplicate_confim_modal" data-toggle="modal">
+                            {intl l="Duplicate declination values" d="attributetype.bo.default"}
+                        </a>
                     </div>
                 </div>
             </div>
@@ -157,3 +155,14 @@
 {/form}
 </div>
 {/loop}
+
+{include
+file = "includes/generic-confirm-dialog.html"
+
+dialog_id       = "duplicate_confim_modal"
+dialog_title    = {intl l="Duplicates attribute values in other languages" d="attributetype.bo.default"}
+dialog_message  = {intl l="Warning! This will override all previous translations." d="attributetype.bo.default"}
+
+form_action         = {url path="/admin/module/attribute-type/duplicate/attribute/{$smarty.get.attribute_id}"}
+form_content        = ""
+}
