@@ -385,14 +385,13 @@ class AttributeTypeController extends BaseAdminController
                         ->filterById($attribute->getId())
                         ->findOne();
 
-                    if ($existing === null || $existing->getTitle() === null || $existing->getTitle() === '') {
-                        $attributeAvI18n = $existing ?? new AttributeAvI18n();
-                        $attributeAvI18n
-                            ->setId($attribute->getId())
-                            ->setTitle($title)
-                            ->setLocale($locale)
-                            ->save();
-                    }
+                    $attributeAvI18n = $existing ?? new AttributeAvI18n();
+                    $attributeAvI18n
+                        ->setId($attribute->getId())
+                        ->setTitle($title)
+                        ->setLocale($locale)
+                        ->save();
+
                 }
             }
         } catch (\Exception $e) {
