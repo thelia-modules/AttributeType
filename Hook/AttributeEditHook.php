@@ -27,7 +27,7 @@ use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Form\TheliaFormFactoryInterface;
 use Thelia\Core\Hook\BaseHook;
 use Thelia\Core\Template\ParserContext;
-use Thelia\Core\Thelia;
+use Thelia\Core\TheliaKernel;
 use Thelia\Model\AttributeAv;
 use Thelia\Model\AttributeAvQuery;
 use Thelia\Model\Lang;
@@ -40,9 +40,6 @@ use Thelia\Model\LangQuery;
  */
 class AttributeEditHook extends BaseHook
 {
-    /** @var ContainerInterface */
-    protected $container = null;
-
     /**
      * @param ContainerInterface $container
      */
@@ -54,7 +51,7 @@ class AttributeEditHook extends BaseHook
     /**
      * @param HookRenderEvent $event
      */
-    public function onAttributeEditBottom(HookRenderEvent $event)
+    public function onAttributeEditBottom(HookRenderEvent $event): void
     {
         $data = $this->hydrateForm($event->getArgument('attribute_id'));
 
@@ -82,10 +79,10 @@ class AttributeEditHook extends BaseHook
     /**
      * @param HookRenderEvent $event
      */
-    public function onAttributeEditJs(HookRenderEvent $event)
+    public function onAttributeEditJs(HookRenderEvent $event): void
     {
         // Fix for Thelia 2.1, because the hook "attribute-edit.bottom" does not exist
-        if (version_compare(Thelia::THELIA_VERSION, '2.2', '<')) {
+        if (version_compare(TheliaKernel::THELIA_VERSION, '2.2', '<')) {
             $event->add('<script type="text/template" id="attribute-type-fix-t21">');
             $this->onAttributeEditBottom($event);
             $event->add('</script>');
@@ -103,7 +100,7 @@ class AttributeEditHook extends BaseHook
      * @param AttributeAv $attributeAv
      * @return array|mixed|\Propel\Runtime\Collection\ObjectCollection
      */
-    protected function getAttributeTypeAvMetas(AttributeAv $attributeAv)
+    protected function getAttributeTypeAvMetas(AttributeAv $attributeAv): mixed
     {
         $join = new Join();
 
@@ -129,7 +126,7 @@ class AttributeEditHook extends BaseHook
      * @param int $attributeId
      * @return array
      */
-    protected function hydrateForm($attributeId)
+    protected function hydrateForm($attributeId): array
     {
         $data = array('attribute_av' => array());
 

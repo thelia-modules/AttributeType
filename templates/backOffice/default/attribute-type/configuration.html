@@ -66,7 +66,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {loop type="attribute_type" name="attribute_type"}
+                {loop type="attribute_type_loop" name="attribute_type"}
                   <tr>
                     <td>
                       {$ID}
@@ -81,7 +81,7 @@
                     </td>
                     <td>
                       {ifloop rel="attribute_attribute_type"}
-                      {loop type="attribute_extend_attribute_type" name="attribute_attribute_type" attribute_type_id=$ID}
+                      {loop type="attribute_extend_loop" name="attribute_attribute_type" attribute_type_id=$ID}
                         <a href="{url path="/admin/configuration/attributes/update" attribute_id=$ID}">{$TITLE}</a>
                         <br/>
                       {/loop}

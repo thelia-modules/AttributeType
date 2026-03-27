@@ -29,7 +29,7 @@ class AttributeTypeAvMetaUpdateForm extends AttributeTypeForm
     /**
      * @return string the name of you form. This name must be unique
      */
-    public static function getName()
+    public static function getName(): string
     {
         return 'attribute_type_av_meta_update';
     }
@@ -40,7 +40,7 @@ class AttributeTypeAvMetaUpdateForm extends AttributeTypeForm
      * Form this you have to call add method on $this->formBuilder attribute :
      *
      */
-    protected function buildForm()
+    protected function buildForm(): void
     {
         parent::buildForm();
 

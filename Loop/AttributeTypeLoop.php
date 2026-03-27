@@ -58,7 +58,7 @@ class AttributeTypeLoop extends BaseI18nLoop implements PropelSearchLoopInterfac
      *
      * @return \Thelia\Core\Template\Loop\Argument\ArgumentCollection
      */
-    protected function getArgDefinitions()
+    protected function getArgDefinitions(): ArgumentCollection
     {
         return new ArgumentCollection(
             Argument::createIntListTypeArgument("id"),
@@ -82,7 +82,7 @@ class AttributeTypeLoop extends BaseI18nLoop implements PropelSearchLoopInterfac
      *
      * @return \Propel\Runtime\ActiveQuery\ModelCriteria
      */
-    public function buildModelCriteria()
+    public function buildModelCriteria(): \Propel\Runtime\ActiveQuery\ModelCriteria
     {
         $query = new AttributeTypeQuery();
 
@@ -150,7 +150,7 @@ class AttributeTypeLoop extends BaseI18nLoop implements PropelSearchLoopInterfac
      *
      * @return LoopResult
      */
-    public function parseResults(LoopResult $loopResult)
+    public function parseResults(LoopResult $loopResult): LoopResult
     {
         /** @var AttributeType $entry */
         foreach ($loopResult->getResultDataCollection() as $entry) {

@@ -27,7 +27,7 @@ class AttributeTypeAction implements EventSubscriberInterface
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function create(AttributeTypeEvent $event)
+    public function create(AttributeTypeEvent $event): void
     {
         $event->getAttributeType()->save($event->getConnectionInterface());
     }
@@ -37,7 +37,7 @@ class AttributeTypeAction implements EventSubscriberInterface
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function update(AttributeTypeEvent $event)
+    public function update(AttributeTypeEvent $event): void
     {
         $event->getAttributeType()->save($event->getConnectionInterface());
     }
@@ -47,7 +47,7 @@ class AttributeTypeAction implements EventSubscriberInterface
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function delete(AttributeTypeEvent $event)
+    public function delete(AttributeTypeEvent $event): void
     {
         $event->getAttributeType()->delete($event->getConnectionInterface());
     }
@@ -57,7 +57,7 @@ class AttributeTypeAction implements EventSubscriberInterface
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function associate(AttributeTypeEvent $event)
+    public function associate(AttributeTypeEvent $event): void
     {
         (new AttributeAttributeType())
             ->setAttributeId($event->getAttribute()->getId())
@@ -70,7 +70,7 @@ class AttributeTypeAction implements EventSubscriberInterface
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function dissociate(AttributeTypeEvent $event)
+    public function dissociate(AttributeTypeEvent $event): void
     {
         AttributeAttributeTypeQuery::create()
             ->filterByAttribute($event->getAttribute())
@@ -83,7 +83,7 @@ class AttributeTypeAction implements EventSubscriberInterface
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function metaCreate(AttributeTypeAvMetaEvent $event)
+    public function metaCreate(AttributeTypeAvMetaEvent $event): void
     {
         $event->getAttributeTypeAvMeta()->save($event->getConnectionInterface());
     }
@@ -93,7 +93,7 @@ class AttributeTypeAction implements EventSubscriberInterface
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function metaUpdate(AttributeTypeAvMetaEvent $event)
+    public function metaUpdate(AttributeTypeAvMetaEvent $event): void
     {
         $event->getAttributeTypeAvMeta()->save($event->getConnectionInterface());
     }
@@ -103,7 +103,7 @@ class AttributeTypeAction implements EventSubscriberInterface
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function metaDelete(AttributeTypeAvMetaEvent $event)
+    public function metaDelete(AttributeTypeAvMetaEvent $event): void
     {
         $event->getAttributeTypeAvMeta()->delete($event->getConnectionInterface());
     }
@@ -128,7 +128,7 @@ class AttributeTypeAction implements EventSubscriberInterface
      *
      * @api
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return array(
             AttributeTypeEvents::ATTRIBUTE_TYPE_CREATE => array(

@@ -36,7 +36,7 @@ class AttributeTypeCreateForm extends AttributeTypeForm
     /**
      * @return string the name of you form. This name must be unique
      */
-    public static function getName()
+    public static function getName(): string
     {
         return 'attribute_type_create';
     }
@@ -47,7 +47,7 @@ class AttributeTypeCreateForm extends AttributeTypeForm
      * Form this you have to call add method on $this->formBuilder attribute :
      *
      */
-    protected function buildForm()
+    protected function buildForm(): void
     {
         parent::buildForm();
 
@@ -186,7 +186,7 @@ class AttributeTypeCreateForm extends AttributeTypeForm
      * @param $value
      * @param ExecutionContextInterface $context
      */
-    public function checkFormatType($value, ExecutionContextInterface $context)
+    public function checkFormatType($value, ExecutionContextInterface $context): void
     {
         // test if good format
         if (!preg_match('/[a-z][a-z_0-9]{3,50}/', $value)) {
@@ -213,7 +213,7 @@ class AttributeTypeCreateForm extends AttributeTypeForm
      * @param $value
      * @param ExecutionContextInterface $context
      */
-    public function checkExistType($value, ExecutionContextInterface $context)
+    public function checkExistType($value, ExecutionContextInterface $context): void
     {
         // test if exist
         if (AttributeTypeQuery::create()->findOneBySlug($value) !== null) {

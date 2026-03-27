@@ -36,7 +36,7 @@ class AttributeExtendLoop extends Attribute
     /**
      * @return \Thelia\Core\Template\Loop\Argument\ArgumentCollection
      */
-    protected function getArgDefinitions()
+    protected function getArgDefinitions(): \Thelia\Core\Template\Loop\Argument\ArgumentCollection
     {
         return parent::getArgDefinitions()->addArguments(array(
             Argument::createIntListTypeArgument("attribute_type_id"),
@@ -49,7 +49,7 @@ class AttributeExtendLoop extends Attribute
      *
      * @return \Propel\Runtime\ActiveQuery\ModelCriteria
      */
-    public function buildModelCriteria()
+    public function buildModelCriteria(): \Propel\Runtime\ActiveQuery\ModelCriteria
     {
         $query = parent::buildModelCriteria();
 
@@ -124,7 +124,7 @@ class AttributeExtendLoop extends Attribute
      * @param LoopResult $loopResult
      * @return array|mixed|\Propel\Runtime\Collection\ObjectCollection
      */
-    protected function getAttributesType(LoopResult $loopResult)
+    protected function getAttributesType(LoopResult $loopResult): mixed
     {
         $attributeIds = array();
 
@@ -159,7 +159,7 @@ class AttributeExtendLoop extends Attribute
      * @param string $slug
      * @return string
      */
-    protected function formatSlug($slug)
+    protected function formatSlug($slug): string
     {
         return strtoupper(str_replace('-', '_', $slug));
     }
@@ -169,7 +169,7 @@ class AttributeExtendLoop extends Attribute
      * @return LoopResult
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function parseResults(LoopResult $loopResult)
+    public function parseResults(LoopResult $loopResult): LoopResult
     {
         $attributeTypes = $this->getAttributesType($loopResult);
 

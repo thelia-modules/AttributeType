@@ -24,7 +24,7 @@
                             </thead>
                             <tbody>
                             {assign var="exclude_id" value=[]}
-                            {loop type="attribute_type" name="attribute_type" attribute_id=$attribute_id|default:null}
+                            {loop type="attribute_type_loop" name="attribute_type" attribute_id=$attribute_id|default:null}
                             {$exclude_id[] = $ID}
                             <tr>
                                 <td>
@@ -67,7 +67,7 @@
                             <div class="input-group">
                                 <select class="form-control">
                                     <option value="">{intl l="Select an attribute type" d="attributetype.bo.default"}</option>
-                                    {loop type="attribute_type" name="attribute_type_select" exclude_id=','|implode:$exclude_id}
+                                    {loop type="attribute_type_loop" name="attribute_type_select" exclude_id=','|implode:$exclude_id}
                                     <option value="{url path="/admin/attribute-type/{$ID}/associate/{$attribute_id}"}">({$SLUG}) - {$TITLE}</option>
                                     {/loop}
                                 </select>

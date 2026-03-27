@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Annotation\Route;
 use Thelia\Controller\Admin\BaseAdminController;
 use Thelia\Core\HttpFoundation\Request;
-use Thelia\Core\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Template\ParserContext;
 use Thelia\Core\Translation\Translator;
@@ -51,7 +51,7 @@ class AttributeTypeController extends BaseAdminController
      * @Route("/module/AttributeType", name="_config", methods="GET")
      * @Route("/attribute-type", name="_view_all", methods="GET")
      */
-    public function viewAllAction($params = array())
+    public function viewAllAction($params = array()): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::VIEW)) {
             return $response;
@@ -66,7 +66,7 @@ class AttributeTypeController extends BaseAdminController
      * @throws \Exception
      * @Route("/attribute-type/{id}", name="_view", methods="GET")
      */
-    public function viewAction($id, ParserContext $parserContext, RequestStack $requestStack)
+    public function viewAction($id, ParserContext $parserContext, RequestStack $requestStack): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::VIEW)) {
             return $response;
@@ -123,7 +123,7 @@ class AttributeTypeController extends BaseAdminController
     /**
      * @Route("/attribute-type", name="_create", methods="POST")
      */
-    public function createAction(EventDispatcherInterface $eventDispatcher)
+    public function createAction(EventDispatcherInterface $eventDispatcher): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::CREATE)) {
             return $response;
@@ -155,7 +155,7 @@ class AttributeTypeController extends BaseAdminController
      * @param int $id
      * @Route("/attribute-type/{id}", name="_update", methods="POST")
      */
-    public function updateAction($id, EventDispatcherInterface $eventDispatcher)
+    public function updateAction($id, EventDispatcherInterface $eventDispatcher): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::UPDATE)) {
             return $response;
@@ -193,7 +193,7 @@ class AttributeTypeController extends BaseAdminController
      * @param int $id
      * @Route("/attribute-type/{id}/{method}", name="_delete", methods="POST")
      */
-    public function deleteAction($id, EventDispatcherInterface $eventDispatcher)
+    public function deleteAction($id, EventDispatcherInterface $eventDispatcher): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::DELETE)) {
             return $response;
@@ -236,7 +236,7 @@ class AttributeTypeController extends BaseAdminController
      * @throws \Exception
      * @Route("/attribute-type/{id}/{method}", name="_copy", methods="GET")
      */
-    public function copyAction($id, ParserContext $parserContext)
+    public function copyAction($id, ParserContext $parserContext): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::CREATE)) {
             return $response;
@@ -293,7 +293,7 @@ class AttributeTypeController extends BaseAdminController
      * @return AttributeType
      * @throws \Exception
      */
-    protected function hydrateAttributeTypeByForm($form, $id = null)
+    protected function hydrateAttributeTypeByForm($form, $id = null): AttributeType
     {
         $data = $form->getData();
 
@@ -337,7 +337,7 @@ class AttributeTypeController extends BaseAdminController
      * @param int $id
      * @return Response
      */
-    protected function viewAttribute($id)
+    protected function viewAttribute($id): Response
     {
         return $this->render("attribute-edit", array(
             'attribute_id' => $id

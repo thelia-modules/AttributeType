@@ -36,7 +36,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability
     /**
      * @return \Thelia\Core\Template\Loop\Argument\ArgumentCollection
      */
-    protected function getArgDefinitions()
+    protected function getArgDefinitions(): \Thelia\Core\Template\Loop\Argument\ArgumentCollection
     {
         return parent::getArgDefinitions()->addArguments(array(
             Argument::createIntListTypeArgument("attribute_type_id"),
@@ -49,7 +49,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability
      *
      * @return \Propel\Runtime\ActiveQuery\ModelCriteria
      */
-    public function buildModelCriteria()
+    public function buildModelCriteria(): \Propel\Runtime\ActiveQuery\ModelCriteria
     {
         $query = parent::buildModelCriteria();
 
@@ -124,7 +124,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability
      * @param LoopResult $loopResult
      * @return array|mixed|\Propel\Runtime\Collection\ObjectCollection
      */
-    protected function getAttributesMeta(LoopResult $loopResult)
+    protected function getAttributesMeta(LoopResult $loopResult): mixed
     {
         $attributeAvIds = array();
 
@@ -174,7 +174,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability
      * @param string $slug
      * @return string
      */
-    protected function formatSlug($slug)
+    protected function formatSlug($slug): string
     {
         return strtoupper(str_replace('-', '_', $slug));
     }
@@ -184,7 +184,7 @@ class AttributeAvailabilityExtendLoop extends AttributeAvailability
      * @return LoopResult
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function parseResults(LoopResult $loopResult)
+    public function parseResults(LoopResult $loopResult): LoopResult
     {
         $attributesMeta = $this->getAttributesMeta($loopResult);
 

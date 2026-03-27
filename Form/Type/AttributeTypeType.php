@@ -43,7 +43,7 @@ class AttributeTypeType extends AbstractType
         );
     }
 
-    public static function getName()
+    public static function getName(): string
     {
         return 'attribute_type';
     }

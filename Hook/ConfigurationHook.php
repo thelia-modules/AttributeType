@@ -21,7 +21,7 @@ class ConfigurationHook extends BaseHook
     /**
      * @param HookRenderEvent $event
      */
-    public function onConfigurationCatalogTop(HookRenderEvent $event)
+    public function onConfigurationCatalogTop(HookRenderEvent $event): void
     {
         $event->add($this->render(
             'attribute-type/hook/configuration-catalog.html'
