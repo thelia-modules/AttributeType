@@ -31,7 +31,7 @@ use Thelia\Core\Translation\Translator;
 use Thelia\Files\Exception\ProcessFileException;
 use Thelia\Model\Lang;
 use Thelia\Model\LangQuery;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * @Route("/admin", name="attribute_type")

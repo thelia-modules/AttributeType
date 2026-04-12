@@ -19,7 +19,7 @@ use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Model\AttributeQuery;
 use Thelia\Core\Translation\Translator;
 use AttributeType\AttributeType as AttributeTypeCore;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * @Route("/admin", name="attribute_type")
