@@ -11,7 +11,6 @@ namespace AttributeType\Controller;
 use AttributeType\Form\AttributeTypeForm;
 use AttributeType\Model\AttributeTypeQuery;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Thelia\Core\HttpFoundation\Response;
 use AttributeType\Event\AttributeTypeEvents;
 use AttributeType\Event\AttributeTypeEvent;
 use Thelia\Core\Security\AccessManager;

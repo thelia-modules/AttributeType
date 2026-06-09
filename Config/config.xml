@@ -10,28 +10,4 @@
         <loop name="attribute_availability_extend_attribute_type" class="AttributeType\Loop\AttributeAvailabilityExtendLoop" />
     </loops>
 
-    <forms>
-        <form name="attribute_type_associate" class="AttributeType\Form\AttributeTypeForm" />
-        <form name="attribute_type_create" class="AttributeType\Form\AttributeTypeCreateForm" />
-        <form name="attribute_type_update" class="AttributeType\Form\AttributeTypeUpdateForm" />
-        <form name="attribute_type_av_meta_update" class="AttributeType\Form\AttributeTypeAvMetaUpdateForm" />
-    </forms>
-
-    <hooks>
-        <hook id="attribute.type.edit" class="AttributeType\Hook\AttributeEditHook" scope="request">
-            <tag name="hook.event_listener" event="attribute-edit.bottom" type="back" method="onAttributeEditBottom"/>
-            <tag name="hook.event_listener" event="attribute.edit-js" type="back" method="onAttributeEditJs"/>
-            <argument type="service" id="service_container" />
-        </hook>
-        <hook id="attribute.type.configuration" class="AttributeType\Hook\ConfigurationHook" scope="request">
-            <tag name="hook.event_listener" event="configuration.catalog-top" type="back" method="onConfigurationCatalogTop"/>
-        </hook>
-    </hooks>
-
-    <!--<services>
-        <service id="attribute.type.action" class="AttributeType\Action\AttributeTypeAction" scope="request">
-            <tag name="kernel.event_subscriber"/>
-        </service>
-    </services>-->
-
 </config>

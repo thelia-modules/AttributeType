@@ -1,0 +1,142 @@
+{# Attribute-type meta editor. meta_table supplied by AttributeEditHook::buildMetaTable(). #}
+<form action="/admin/attribute/{{ attribute_id }}/attribute-av/meta" method="post" class="js-form-meta-update" enctype="multipart/form-data">
+    <input type="hidden" name="_token" value="{{ assignToken() }}">
+    <input type="hidden" name="success_url" value="/admin/configuration/attributes/update?attribute_id={{ attribute_id }}">
+    <input type="hidden" name="attribute_id" value="{{ attribute_id }}">
+
+    <div role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+            {% for lang in meta_table %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link{{ loop.first ? ' active' : '' }}" href="#attribute-type-meta-{{ lang.locale }}"
+                       aria-controls="settings" role="tab" data-bs-toggle="tab">
+                        {{ lang.code|upper }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="tab-content">
+            <br/>
+            {% for lang in meta_table %}
+                <div role="tabpanel" class="tab-pane{{ loop.first ? ' active' : '' }}" id="attribute-type-meta-{{ lang.locale }}">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>{{ 'ID'|trans }}</th>
+                            <th>{{ 'Value'|trans }}</th>
+                            {% for type in lang.types %}
+                                {% if type.has_attribute_av_value %}
+                                    <th>
+                                        <span title="({{ type.slug }}) {{ type.title }}">{{ type.slug }}</span>
+                                    </th>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row in lang.rows %}
+                            <tr>
+                                <td>{{ row.attribute_av_id }}</td>
+                                <td>{{ row.title }}</td>
+                                {% for type in lang.types %}
+                                    {% if type.has_attribute_av_value %}
+                                        {% set field_name = 'attribute_type_av_meta_update[attribute_av][' ~ row.attribute_av_id ~ '][lang][' ~ lang.lang_id ~ '][attribute_type][' ~ type.id ~ ']' %}
+                                        {% set meta_value = row.values[type.id]|default('') %}
+                                        {% set replicate = type.is_multilingual_attribute_av_value ? 'false' : 'true' %}
+                                        <td>
+                                            {% if type.input_type == 'textarea' %}
+                                                <div class="input-group">
+                                                    <textarea class="form-control {{ type.css_class }}"
+                                                              name="{{ field_name }}"
+                                                              data-connector="{{ type.slug }}-{{ row.attribute_av_id }}"
+                                                              data-replicate="{{ replicate }}">{{ meta_value }}</textarea>
+                                                </div>
+                                            {% elseif type.input_type == 'boolean' %}
+                                                <div class="input-group">
+                                                    <select class="form-select {{ type.css_class }}"
+                                                            name="{{ field_name }}"
+                                                            data-connector="{{ type.slug }}-{{ row.attribute_av_id }}"
+                                                            data-replicate="{{ replicate }}">
+                                                        <option value="0"{{ meta_value ? '' : ' selected' }}>{{ 'No'|trans }}</option>
+                                                        <option value="1"{{ meta_value ? ' selected' : '' }}>{{ 'Yes'|trans }}</option>
+                                                    </select>
+                                                </div>
+                                            {% elseif type.input_type == 'image' %}
+                                                {% set image_exist = meta_value is not empty %}
+                                                <div class="input-group">
+                                                    <div>
+                                                        <label class="attribute_type_av_image_preview" for="{{ type.slug }}-{{ row.attribute_av_id }}-{{ lang.lang_id }}-{{ type.id }}">
+                                                            {% if not image_exist %}
+                                                                <span id="{{ type.slug }}-{{ row.attribute_av_id }}-{{ lang.lang_id }}-{{ type.id }}_upload" class="btn btn-success btn-upload">
+                                                                    <i class="bi bi-upload"></i>
+                                                                </span>
+                                                            {% endif %}
+                                                            <img id="{{ type.slug }}-{{ row.attribute_av_id }}-{{ lang.lang_id }}-{{ type.id }}_preview"
+                                                                 class="{{ image_exist ? '' : 'd-none' }}" src="{{ meta_value }}" alt="">
+                                                        </label>
+                                                        {% if image_exist %}
+                                                            <button type="button" id="{{ type.slug }}-{{ row.attribute_av_id }}-{{ lang.lang_id }}-{{ type.id }}_delete"
+                                                                    class="btn btn-danger btn-sm js-attribute-meta-action-delete"
+                                                                    data-action="/admin/attribute-type-av-meta/{{ attribute_id }}/{{ type.id }}/{{ row.attribute_av_id }}/{{ lang.lang_id }}/_delete">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        {% endif %}
+                                                    </div>
+                                                    <input id="{{ type.slug }}-{{ row.attribute_av_id }}-{{ lang.lang_id }}-{{ type.id }}"
+                                                           type="file"
+                                                           class="form-control {{ type.css_class }} d-none"
+                                                           {% if type.pattern %}pattern="{{ type.pattern }}"{% endif %}
+                                                           name="{{ field_name }}"
+                                                           value="{{ meta_value }}">
+                                                </div>
+                                            {% else %}
+                                                <div class="input-group">
+                                                    <input type="{{ type.input_type }}"
+                                                           {% if type.pattern %}pattern="{{ type.pattern }}"{% endif %}
+                                                           class="{% if type.input_type != 'color' and type.input_type != 'range' %}form-control {% endif %}{{ type.css_class }}"
+                                                           {% if type.input_type == 'number' or type.input_type == 'range' %}
+                                                               min="{{ type.min ?? 0 }}"
+                                                               {% if type.max %}max="{{ type.max }}"{% endif %}
+                                                               step="{{ type.step ?? '0.000001' }}"
+                                                           {% endif %}
+                                                           name="{{ field_name }}"
+                                                           value="{{ meta_value }}"
+                                                           data-connector="{{ type.slug }}-{{ row.attribute_av_id }}"
+                                                           data-replicate="{{ replicate }}">
+                                                </div>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="text-center">
+        <p id="form-meta-update-info" class="alert alert-warning d-none">{{ 'The data of the form have been modified, do not forget to validate these modifications !!!'|trans({}, 'attributetype.bo.default') }}</p>
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-save"></i>
+            {{ 'Update action'|trans({}, 'attributetype.bo.default') }}
+        </button>
+    </div>
+</form>
+
+<style>
+    .attribute_type_av_image_preview {
+        font-weight: 400;
+        margin-right: 10px;
+    }
+    .attribute_type_av_image_preview img {
+        max-height: 30px;
+        max-width: 100px;
+        cursor: pointer;
+    }
+    .attribute_type_av_image_preview:hover {
+        box-shadow: 0px 0px 10px 0px #f19834;
+    }
+</style>

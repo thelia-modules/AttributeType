@@ -24,7 +24,6 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Thelia\Core\Form\Type\ImageType;
 use Thelia\Core\Translation\Translator;
 use Thelia\Type\BooleanType;
-use const OpenApi\COLOR_RED;
 
 /**
  * Class AttributeTypeCreateForm

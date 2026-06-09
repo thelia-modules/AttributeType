@@ -1,0 +1,110 @@
+{# Attribute-edit JS hook (attribute.edit-js). Vanilla JS, no jQuery (default-twig BO has none). #}
+<script type="module">
+    "use strict";
+    (function () {
+        const module = document.getElementById('module-attribute-type');
+        if (!module) {
+            return;
+        }
+
+        let canQuitPageSafely = true;
+        window.addEventListener('beforeunload', function (e) {
+            if (!canQuitPageSafely) {
+                e.preventDefault();
+                e.returnValue = "Don't leave me!";
+                return e.returnValue;
+            }
+        });
+
+        // Dissociate: open modal + set form action
+        module.addEventListener('click', function (event) {
+            const trigger = event.target.closest('.js-action-dissociate');
+            if (!trigger) {
+                return;
+            }
+            event.preventDefault();
+            const form = module.querySelector('.js-form-dissociate');
+            const modalEl = module.querySelector('.js-modal-dissociate');
+            if (form) {
+                form.setAttribute('action', trigger.dataset.action);
+            }
+            if (modalEl && window.bootstrap) {
+                bootstrap.Modal.getOrCreateInstance(modalEl).show();
+            }
+        });
+
+        // Associate: changing the select sets the form action then submits
+        const associateForm = module.querySelector('.js-form-associate');
+        if (associateForm) {
+            const select = associateForm.querySelector('select');
+            if (select) {
+                select.addEventListener('change', function () {
+                    if (this.value) {
+                        associateForm.setAttribute('action', this.value);
+                        associateForm.submit();
+                    }
+                });
+            }
+        }
+
+        // Meta form: replicate value to connected cells (non-multilingual types)
+        module.addEventListener('change', function (event) {
+            const input = event.target.closest('.js-form-meta-update input, .js-form-meta-update textarea, .js-form-meta-update select');
+            if (!input) {
+                return;
+            }
+
+            if (input.dataset.replicate === 'true' && input.dataset.connector) {
+                const val = input.value;
+                const peers = module.querySelectorAll(
+                    ".js-form-meta-update [data-connector='" + input.dataset.connector + "']"
+                );
+                peers.forEach(function (peer) {
+                    if (peer === input) {
+                        return;
+                    }
+                    peer.value = val;
+                });
+            }
+
+            const info = document.getElementById('form-meta-update-info');
+            if (info) {
+                info.classList.remove('d-none');
+            }
+            canQuitPageSafely = false;
+        });
+
+        // Meta form: image file preview
+        module.addEventListener('change', function (event) {
+            const input = event.target.closest(".js-form-meta-update input[type=file]");
+            if (!input) {
+                return;
+            }
+            const id = input.getAttribute('id');
+            ['_delete', '_upload'].forEach(function (suffix) {
+                const el = document.getElementById(id + suffix);
+                if (el) {
+                    el.classList.add('d-none');
+                }
+            });
+            const preview = document.getElementById(id + '_preview');
+            if (preview && event.target.files && event.target.files[0]) {
+                preview.classList.remove('d-none');
+                const reader = new FileReader();
+                reader.onload = function () {
+                    preview.src = reader.result;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
+
+        // Submit feedback
+        module.addEventListener('submit', function (event) {
+            const form = event.target.closest('form');
+            if (!form) {
+                return;
+            }
+            canQuitPageSafely = true;
+        });
+    }());
+</script>

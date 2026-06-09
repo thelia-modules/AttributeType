@@ -1,0 +1,163 @@
+{# Attribute-edit hook (attribute-edit.bottom). Data supplied by AttributeEditHook. #}
+{% if is_granted('VIEW', {resource: 'admin.configuration.attribute'}) %}
+<div class="row" id="module-attribute-type">
+    <div class="col-md-12">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h2 class="card-title h5 mb-0">{{ 'Attribute type'|trans({}, 'attributetype.bo.default') }}</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>{{ 'ID'|trans }}</th>
+                                        <th>({{ 'Slug'|trans({}, 'attributetype.bo.default') }}) - {{ 'Title'|trans({}, 'attributetype.bo.default') }}</th>
+                                        <th>{{ 'Action'|trans({}, 'attributetype.bo.default') }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for type in associated_types %}
+                                        <tr>
+                                            <td>{{ type.id }}</td>
+                                            <td>({{ type.slug }}) - {{ type.title }}</td>
+                                            <td>
+                                                <button class="btn btn-danger btn-sm js-action-dissociate"
+                                                        data-action="/admin/attribute-type/{{ type.id }}/dissociate/{{ attribute_id }}">
+                                                    <i class="bi bi-box-arrow-right"></i>
+                                                    {{ 'Dissociate action'|trans({}, 'attributetype.bo.default') }}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="10">
+                                                <div class="alert alert-info">
+                                                    {{ 'No attribute type for this attribute'|trans({}, 'attributetype.bo.default') }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                                {% if available_types is not empty %}
+                                    <form method="POST" class="js-form-associate" action="">
+                                        <input type="hidden" name="_token" value="{{ assignToken() }}">
+                                        <input type="hidden" name="success_url" value="/admin/configuration/attributes/update?attribute_id={{ attribute_id }}">
+                                        <div class="input-group">
+                                            <select class="form-select">
+                                                <option value="">{{ 'Select an attribute type'|trans({}, 'attributetype.bo.default') }}</option>
+                                                {% for type in available_types %}
+                                                    <option value="/admin/attribute-type/{{ type.id }}/associate/{{ attribute_id }}">({{ type.slug }}) - {{ type.title }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="bi bi-box-arrow-in-right"></i>
+                                                {{ 'Associate action'|trans({}, 'attributetype.bo.default') }}
+                                            </button>
+                                        </div>
+                                    </form>
+                                {% else %}
+                                    <div class="alert alert-info">
+                                        {{ 'Currently, none of the attributes types are available'|trans({}, 'attributetype.bo.default') }}
+                                    </div>
+                                {% endif %}
+                                <span class="form-text">
+                                    <a href="{{ path('admin.configuration.attributes.default') }}">
+                                        {{ 'Create a new attribute type'|trans({}, 'attributetype.bo.default') }}
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="alert alert-info">
+                                    {{ 'This feature duplicates attribute values in other languages'|trans({}, 'featuretype.bo.default') }}
+                                </div>
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#duplicate_confirm_modal">
+                                    {{ 'Duplicate declination values'|trans({}, 'attributetype.bo.default') }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if meta_table is not empty %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                {% include 'attribute-type/hook/include/form-meta.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {# Dissociate modal #}
+    <form method="POST" class="js-form-dissociate" action="">
+        <input type="hidden" name="_token" value="{{ assignToken() }}">
+        <input type="hidden" name="success_url" value="/admin/configuration/attributes/update?attribute_id={{ attribute_id }}">
+        <div class="modal fade js-modal-dissociate" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <strong class="modal-title text-uppercase">{{ 'Dissociate attribute type'|trans({}, 'attributetype.bo.default') }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ 'Dissociate the attribute with the attribute type ?'|trans({}, 'attributetype.bo.default') }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-lg"></i>
+                            {{ 'Close action'|trans({}, 'attributetype.bo.default') }}
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-check-lg"></i>
+                            {{ 'Dissociate action'|trans({}, 'attributetype.bo.default') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    {# Duplicate confirmation modal #}
+    <div class="modal fade" id="duplicate_confirm_modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="POST" action="{{ duplicate_url }}">
+                <input type="hidden" name="_token" value="{{ assignToken() }}">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <strong class="modal-title text-uppercase">{{ 'Duplicates attribute values in other languages'|trans({}, 'attributetype.bo.default') }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-warning">{{ 'Warning! This will override all previous translations.'|trans({}, 'attributetype.bo.default') }}</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-lg"></i>
+                            {{ 'Close action'|trans({}, 'attributetype.bo.default') }}
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-check-lg"></i>
+                            {{ 'Duplicate declination values'|trans({}, 'attributetype.bo.default') }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}

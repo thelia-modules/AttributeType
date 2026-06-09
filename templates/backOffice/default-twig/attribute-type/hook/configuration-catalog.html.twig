@@ -1,0 +1,6 @@
+{% if is_granted('VIEW', {resource: 'admin.module', module: 'AttributeType'}) %}
+<tr>
+    <td><a href="{{ path('admin.configuration.attributes.default') }}">{{ 'Attributes types'|trans({}, 'attributetype.bo.default') }}</a></td>
+    <td><a class="btn btn-secondary btn-sm" href="{{ path('admin.configuration.attributes.default') }}"><i class="bi bi-pencil"></i></a></td>
+</tr>
+{% endif %}
