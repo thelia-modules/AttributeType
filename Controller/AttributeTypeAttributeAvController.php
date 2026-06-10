@@ -120,7 +120,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
     }
 
     #[Route('/attribute-type-av-meta/{attribute_id}/{attribute_type_id}/{attribute_av_id}/{lang_id}/{method}', name: '_delete_meta', methods: ['POST'], requirements: ['attribute_id' => '\d+', 'attribute_type_id' => '\d+', 'attribute_av_id' => '\d+', 'lang_id' => '\d+', 'method' => '_delete'])]
-    public function deleteMetaAction($attribute_id, $attribute_type_id, $attribute_av_id, $lang_id)
+    public function deleteMetaAction($attribute_id, $attribute_type_id, $attribute_av_id, $lang_id, EventDispatcherInterface $eventDispatcher, ParserContext $parserContext, RequestStack $requestStack)
     {
         if (null !== $response = $this->checkAuth(array(AdminResources::ATTRIBUTE), null, AccessManager::DELETE)) {
             return $response;
@@ -140,12 +140,12 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
             }
             $attributeAvMetas = $attributeAvMetaQuery->find();
             foreach ($attributeAvMetas as $attributeAvMeta) {
-                $this->dispatch(
-                    $eventName,
-                    (new AttributeTypeAvMetaEvent($attributeAvMeta))
+                $eventDispatcher->dispatch(
+                    new AttributeTypeAvMetaEvent($attributeAvMeta),
+                    $eventName
                 );
             }
-            $this->resetUpdateForm();
+            $this->resetUpdateForm($parserContext, $requestStack->getCurrentRequest());
             return $this->generateSuccessRedirect($form);
         } catch (\Exception $e) {
             $this->setupFormErrorContext(
