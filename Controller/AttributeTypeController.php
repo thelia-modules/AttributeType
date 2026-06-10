@@ -36,11 +36,11 @@ use Thelia\Model\LangQuery;
 use Thelia\Tools\URL;
 
 /**
- * @Route("/admin", name="attribute_type")
  * Class AttributeTypeController
  * @package AttributeType\Controller
  * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
+#[Route('/admin', name: 'attribute_type')]
 class AttributeTypeController extends BaseAdminController
 {
     protected $objectName = 'Attribute type';
@@ -48,9 +48,8 @@ class AttributeTypeController extends BaseAdminController
     /**
      * @param array $params
      * @return Response
-     * @Route("/module/AttributeType", name="_config", methods="GET")
-     * @Route("/attribute-type", name="_view_all", methods="GET")
      */
+    #[Route('/attribute-type', name: '_view_all', methods: ['GET'])]
     public function viewAllAction($params = array()): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::VIEW)) {
@@ -64,8 +63,8 @@ class AttributeTypeController extends BaseAdminController
      * @param int $id
      * @return Response
      * @throws \Exception
-     * @Route("/attribute-type/{id}", name="_view", methods="GET")
      */
+    #[Route('/attribute-type/{id}', name: '_view', methods: ['GET'], requirements: ['id' => '\d+'])]
     public function viewAction($id, ParserContext $parserContext, RequestStack $requestStack): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::VIEW)) {
@@ -120,9 +119,7 @@ class AttributeTypeController extends BaseAdminController
         }
     }
 
-    /**
-     * @Route("/attribute-type", name="_create", methods="POST")
-     */
+    #[Route('/attribute-type', name: '_create', methods: ['POST'])]
     public function createAction(EventDispatcherInterface $eventDispatcher): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::CREATE)) {
@@ -153,8 +150,8 @@ class AttributeTypeController extends BaseAdminController
 
     /**
      * @param int $id
-     * @Route("/attribute-type/{id}", name="_update", methods="POST")
      */
+    #[Route('/attribute-type/{id}', name: '_update', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function updateAction($id, EventDispatcherInterface $eventDispatcher): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::UPDATE)) {
@@ -191,8 +188,8 @@ class AttributeTypeController extends BaseAdminController
 
     /**
      * @param int $id
-     * @Route("/attribute-type/{id}/{method}", name="_delete", methods="POST")
      */
+    #[Route('/attribute-type/{id}/{method}', name: '_delete', methods: ['POST'], requirements: ['id' => '\d+', 'method' => '_delete'])]
     public function deleteAction($id, EventDispatcherInterface $eventDispatcher): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::DELETE)) {
@@ -234,8 +231,8 @@ class AttributeTypeController extends BaseAdminController
      * @param int $id
      * @return Response
      * @throws \Exception
-     * @Route("/attribute-type/{id}/{method}", name="_copy", methods="GET")
      */
+    #[Route('/attribute-type/{id}/{method}', name: '_copy', methods: ['GET'], requirements: ['id' => '\d+', 'method' => '_copy'])]
     public function copyAction($id, ParserContext $parserContext): Response
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::CREATE)) {
@@ -347,7 +344,7 @@ class AttributeTypeController extends BaseAdminController
     /**
      * @throws PropelException
      */
-    #[Route('/module/attribute-type/duplicate/attribute/{id}', name: 'attributetype_duplicate', methods: ['POST'])]
+    #[Route('/module/attribute-type/duplicate/attribute/{id}', name: '_duplicate_attribute', methods: ['POST'], requirements: ['id' => '\d+'])]
     public function duplicateAttribute(int $id, Request $request): mixed
     {
         if (null !== $response = $this->checkAuth(array(), 'AttributeType', AccessManager::CREATE)) {

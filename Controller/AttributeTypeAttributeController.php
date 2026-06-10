@@ -21,18 +21,18 @@ use AttributeType\AttributeType as AttributeTypeCore;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route("/admin", name="attribute_type")
  * Class AttributeTypeAttributeController
  * @package AttributeType\Controller
  * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
+#[Route('/admin', name: 'attribute_type')]
 class AttributeTypeAttributeController extends AttributeTypeController
 {
     /**
      * @param int $attribute_type_id
      * @param int $attribute_id
-     * @Route("/attribute-type/{attribute_type_id}/associate/{attribute_id}", name="_assiciation", methods="POST")
      */
+    #[Route('/attribute-type/{attribute_type_id}/associate/{attribute_id}', name: '_assiciation', methods: ['POST'], requirements: ['attribute_type_id' => '\d+', 'attribute_id' => '\d+'])]
     public function associateAction($attribute_type_id, $attribute_id, EventDispatcherInterface $eventDispatcher)
     {
         if (null !== $response = $this->checkAuth(array(AdminResources::ATTRIBUTE), null, AccessManager::UPDATE)) {
@@ -64,8 +64,8 @@ class AttributeTypeAttributeController extends AttributeTypeController
     /**
      * @param int $attribute_type_id
      * @param int $attribute_id
-     * @Route("/attribute-type/{attribute_type_id}/dissociate/{attribute_id}", name="_dissociation", methods="POST")
      */
+    #[Route('/attribute-type/{attribute_type_id}/dissociate/{attribute_id}', name: '_dissociation', methods: ['POST'], requirements: ['attribute_type_id' => '\d+', 'attribute_id' => '\d+'])]
     public function dissociateAction($attribute_type_id, $attribute_id, EventDispatcherInterface $eventDispatcher)
     {
         if (null !== $response = $this->checkAuth(array(AdminResources::ATTRIBUTE), null, AccessManager::UPDATE)) {

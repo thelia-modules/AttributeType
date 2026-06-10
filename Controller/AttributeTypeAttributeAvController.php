@@ -34,11 +34,11 @@ use Thelia\Model\LangQuery;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route("/admin", name="attribute_type")
  * Class AttributeTypeAttributeAvController
  * @package AttributeType\Controller
  * @author Gilles Bourgeat <gilles.bourgeat@gmail.com>
  */
+#[Route('/admin', name: 'attribute_type')]
 class AttributeTypeAttributeAvController extends AttributeTypeController
 {
     /** @var Lang[] */
@@ -49,9 +49,9 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
 
     /**
      * @param int $attribute_id
-     * @return null|\Symfony\Component\HttpFoundation\Response|\Thelia\Core\HttpFoundation\Response
-     * @Route("/attribute/{attribute_id}/attribute-av/meta", name="_update_meta", methods="POST")
+     * @return null|\Symfony\Component\HttpFoundation\Response
      */
+    #[Route('/attribute/{attribute_id}/attribute-av/meta', name: '_update_meta', methods: ['POST'], requirements: ['attribute_id' => '\d+'])]
     public function updateMetaAction($attribute_id, EventDispatcherInterface $eventDispatcher, ParserContext $parserContext, RequestStack $requestStack)
     {
         if (null !== $response = $this->checkAuth(array(AdminResources::ATTRIBUTE), null, AccessManager::UPDATE)) {
@@ -119,9 +119,7 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
         }
     }
 
-    /**
-     * @Route("/attribute-type-av-meta/{attribute_id}/{attribute_type_id}/{attribute_av_id}/{lang_id}/{method}", name="_delete_meta", methods="POST")
-     */
+    #[Route('/attribute-type-av-meta/{attribute_id}/{attribute_type_id}/{attribute_av_id}/{lang_id}/{method}', name: '_delete_meta', methods: ['POST'], requirements: ['attribute_id' => '\d+', 'attribute_type_id' => '\d+', 'attribute_av_id' => '\d+', 'lang_id' => '\d+', 'method' => '_delete'])]
     public function deleteMetaAction($attribute_id, $attribute_type_id, $attribute_av_id, $lang_id)
     {
         if (null !== $response = $this->checkAuth(array(AdminResources::ATTRIBUTE), null, AccessManager::DELETE)) {
