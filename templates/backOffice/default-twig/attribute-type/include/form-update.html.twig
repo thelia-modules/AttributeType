@@ -1,0 +1,32 @@
+{# Update modal fragment, returned by the edit AJAX action or rendered inline
+   on the configuration page (direct GET /admin/attribute-type/{id} or update error).
+   Expects: form (attribute_type_update FormView), values (with id), langs,
+   edit_language_id, input_type_choices, form_error_message. #}
+{% set prefix = 'atuf-' %}
+<form method="POST" class="js-form-edit" action="{{ path('attribute_type_update', { id: values.id }) }}">
+    <input type="hidden" name="{{ form.vars.full_name }}[_token]" value="{{ form._token.vars.value }}">
+    <input type="hidden" name="{{ form.vars.full_name }}[success_url]" value="{{ path('attribute_type_view_all') }}">
+    <input type="hidden" name="{{ form.vars.full_name }}[id]" value="{{ values.id }}" required>
+
+    <div class="modal fade js-modal-edit" data-force-show="1" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <strong class="modal-title text-uppercase">{{ 'Update attribute type'|trans({}, 'attributetype.bo.default') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {% include '@AttributeTypeModule/backOffice/default-twig/attribute-type/include/form-generic.html.twig' %}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg"></i>
+                        {{ 'Close action'|trans({}, 'attributetype.bo.default') }}
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-lg"></i>
+                        {{ 'Update action'|trans({}, 'attributetype.bo.default') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,30 @@
+{# Create modal fragment. Also returned (prefilled) by the copy AJAX action.
+   Expects: form (attribute_type_create FormView), values, langs, edit_language_id,
+   input_type_choices, force_show, form_error_message. #}
+{% set prefix = 'atcf-' %}
+<form method="POST" class="js-form-create" action="{{ path('attribute_type_create') }}">
+    <input type="hidden" name="{{ form.vars.full_name }}[_token]" value="{{ form._token.vars.value }}">
+    <input type="hidden" name="{{ form.vars.full_name }}[success_url]" value="{{ path('attribute_type_view_all') }}">
+
+    <div class="modal fade js-modal-create"{% if force_show|default(false) %} data-force-show="1"{% endif %} tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <strong class="modal-title text-uppercase">{{ 'Create attribute type'|trans({}, 'attributetype.bo.default') }}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {% include '@AttributeTypeModule/backOffice/default-twig/attribute-type/include/form-generic.html.twig' %}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg"></i>
+                        {{ 'Close action'|trans({}, 'attributetype.bo.default') }}
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-lg"></i>
+                        {{ 'Create action'|trans({}, 'attributetype.bo.default') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

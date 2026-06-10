@@ -1,0 +1,151 @@
+{# Shared fields for the create/update modals.
+   Expects: form (the Thelia FormView, gives the field name prefix), prefix ('atcf-' or 'atuf-'),
+   values, langs, edit_language_id, input_type_choices, form_error_message. #}
+<div class="modal-body">
+    {% if form_error_message|default(null) %}
+        <div class="alert alert-danger">{{ form_error_message }}</div>
+    {% endif %}
+
+    {{ safe_hook('attribute-type.form-top', { attribute_type_id: values.id }) }}
+
+    <div class="mb-3">
+        <label class="form-label" for="{{ prefix }}slug">{{ 'Slug'|trans({}, 'attributetype.bo.default') }}</label>
+        <input type="text" id="{{ prefix }}slug" class="form-control" name="{{ form.vars.full_name }}[slug]" value="{{ values.slug }}" required
+               pattern="[a-z][a-z_0-9]{3,50}"
+               title="{{ 'Must be single, and only numbers, lowercase letters, underscore'|trans({}, 'attributetype.bo.default') }}"
+               placeholder="{{ 'Enter slug'|trans({}, 'attributetype.bo.default') }}">
+        <div class="form-text">{{ 'Must be single, and only numbers, lowercase letters, underscore. Maximum length 50 characters.'|trans({}, 'attributetype.bo.default') }}</div>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        {% for lang in langs %}
+            {% set active = edit_language_id is not null ? (lang.id == edit_language_id) : loop.first %}
+            <li class="nav-item" role="presentation">
+                <button class="nav-link{{ active ? ' active' : '' }}" id="{{ prefix }}lang-tab-{{ lang.id }}" type="button"
+                        data-bs-toggle="tab" data-bs-target="#{{ prefix }}lang-pane-{{ lang.id }}" role="tab">
+                    {{ lang.code|upper }}
+                </button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="tab-content pt-3">
+        {% for lang in langs %}
+            {% set active = edit_language_id is not null ? (lang.id == edit_language_id) : loop.first %}
+            <div class="tab-pane{{ active ? ' active' : '' }}" id="{{ prefix }}lang-pane-{{ lang.id }}" role="tabpanel">
+                <div class="mb-3">
+                    <label class="form-label" for="{{ prefix }}{{ lang.id }}-title">({{ lang.title }}) {{ 'Title'|trans({}, 'attributetype.bo.default') }}</label>
+                    <input id="{{ prefix }}{{ lang.id }}-title" type="text" class="form-control" name="{{ form.vars.full_name }}[title][{{ lang.id }}]"
+                           value="{{ values.title[lang.id]|default('') }}" maxlength="255"
+                           placeholder="{{ 'Enter title'|trans({}, 'attributetype.bo.default') }}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="{{ prefix }}{{ lang.id }}-description">({{ lang.title }}) {{ 'Description'|trans({}, 'attributetype.bo.default') }}</label>
+                    <textarea id="{{ prefix }}{{ lang.id }}-description" class="form-control" rows="3" name="{{ form.vars.full_name }}[description][{{ lang.id }}]">{{ values.description[lang.id]|default('') }}</textarea>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <hr/>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="{{ prefix }}has_attribute_av_value"
+                       name="{{ form.vars.full_name }}[has_attribute_av_value]" value="1"{{ values.has_attribute_av_value ? ' checked' : '' }}>
+                <label class="form-check-label" for="{{ prefix }}has_attribute_av_value">{{ 'Has attribute av value'|trans({}, 'attributetype') }}</label>
+                <div class="form-text">{{ 'Activate attribute av value'|trans({}, 'attributetype.bo.default') }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" id="{{ prefix }}is_multilingual_attribute_av_value"
+                       name="{{ form.vars.full_name }}[is_multilingual_attribute_av_value]" value="1"{{ values.is_multilingual_attribute_av_value ? ' checked' : '' }}>
+                <label class="form-check-label" for="{{ prefix }}is_multilingual_attribute_av_value">{{ 'Multilingual value'|trans({}, 'attributetype') }}</label>
+                <div class="form-text">{{ 'The values will be unique for each language'|trans({}, 'attributetype.bo.default') }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="{{ prefix }}input_type">{{ 'Input type'|trans({}, 'attributetype') }}</label>
+                <select id="{{ prefix }}input_type" class="form-select" name="{{ form.vars.full_name }}[input_type]">
+                    {% for choice in input_type_choices %}
+                        <option value="{{ choice.value }}"{{ values.input_type == choice.value ? ' selected' : '' }}>{{ choice.label }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-text">{{ 'Input type applied to the input field'|trans({}, 'attributetype.bo.default') }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="{{ prefix }}pattern">{{ 'Pattern'|trans({}, 'attributetype') }}</label>
+                <input type="text" id="{{ prefix }}pattern" class="form-control" name="{{ form.vars.full_name }}[pattern]" value="{{ values.pattern }}"
+                       maxlength="255" placeholder="{{ 'Enter pattern'|trans({}, 'attributetype.bo.default') }}">
+                <div class="form-text">{{ 'Pattern applied to the input field'|trans({}, 'attributetype.bo.default') }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="{{ prefix }}css_class">{{ 'Input css class'|trans({}, 'attributetype') }}</label>
+                <input type="text" id="{{ prefix }}css_class" class="form-control" name="{{ form.vars.full_name }}[css_class]" value="{{ values.css_class }}"
+                       pattern="[a-z][a-z\-0-9]+" maxlength="50" placeholder="{{ 'Enter class'|trans({}, 'attributetype.bo.default') }}">
+                <div class="form-text">{{ 'Css class applied to the input field'|trans({}, 'attributetype.bo.default') }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="{{ prefix }}min">{{ 'Input min'|trans({}, 'attributetype') }}</label>
+                <input type="number" step="0.000001" id="{{ prefix }}min" class="form-control" name="{{ form.vars.full_name }}[min]" value="{{ values.min }}">
+                <div class="form-text">{{ 'Minimum value applied to the input field'|trans({}, 'attributetype.bo.default') }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="{{ prefix }}max">{{ 'Input max'|trans({}, 'attributetype') }}</label>
+                <input type="number" step="0.000001" id="{{ prefix }}max" class="form-control" name="{{ form.vars.full_name }}[max]" value="{{ values.max }}">
+                <div class="form-text">{{ 'Maximum value applied to the input field'|trans({}, 'attributetype.bo.default') }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="{{ prefix }}step">{{ 'Input step'|trans({}, 'attributetype') }}</label>
+                <input type="number" step="0.000001" id="{{ prefix }}step" class="form-control" name="{{ form.vars.full_name }}[step]" value="{{ values.step }}">
+                <div class="form-text">{{ 'Step applied to the input field'|trans({}, 'attributetype.bo.default') }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="{{ prefix }}image_max_width">{{ 'Image max width'|trans({}, 'attributetype') }}</label>
+                <input type="number" id="{{ prefix }}image_max_width" class="form-control" name="{{ form.vars.full_name }}[image_max_width]" value="{{ values.image_max_width }}">
+                <div class="form-text">{{ 'Image maximum width in pixels'|trans({}, 'attributetype.bo.default') }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="{{ prefix }}image_max_height">{{ 'Image max height'|trans({}, 'attributetype') }}</label>
+                <input type="number" id="{{ prefix }}image_max_height" class="form-control" name="{{ form.vars.full_name }}[image_max_height]" value="{{ values.image_max_height }}">
+                <div class="form-text">{{ 'Image maximum height in pixels'|trans({}, 'attributetype.bo.default') }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="form-label" for="{{ prefix }}image_ratio">{{ 'Image ratio'|trans({}, 'attributetype') }}</label>
+                <input type="number" step="0.01" id="{{ prefix }}image_ratio" class="form-control" name="{{ form.vars.full_name }}[image_ratio]" value="{{ values.image_ratio }}">
+                <div class="form-text">{{ 'Image ratio/1, given by width/height (ex 1.77 = equal to 16:9 ratio)'|trans({}, 'attributetype.bo.default') }}</div>
+            </div>
+        </div>
+    </div>
+
+    {{ safe_hook('attribute-type.form-bottom', { attribute_type_id: values.id }) }}
+</div>

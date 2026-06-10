@@ -1,0 +1,176 @@
+{% extends '@BackOfficeDefaultTwig/base.html.twig' %}
+
+{% block title %}{{ 'Attributes types'|trans({}, 'attributetype.bo.default') }}{% endblock %}
+{% block body_testid %}module-attribute-type-page{% endblock %}
+
+{% block breadcrumb %}
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('admin.home') }}">{{ 'Home'|trans }}</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('admin.configuration.index') }}">{{ 'Configuration'|trans }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ 'Attributes types'|trans({}, 'attributetype.bo.default') }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    {{ safe_hook('attribute-type.configuration-top') }}
+
+    <div class="container-fluid" id="module-attribute-type">
+        {% if general_error %}
+            <div class="alert alert-danger">{{ general_error }}</div>
+        {% endif %}
+
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="card-title mb-0">{{ 'Attributes types'|trans({}, 'attributetype.bo.default') }}</span>
+                <div class="d-flex gap-2 flex-shrink-0">
+                    <button type="button" class="btn btn-primary btn-sm js-action-create">
+                        <i class="bi bi-plus-lg"></i>
+                        {{ 'Create action'|trans({}, 'attributetype.bo.default') }}
+                    </button>
+                    {% set help_content %}
+                        {{ 'To ask for help'|trans({}, 'attributetype.bo.default') }}<br/>
+                        <a target="_blank" href="https://github.com/thelia-modules/AttributeType/issues">Github</a>,
+                        <a target="_blank" href="http://thelia.net/forum">Thelia forum</a>,
+                        <a target="_blank" href="{{ 'http://thelia-school.com/create-types-of-features-and-attributes.html'|trans({}, 'attributetype.bo.default') }}">{{ 'Tutorial'|trans({}, 'attributetype.bo.default') }}</a>
+                    {% endset %}
+                    <button type="button" class="btn btn-secondary btn-sm js-popover"
+                            title="{{ 'Help !!!'|trans({}, 'attributetype.bo.default') }}"
+                            data-bs-toggle="popover"
+                            data-bs-placement="left"
+                            data-bs-html="true"
+                            data-bs-content="{{ help_content|e('html_attr') }}">
+                        <i class="bi bi-info-circle"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>{{ 'ID'|trans({}, 'attributetype.bo.default') }}</th>
+                            <th>{{ 'Slug'|trans({}, 'attributetype.bo.default') }}</th>
+                            <th style="width: 30%">{{ 'Title'|trans({}, 'attributetype.bo.default') }}</th>
+                            <th style="width: 25%">{{ 'Used by'|trans({}, 'attributetype.bo.default') }}</th>
+                            <th style="width: 35%">{{ 'Action'|trans({}, 'attributetype.bo.default') }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for type in attribute_types %}
+                            <tr>
+                                <td>{{ type.id }}</td>
+                                <td>{{ type.slug }}</td>
+                                <td>
+                                    <strong>{{ type.title }}</strong>
+                                    {% if type.description %}<br/>{{ type.description }}{% endif %}
+                                </td>
+                                <td>
+                                    {% for attribute in type.used_by %}
+                                        <a href="{{ path('admin.configuration.attributes.update', { attribute_id: attribute.id }) }}">{{ attribute.title }}</a>
+                                        <br/>
+                                    {% else %}
+                                        {{ 'No'|trans({}, 'attributetype.bo.default') }}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    {{ safe_hook('attribute-type.list-action', { attribute_type_id: type.id }) }}
+                                    <button type="button" class="btn btn-primary btn-sm js-action-copy"
+                                            data-action="{{ path('attribute_type_copy', { id: type.id, method: '_copy' }) }}">
+                                        <i class="bi bi-files"></i>
+                                        {{ 'Copy action'|trans({}, 'attributetype.bo.default') }}
+                                    </button>
+                                    <button type="button" class="btn btn-info btn-sm js-action-edit"
+                                            data-action="{{ path('attribute_type_view', { id: type.id }) }}">
+                                        <i class="bi bi-gear"></i>
+                                        {{ 'Edit action'|trans({}, 'attributetype.bo.default') }}
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm js-action-delete"
+                                            data-action="{{ path('attribute_type_delete', { id: type.id, method: '_delete' }) }}">
+                                        <i class="bi bi-trash"></i>
+                                        {{ 'Delete action'|trans({}, 'attributetype.bo.default') }}
+                                    </button>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="5">
+                                    <div class="alert alert-info mb-0">
+                                        {{ 'No attribute type in database'|trans({}, 'attributetype.bo.default') }}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                <button type="button" class="btn btn-success js-action-create">
+                                    <i class="bi bi-plus-lg"></i>
+                                    {{ 'Create action'|trans({}, 'attributetype.bo.default') }}
+                                </button>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="attribute-type-create-container">
+            {% include '@AttributeTypeModule/backOffice/default-twig/attribute-type/include/form-create.html.twig' with {
+                form: create_form,
+                values: create_values,
+                force_show: force_show_create,
+                form_error_message: force_show_create ? form_error_message : null,
+            } %}
+        </div>
+
+        <div id="attribute-type-update-container">
+            {% if update_values %}
+                {% include '@AttributeTypeModule/backOffice/default-twig/attribute-type/include/form-update.html.twig' with {
+                    form: update_form,
+                    values: update_values,
+                    form_error_message: form_error_message,
+                } %}
+            {% endif %}
+        </div>
+
+        {# Delete confirmation modal #}
+        <form method="POST" class="js-form-delete" action="">
+            <input type="hidden" name="{{ delete_form.vars.full_name }}[_token]" value="{{ delete_form._token.vars.value }}">
+            <input type="hidden" name="{{ delete_form.vars.full_name }}[success_url]" value="{{ path('attribute_type_view_all') }}">
+            <div class="modal fade js-modal-delete" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <strong class="modal-title text-uppercase">{{ 'Delete attribute type'|trans({}, 'attributetype.bo.default') }}</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{ 'Are you sure you want to delete this attribute type ?'|trans({}, 'attributetype.bo.default') }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="bi bi-x-lg"></i>
+                                {{ 'Close action'|trans({}, 'attributetype.bo.default') }}
+                            </button>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-check-lg"></i>
+                                {{ 'Delete action'|trans({}, 'attributetype.bo.default') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        {{ safe_hook('attribute-type.configuration-bottom') }}
+    </div>
+{% endblock %}
+
+{% block scripts_extra %}
+    {% include '@AttributeTypeModule/backOffice/default-twig/attribute-type/configuration-js.html.twig' %}
+    {{ safe_hook('attribute-type.configuration-js') }}
+{% endblock %}

@@ -1,0 +1,175 @@
+{# Page JS for the attribute-type configuration screen. Vanilla JS + Bootstrap 5.
+   type="module" defers execution until the theme bundle (window.bootstrap) is loaded. #}
+<script type="module">
+    "use strict";
+    (function () {
+        const root = document.getElementById('module-attribute-type');
+        if (!root) {
+            return;
+        }
+
+        const showModal = function (el) {
+            if (el && window.bootstrap) {
+                bootstrap.Modal.getOrCreateInstance(el).show();
+            }
+        };
+
+        /*****************************************/
+        /******** Conditional form fields ********/
+        /*****************************************/
+
+        const AV_FIELDS = [
+            'is_multilingual_attribute_av_value', 'input_type', 'pattern', 'css_class',
+            'min', 'max', 'step', 'image_max_width', 'image_max_height', 'image_ratio'
+        ];
+        const NUMERIC_FIELDS = ['min', 'max', 'step'];
+        const IMAGE_FIELDS = ['image_max_width', 'image_max_height', 'image_ratio'];
+
+        function setHidden(prefix, fields, hidden) {
+            fields.forEach(function (field) {
+                const el = document.getElementById(prefix + field);
+                const column = el ? el.closest('.col-md-6') : null;
+                if (column) {
+                    column.classList.toggle('d-none', hidden);
+                }
+            });
+        }
+
+        function refreshFieldVisibility(prefix) {
+            const hasAvValue = document.getElementById(prefix + 'has_attribute_av_value');
+            if (!hasAvValue) {
+                return;
+            }
+
+            if (!hasAvValue.checked) {
+                setHidden(prefix, AV_FIELDS, true);
+                return;
+            }
+
+            setHidden(prefix, AV_FIELDS, false);
+
+            const inputType = document.getElementById(prefix + 'input_type');
+            const val = inputType ? inputType.value : '';
+
+            if (val === 'text' || val === 'color' || val === 'url') {
+                setHidden(prefix, NUMERIC_FIELDS, true);
+                setHidden(prefix, IMAGE_FIELDS, true);
+            } else if (val === 'textarea' || val === 'boolean') {
+                setHidden(prefix, ['pattern'], true);
+                setHidden(prefix, NUMERIC_FIELDS, true);
+                setHidden(prefix, IMAGE_FIELDS, true);
+            } else if (val === 'range' || val === 'number') {
+                setHidden(prefix, IMAGE_FIELDS, true);
+            } else if (val === 'image') {
+                setHidden(prefix, NUMERIC_FIELDS, true);
+            }
+        }
+
+        root.addEventListener('change', function (event) {
+            const id = event.target.id || '';
+            ['atcf-', 'atuf-'].forEach(function (prefix) {
+                if (id === prefix + 'has_attribute_av_value' || id === prefix + 'input_type') {
+                    refreshFieldVisibility(prefix);
+                }
+            });
+        });
+
+        /*****************************************/
+        /***** Create / edit / copy / delete *****/
+        /*****************************************/
+
+        function fetchFragment(url, onSuccess) {
+            fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error(response.status + ' ' + response.statusText);
+                    }
+                    return response.text();
+                })
+                .then(onSuccess)
+                .catch(function (error) {
+                    window.alert(error.message);
+                });
+        }
+
+        root.addEventListener('click', function (event) {
+            const create = event.target.closest('.js-action-create');
+            if (create) {
+                showModal(root.querySelector('.js-modal-create'));
+                refreshFieldVisibility('atcf-');
+                return;
+            }
+
+            const edit = event.target.closest('.js-action-edit');
+            if (edit) {
+                fetchFragment(edit.dataset.action, function (html) {
+                    document.getElementById('attribute-type-update-container').innerHTML = html;
+                    showModal(root.querySelector('.js-modal-edit'));
+                    refreshFieldVisibility('atuf-');
+                });
+                return;
+            }
+
+            const copy = event.target.closest('.js-action-copy');
+            if (copy) {
+                fetchFragment(copy.dataset.action, function (html) {
+                    document.getElementById('attribute-type-create-container').innerHTML = html;
+                    showModal(root.querySelector('.js-modal-create'));
+                    refreshFieldVisibility('atcf-');
+                });
+                return;
+            }
+
+            const remove = event.target.closest('.js-action-delete');
+            if (remove) {
+                const form = root.querySelector('.js-form-delete');
+                if (form) {
+                    form.setAttribute('action', remove.dataset.action);
+                }
+                showModal(root.querySelector('.js-modal-delete'));
+            }
+        });
+
+        /*****************************************/
+        /************* Module init ***************/
+        /*****************************************/
+
+        root.addEventListener('submit', function (event) {
+            const form = event.target.closest('form');
+            if (!form) {
+                return;
+            }
+            const submit = form.querySelector('button[type=submit]');
+            if (submit) {
+                submit.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> '
+                    + {{ ('Please wait ...'|trans({}, 'attributetype.bo.default'))|json_encode|raw }};
+            }
+            window.setTimeout(function () {
+                form.querySelectorAll('button').forEach(function (button) {
+                    button.disabled = true;
+                });
+            }, 0);
+        });
+
+        if (window.bootstrap) {
+            root.querySelectorAll('.js-popover').forEach(function (el) {
+                new bootstrap.Popover(el);
+            });
+        }
+
+        root.addEventListener('show.bs.modal', function () {
+            root.querySelectorAll('.js-popover').forEach(function (el) {
+                const popover = window.bootstrap ? bootstrap.Popover.getInstance(el) : null;
+                if (popover) {
+                    popover.hide();
+                }
+            });
+        });
+
+        document.querySelectorAll('[data-force-show="1"]').forEach(function (el) {
+            showModal(el);
+        });
+        refreshFieldVisibility('atcf-');
+        refreshFieldVisibility('atuf-');
+    }());
+</script>
