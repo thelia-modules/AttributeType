@@ -9,6 +9,7 @@
 namespace AttributeType\Hook;
 
 use AttributeType\Form\AttributeTypeAvMetaUpdateForm;
+use AttributeType\Form\AttributeTypeForm;
 use AttributeType\Model\AttributeAttributeType;
 use AttributeType\Model\AttributeAttributeTypeQuery;
 use AttributeType\Model\AttributeTypeAvMeta;
@@ -74,6 +75,7 @@ class AttributeEditHook extends BaseHook
             [
                 'attribute_id' => $attributeId,
                 'form' => $form->createView()->getView(),
+                'associate_form' => $this->formFactory->createForm(AttributeTypeForm::getName())->createView()->getView(),
                 'form_meta_data' => $data['attribute_av'],
                 'associated_types' => $this->getAssociatedTypes($attributeId),
                 'available_types' => $this->getAvailableTypes($attributeId),

@@ -33,6 +33,28 @@
             }
         });
 
+        // Meta value delete: open confirmation modal + set form action
+        module.addEventListener('click', function (event) {
+            const trigger = event.target.closest('.js-attribute-meta-action-delete');
+            if (!trigger || trigger.disabled) {
+                return;
+            }
+            event.preventDefault();
+            if (!canQuitPageSafely
+                && !window.confirm({{ ('The data of the form have been modified, if you continue without having validate your modifications all will be lost. Continue ?'|trans({}, 'attributetype.bo.default'))|json_encode|raw }})
+            ) {
+                return;
+            }
+            const form = module.querySelector('.js-form-meta-delete');
+            const modalEl = module.querySelector('.js-modal-meta-delete');
+            if (form) {
+                form.setAttribute('action', trigger.dataset.action);
+            }
+            if (modalEl && window.bootstrap) {
+                bootstrap.Modal.getOrCreateInstance(modalEl).show();
+            }
+        });
+
         // Associate: changing the select sets the form action then submits
         const associateForm = module.querySelector('.js-form-associate');
         if (associateForm) {

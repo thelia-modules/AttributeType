@@ -46,8 +46,8 @@
 
                                 {% if available_types is not empty %}
                                     <form method="POST" class="js-form-associate" action="">
-                                        <input type="hidden" name="_token" value="{{ assignToken() }}">
-                                        <input type="hidden" name="success_url" value="/admin/configuration/attributes/update?attribute_id={{ attribute_id }}">
+                                        <input type="hidden" name="{{ associate_form.vars.full_name }}[_token]" value="{{ associate_form._token.vars.value }}">
+                                        <input type="hidden" name="{{ associate_form.vars.full_name }}[success_url]" value="/admin/configuration/attributes/update?attribute_id={{ attribute_id }}">
                                         <div class="input-group">
                                             <select class="form-select">
                                                 <option value="">{{ 'Select an attribute type'|trans({}, 'attributetype.bo.default') }}</option>
@@ -105,8 +105,8 @@
 
     {# Dissociate modal #}
     <form method="POST" class="js-form-dissociate" action="">
-        <input type="hidden" name="_token" value="{{ assignToken() }}">
-        <input type="hidden" name="success_url" value="/admin/configuration/attributes/update?attribute_id={{ attribute_id }}">
+        <input type="hidden" name="{{ associate_form.vars.full_name }}[_token]" value="{{ associate_form._token.vars.value }}">
+        <input type="hidden" name="{{ associate_form.vars.full_name }}[success_url]" value="/admin/configuration/attributes/update?attribute_id={{ attribute_id }}">
         <div class="modal fade js-modal-dissociate" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -125,6 +125,35 @@
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-check-lg"></i>
                             {{ 'Dissociate action'|trans({}, 'attributetype.bo.default') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    {# Meta value delete confirmation modal #}
+    <form method="POST" class="js-form-meta-delete" action="">
+        <input type="hidden" name="{{ associate_form.vars.full_name }}[_token]" value="{{ associate_form._token.vars.value }}">
+        <input type="hidden" name="{{ associate_form.vars.full_name }}[success_url]" value="/admin/configuration/attributes/update?attribute_id={{ attribute_id }}">
+        <div class="modal fade js-modal-meta-delete" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <strong class="modal-title text-uppercase">{{ 'Delete attribute type value meta'|trans({}, 'attributetype.bo.default') }}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ 'Are you sure you want to delete this attribute type value meta ?'|trans({}, 'attributetype.bo.default') }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            <i class="bi bi-x-lg"></i>
+                            {{ 'Close action'|trans({}, 'attributetype.bo.default') }}
+                        </button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-check-lg"></i>
+                            {{ 'Delete action'|trans({}, 'attributetype.bo.default') }}
                         </button>
                     </div>
                 </div>
