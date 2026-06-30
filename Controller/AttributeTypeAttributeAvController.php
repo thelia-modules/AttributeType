@@ -294,6 +294,9 @@ class AttributeTypeAttributeAvController extends AttributeTypeController
 
     protected function resetUpdateForm(ParserContext $parserContext, Request $request) {
         $parserContext->remove(AttributeTypeAvMetaUpdateForm::class.':form');
+        if (!$request->hasSession()) {
+            return;
+        }
         $theliaFormErrors = $request->getSession()->get('thelia.form-errors');
         unset($theliaFormErrors[AttributeTypeAvMetaUpdateForm::class.':form']);
         $request->getSession()->set('thelia.form-errors', $theliaFormErrors);

@@ -468,7 +468,12 @@ class AttributeTypeController extends BaseAdminController
             return $response;
         }
 
-        $currentLang = $request->getSession()?->get("thelia.admin.edition.lang")->getLocale();
+        $editionLang = $request->hasSession()
+            ? $request->getSession()->get("thelia.admin.edition.lang")
+            : null;
+        $currentLang = $editionLang?->getLocale()
+            ?? LangQuery::create()->findOneByByDefault(true)?->getLocale()
+            ?? 'en_US';
 
         try {
             $attributes = AttributeAvQuery::create()

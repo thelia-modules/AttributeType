@@ -252,7 +252,9 @@ class AttributeEditHook extends BaseHook
     {
         $request = $this->getRequest();
         if (null !== $request) {
-            $lang = $request->getSession()?->get('thelia.admin.edition.lang');
+            $lang = $request->hasSession()
+                ? $request->getSession()->get('thelia.admin.edition.lang')
+                : null;
             if (null !== $lang) {
                 return $lang->getLocale();
             }
