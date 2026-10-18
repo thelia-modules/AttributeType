@@ -322,7 +322,6 @@ class AttributeType extends BaseAttributeType
 
     /**
      * @param Criteria $query
-     * @return $this
      */
     protected static function addJoinAttributeAv(Criteria & $query)
     {
