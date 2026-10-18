@@ -21,7 +21,7 @@ use Thelia\Core\Translation\Translator;
  */
 class I18nType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
             'lang',

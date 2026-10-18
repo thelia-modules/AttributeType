@@ -22,7 +22,7 @@ use Thelia\Core\Translation\Translator;
  */
 class AttributeTypeType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $formOptions = ['required' => true];
         
