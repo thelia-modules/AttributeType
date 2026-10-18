@@ -41,7 +41,7 @@
             }
             event.preventDefault();
             if (!canQuitPageSafely
-                && !window.confirm({{ ('The data of the form have been modified, if you continue without having validate your modifications all will be lost. Continue ?'|trans({}, 'attributetype.bo.default'))|json_encode|raw }})
+                && !window.confirm({{ ('The data of the form have been modified, if you continue without having validate your modifications all will be lost. Continue ?'|trans({}, 'attributetype.bo.default-twig'))|json_encode|raw }})
             ) {
                 return;
             }

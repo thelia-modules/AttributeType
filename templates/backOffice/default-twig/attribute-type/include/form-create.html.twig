@@ -10,18 +10,18 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <strong class="modal-title text-uppercase">{{ 'Create attribute type'|trans({}, 'attributetype.bo.default') }}</strong>
+                    <strong class="modal-title text-uppercase">{{ 'Create attribute type'|trans({}, 'attributetype.bo.default-twig') }}</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 {% include '@AttributeTypeModule/backOffice/default-twig/attribute-type/include/form-generic.html.twig' %}
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="bi bi-x-lg"></i>
-                        {{ 'Close action'|trans({}, 'attributetype.bo.default') }}
+                        {{ 'Close action'|trans({}, 'attributetype.bo.default-twig') }}
                     </button>
                     <button type="submit" class="btn btn-success">
                         <i class="bi bi-check-lg"></i>
-                        {{ 'Create action'|trans({}, 'attributetype.bo.default') }}
+                        {{ 'Create action'|trans({}, 'attributetype.bo.default-twig') }}
                     </button>
                 </div>
             </div>

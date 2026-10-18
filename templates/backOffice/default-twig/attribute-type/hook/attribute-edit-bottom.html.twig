@@ -4,7 +4,7 @@
     <div class="col-md-12">
         <div class="card mb-3">
             <div class="card-header">
-                <h2 class="card-title h5 mb-0">{{ 'Attribute type'|trans({}, 'attributetype.bo.default') }}</h2>
+                <h2 class="card-title h5 mb-0">{{ 'Attribute type'|trans({}, 'attributetype.bo.default-twig') }}</h2>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -15,8 +15,8 @@
                                     <thead>
                                     <tr>
                                         <th>{{ 'ID'|trans }}</th>
-                                        <th>({{ 'Slug'|trans({}, 'attributetype.bo.default') }}) - {{ 'Title'|trans({}, 'attributetype.bo.default') }}</th>
-                                        <th>{{ 'Action'|trans({}, 'attributetype.bo.default') }}</th>
+                                        <th>({{ 'Slug'|trans({}, 'attributetype.bo.default-twig') }}) - {{ 'Title'|trans({}, 'attributetype.bo.default-twig') }}</th>
+                                        <th>{{ 'Action'|trans({}, 'attributetype.bo.default-twig') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -28,7 +28,7 @@
                                                 <button class="btn btn-danger btn-sm js-action-dissociate"
                                                         data-action="/admin/attribute-type/{{ type.id }}/dissociate/{{ attribute_id }}">
                                                     <i class="bi bi-box-arrow-right"></i>
-                                                    {{ 'Dissociate action'|trans({}, 'attributetype.bo.default') }}
+                                                    {{ 'Dissociate action'|trans({}, 'attributetype.bo.default-twig') }}
                                                 </button>
                                             </td>
                                         </tr>
@@ -36,7 +36,7 @@
                                         <tr>
                                             <td colspan="10">
                                                 <div class="alert alert-info">
-                                                    {{ 'No attribute type for this attribute'|trans({}, 'attributetype.bo.default') }}
+                                                    {{ 'No attribute type for this attribute'|trans({}, 'attributetype.bo.default-twig') }}
                                                 </div>
                                             </td>
                                         </tr>
@@ -50,25 +50,25 @@
                                         <input type="hidden" name="{{ associate_form.vars.full_name }}[success_url]" value="/admin/configuration/attributes/update?attribute_id={{ attribute_id }}">
                                         <div class="input-group">
                                             <select class="form-select">
-                                                <option value="">{{ 'Select an attribute type'|trans({}, 'attributetype.bo.default') }}</option>
+                                                <option value="">{{ 'Select an attribute type'|trans({}, 'attributetype.bo.default-twig') }}</option>
                                                 {% for type in available_types %}
                                                     <option value="/admin/attribute-type/{{ type.id }}/associate/{{ attribute_id }}">({{ type.slug }}) - {{ type.title }}</option>
                                                 {% endfor %}
                                             </select>
                                             <button type="submit" class="btn btn-primary">
                                                 <i class="bi bi-box-arrow-in-right"></i>
-                                                {{ 'Associate action'|trans({}, 'attributetype.bo.default') }}
+                                                {{ 'Associate action'|trans({}, 'attributetype.bo.default-twig') }}
                                             </button>
                                         </div>
                                     </form>
                                 {% else %}
                                     <div class="alert alert-info">
-                                        {{ 'Currently, none of the attributes types are available'|trans({}, 'attributetype.bo.default') }}
+                                        {{ 'Currently, none of the attributes types are available'|trans({}, 'attributetype.bo.default-twig') }}
                                     </div>
                                 {% endif %}
                                 <span class="form-text">
                                     <a href="{{ path('admin.configuration.attributes.default') }}">
-                                        {{ 'Create a new attribute type'|trans({}, 'attributetype.bo.default') }}
+                                        {{ 'Create a new attribute type'|trans({}, 'attributetype.bo.default-twig') }}
                                     </a>
                                 </span>
                             </div>
@@ -78,10 +78,10 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="alert alert-info">
-                                    {{ 'This feature duplicates attribute values in other languages'|trans({}, 'featuretype.bo.default') }}
+                                    {{ 'This feature duplicates attribute values in other languages'|trans({}, 'attributetype.bo.default-twig') }}
                                 </div>
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#duplicate_confirm_modal">
-                                    {{ 'Duplicate declination values'|trans({}, 'attributetype.bo.default') }}
+                                    {{ 'Duplicate declination values'|trans({}, 'attributetype.bo.default-twig') }}
                                 </button>
                             </div>
                         </div>
@@ -111,20 +111,20 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <strong class="modal-title text-uppercase">{{ 'Dissociate attribute type'|trans({}, 'attributetype.bo.default') }}</strong>
+                        <strong class="modal-title text-uppercase">{{ 'Dissociate attribute type'|trans({}, 'attributetype.bo.default-twig') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {{ 'Dissociate the attribute with the attribute type ?'|trans({}, 'attributetype.bo.default') }}
+                        {{ 'Dissociate the attribute with the attribute type ?'|trans({}, 'attributetype.bo.default-twig') }}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             <i class="bi bi-x-lg"></i>
-                            {{ 'Close action'|trans({}, 'attributetype.bo.default') }}
+                            {{ 'Close action'|trans({}, 'attributetype.bo.default-twig') }}
                         </button>
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-check-lg"></i>
-                            {{ 'Dissociate action'|trans({}, 'attributetype.bo.default') }}
+                            {{ 'Dissociate action'|trans({}, 'attributetype.bo.default-twig') }}
                         </button>
                     </div>
                 </div>
@@ -140,20 +140,20 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <strong class="modal-title text-uppercase">{{ 'Delete attribute type value meta'|trans({}, 'attributetype.bo.default') }}</strong>
+                        <strong class="modal-title text-uppercase">{{ 'Delete attribute type value meta'|trans({}, 'attributetype.bo.default-twig') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {{ 'Are you sure you want to delete this attribute type value meta ?'|trans({}, 'attributetype.bo.default') }}
+                        {{ 'Are you sure you want to delete this attribute type value meta ?'|trans({}, 'attributetype.bo.default-twig') }}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             <i class="bi bi-x-lg"></i>
-                            {{ 'Close action'|trans({}, 'attributetype.bo.default') }}
+                            {{ 'Close action'|trans({}, 'attributetype.bo.default-twig') }}
                         </button>
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-check-lg"></i>
-                            {{ 'Delete action'|trans({}, 'attributetype.bo.default') }}
+                            {{ 'Delete action'|trans({}, 'attributetype.bo.default-twig') }}
                         </button>
                     </div>
                 </div>
@@ -168,20 +168,20 @@
                 <input type="hidden" name="_token" value="{{ assignToken() }}">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <strong class="modal-title text-uppercase">{{ 'Duplicates attribute values in other languages'|trans({}, 'attributetype.bo.default') }}</strong>
+                        <strong class="modal-title text-uppercase">{{ 'Duplicates attribute values in other languages'|trans({}, 'attributetype.bo.default-twig') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="alert alert-warning">{{ 'Warning! This will override all previous translations.'|trans({}, 'attributetype.bo.default') }}</div>
+                        <div class="alert alert-warning">{{ 'Warning! This will override all previous translations.'|trans({}, 'attributetype.bo.default-twig') }}</div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             <i class="bi bi-x-lg"></i>
-                            {{ 'Close action'|trans({}, 'attributetype.bo.default') }}
+                            {{ 'Close action'|trans({}, 'attributetype.bo.default-twig') }}
                         </button>
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-check-lg"></i>
-                            {{ 'Duplicate declination values'|trans({}, 'attributetype.bo.default') }}
+                            {{ 'Duplicate declination values'|trans({}, 'attributetype.bo.default-twig') }}
                         </button>
                     </div>
                 </div>
