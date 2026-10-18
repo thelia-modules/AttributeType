@@ -142,7 +142,7 @@
             const submit = form.querySelector('button[type=submit]');
             if (submit) {
                 submit.innerHTML = '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> '
-                    + {{ ('Please wait ...'|trans({}, 'attributetype.bo.default'))|json_encode|raw }};
+                    + {{ ('Please wait ...'|trans({}, 'attributetype.bo.default-twig'))|json_encode|raw }};
             }
             window.setTimeout(function () {
                 form.querySelectorAll('button').forEach(function (button) {
